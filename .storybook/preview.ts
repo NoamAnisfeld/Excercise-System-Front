@@ -8,6 +8,10 @@ import { withThemeFromJSXProvider } from '@storybook/addon-styling';
 
 // Import your fontface CSS files here
 // Don't have any? We recommend installing and using @fontsource/roboto
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
 
 const preview: Preview = {
   parameters: {
