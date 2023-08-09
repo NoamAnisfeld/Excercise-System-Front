@@ -1,11 +1,11 @@
 import './App.css'
-import MyCoursesButton from './components/MyCoursesButton'
+import Router from './routes/Router'
 
 function App() {
 
   return (
     <>
-      <MyCoursesButton />
+      <Router />
     </>
   )
 }
