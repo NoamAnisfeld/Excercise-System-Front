@@ -1,5 +1,5 @@
 import {
-    createHashRouter as createBrowserRouter,
+    createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
 import MainView from "./MainView";
