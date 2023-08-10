@@ -3,16 +3,23 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import MainView from "./MainView";
+import MyCoursesButton from "../components/MyCoursesButton";
 import Login from "./Login";
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <MainView />,
-    },
-    {
-        path: 'login',
-        element: <Login />
+        children: [
+            {
+                path: '',
+                element: <MyCoursesButton />
+            },
+            {
+                path: 'login',
+                element: <Login />
+            },
+        ]
     },
 ]);
 
