@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -6,14 +5,25 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../hooks';
+import { setUsername } from '../global-state/userdata';
 
 export default function Login() {
-  const navigate = useNavigate();
 
+  const username = useAppSelector(({ userdata }) => userdata.username);
+  const [inputUsername, setInputUsername] = useState(username);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    navigate('/');
+    if (inputUsername) {
+      dispatch(setUsername(inputUsername));
+      navigate('/');
+    }
   };
 
   return (
@@ -41,6 +51,9 @@ export default function Login() {
             label="שם משתמש"
             name="username"
             autoFocus
+
+            value={inputUsername || ''}
+            onChange={e => setInputUsername(e.target.value)}
           />
           <Button
             type="submit"
