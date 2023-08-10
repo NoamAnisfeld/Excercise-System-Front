@@ -11,4 +11,16 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Component: Story = {}
+export const LoggedIn: Story = {
+  args: {
+    username: 'ExampleUser',
+    setUsername: () => {},
+  }
+}
+
+export const LoggedOut: Story = {
+  args: {
+    username: null,
+    setUsername: () => {},
+  }
+}

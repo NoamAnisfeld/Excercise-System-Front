@@ -6,7 +6,8 @@ import { withRouter } from 'storybook-addon-react-router-v6';
 
 /* TODO: update import for your custom Material UI themes */
 // import { lightTheme, darkTheme } from '../path/to/themes';
-
+import '../src/index.css'
+import '../src/App.css'
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'

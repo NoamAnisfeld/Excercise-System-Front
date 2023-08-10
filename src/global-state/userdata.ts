@@ -6,13 +6,13 @@ export const userDataSlice = createSlice({
     username: null as string | null,
   },
   reducers: {
-    setUsername: (state, action: PayloadAction<string | null>) => {
+    dispatchUsername: (state, action: PayloadAction<string | null>) => {
       state.username = action.payload
     },
   },
 })
 
-export const { setUsername } = userDataSlice.actions
+export const { dispatchUsername } = userDataSlice.actions
 
 const userDataReducer = userDataSlice.reducer
 export default userDataReducer

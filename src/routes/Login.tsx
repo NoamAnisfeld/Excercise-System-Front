@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import { setUsername } from '../global-state/userdata';
+import { dispatchUsername } from '../global-state/userdata';
 
 export default function Login() {
 
@@ -21,7 +21,7 @@ export default function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (inputUsername) {
-      dispatch(setUsername(inputUsername));
+      dispatch(dispatchUsername(inputUsername));
       navigate('/');
     }
   };

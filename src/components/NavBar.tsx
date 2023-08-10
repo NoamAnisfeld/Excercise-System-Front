@@ -8,14 +8,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
 
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../hooks';
-import { setUsername } from '../global-state/userdata';
 
-export default function NavBar() {
+export default function NavBar({
+  username,
+  setUsername,
+}: {
+  username: string | null,
+  setUsername: (newUsername: string | null) => void
+}) {
 
   const navigate = useNavigate();
-  const username = useAppSelector(({ userdata }) => userdata.username);
-  const dispatch = useAppDispatch();
 
   return (
     <Box>
@@ -36,7 +38,7 @@ export default function NavBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" textAlign="center" sx={{ flexGrow: 1 }}>
             {username || "ברוכים הבאים"}
           </Typography>
           {username ?
@@ -44,7 +46,7 @@ export default function NavBar() {
               color="inherit"
 
               onClick={() => {
-                dispatch(setUsername(null))
+                setUsername(null)
                 navigate("/login")
               }}
             >
