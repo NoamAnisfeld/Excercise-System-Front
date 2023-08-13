@@ -1,12 +1,17 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import userDataReducer from './userdata'
 
-const store = configureStore({
-  reducer: {
-    userdata: userDataReducer,
-  },
+const rootReducer = combineReducers({
+  userdata: userDataReducer,
 })
 
-export default store
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+function setupStore() {
+  return configureStore({
+    reducer: rootReducer,
+  })
+}
+
+export default setupStore
+export type RootState = ReturnType<typeof rootReducer>
+export type AppStore = ReturnType<typeof setupStore>
+export type AppDispatch = AppStore['dispatch']

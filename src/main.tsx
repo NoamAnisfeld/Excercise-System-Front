@@ -7,9 +7,11 @@ import '@fontsource/roboto/700.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-import store from './global-state/store.ts'
+import setupStore from './global-state/store.ts'
 import { Provider as ReduxProvider } from 'react-redux'
 import RTLProvider from './RTLProvider'
+
+const store = setupStore();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
