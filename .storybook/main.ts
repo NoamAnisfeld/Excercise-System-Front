@@ -12,6 +12,7 @@ const config: StorybookConfig = {
       options: {},
     },
     'storybook-addon-react-router-v6',
+    'storybook-addon-rtl',
   ],
   framework: {
     name: '@storybook/react-vite',

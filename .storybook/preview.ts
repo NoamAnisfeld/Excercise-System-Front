@@ -3,6 +3,7 @@ import type { Preview } from '@storybook/react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { withThemeFromJSXProvider } from '@storybook/addon-styling';
 import { withRouter } from 'storybook-addon-react-router-v6';
+import { initializeRTL } from "storybook-addon-rtl";
 
 /* TODO: update import for your custom Material UI themes */
 // import { lightTheme, darkTheme } from '../path/to/themes';
@@ -12,6 +13,8 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
+
+initializeRTL();
 
 const preview: Preview = {
   parameters: {
