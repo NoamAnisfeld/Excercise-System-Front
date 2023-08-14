@@ -7,17 +7,13 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
 
-import { useNavigate } from 'react-router-dom';
-
 export default function NavBar({
   username,
-  setUsername,
+  onLogOut = () => {},
 }: {
   username: string | null,
-  setUsername: (newUsername: string | null) => void
+  onLogOut?: () => void
 }) {
-
-  const navigate = useNavigate();
 
   return (
     <Box>
@@ -45,10 +41,7 @@ export default function NavBar({
             <Button
               color="inherit"
 
-              onClick={() => {
-                setUsername(null)
-                navigate("/login")
-              }}
+              onClick={onLogOut}
             >
               יציאה
             </Button>

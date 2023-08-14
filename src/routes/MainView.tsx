@@ -16,9 +16,16 @@ export default function MainView() {
       navigate('/login');
   }, [username]);
 
+  function handleLogOut() {
+    dispatch(dispatchUsername(null));
+  }
+
   return (
     <>
-      <NavBar username={username} setUsername={newUsername => dispatch(dispatchUsername(newUsername))} />
+      <NavBar
+        username={username}
+        onLogOut={handleLogOut}
+      />
       <Outlet />
     </>
   )
