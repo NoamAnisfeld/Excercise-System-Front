@@ -8,11 +8,10 @@ import Login from "./Login";
 
 const router = createBrowserRouter([
     {
-        path: '/',
         element: <MainView />,
         children: [
             {
-                path: '',
+                index: true,
                 element: <MyCoursesButton />
             },
             {
