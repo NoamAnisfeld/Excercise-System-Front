@@ -1,0 +1,42 @@
+[
+  {
+    "course_id": "CS101",
+    "course_name": "Introduction to Computer Science",
+    "instructor": "Dr. Sarah Johnson",
+    "start_date": "2023-09-15",
+    "end_date": "2023-12-15",
+    "enrolled_students": 75
+  },
+  {
+    "course_id": "MATH202",
+    "course_name": "Advanced Mathematics",
+    "instructor": "Prof. David Smith",
+    "start_date": "2023-10-01",
+    "end_date": "2023-12-20",
+    "enrolled_students": 60
+  },
+  {
+    "course_id": "ENG150",
+    "course_name": "Creative Writing Workshop",
+    "instructor": "Dr. Emily Adams",
+    "start_date": "2023-09-20",
+    "end_date": "2023-11-30",
+    "enrolled_students": 40
+  },
+  {
+    "course_id": "HIST305",
+    "course_name": "Modern History: 20th Century",
+    "instructor": "Prof. Michael Brown",
+    "start_date": "2023-09-10",
+    "end_date": "2023-12-10",
+    "enrolled_students": 55
+  },
+  {
+    "course_id": "PHYS110",
+    "course_name": "Introduction to Physics",
+    "instructor": "Dr. Robert Miller",
+    "start_date": "2023-09-25",
+    "end_date": "2023-11-25",
+    "enrolled_students": 70
+  }
+]
