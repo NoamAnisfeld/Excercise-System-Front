@@ -5,6 +5,7 @@ import {
 import MainView from "./MainView";
 import MyCoursesButton from "../components/MyCoursesButton";
 import Login from "./Login";
+import MyCourses from "./MyCourses";
 
 const router = createBrowserRouter([
     {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
                 path: 'login',
                 element: <Login />
             },
+            {
+                path: 'my-courses',
+                element: <MyCourses />
+            }
         ]
     },
 ]);

@@ -1,4 +1,5 @@
 import NavBar from "../components/NavBar";
+import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../hooks";
 import { dispatchUsername } from "../global-state/userdata";
@@ -26,7 +27,9 @@ export default function MainView() {
         username={username}
         onLogOut={handleLogOut}
       />
-      <Outlet />
+      <Box p={10}>
+        <Outlet />
+      </Box>
     </>
   )
 }

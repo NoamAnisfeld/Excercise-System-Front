@@ -63,6 +63,9 @@ exports[`MainView 1`] = `
           </div>
         </header>
       </div>
+      <div
+        class="MuiBox-root css-tvxkav"
+      />
     </div>
   </body>,
   "container": <div>
@@ -124,6 +127,9 @@ exports[`MainView 1`] = `
         </div>
       </header>
     </div>
+    <div
+      class="MuiBox-root css-tvxkav"
+    />
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],
