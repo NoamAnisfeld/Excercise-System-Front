@@ -2,7 +2,7 @@ import { ZodError, z } from 'zod'
 import { coursesScheme, assignmentsScheme } from './schemes'
 
 if (process.env.NODE_ENV === 'development') {
-    import('../mocks/browser').then(({ worker }) => worker.start());
+    await import('../mocks/browser').then(({ worker }) => worker.start());
 }
 
 async function fetchApiData<T>(url: string, validationScheme: z.ZodType<T>) {

@@ -1,11 +1,13 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import {
-    createBrowserRouter,
-    RouterProvider,
-} from "react-router-dom";
-import MainView from "./MainView";
-import MyCoursesButton from "../components/MyCoursesButton";
-import Login from "./Login";
-import MyCourses from "./MyCourses";
+    fetchCourses, fetchAssignments
+} from "../requests/fetchers"
+
+import MainView from "./MainView"
+import Login from "./Login"
+import MyCoursesButton from "../components/MyCoursesButton"
+import MyCourses, { MyCoursesData } from "./MyCourses"
+import CoursePage, { CoursePageData } from "./CoursePage"
 
 const router = createBrowserRouter([
     {
@@ -21,8 +23,21 @@ const router = createBrowserRouter([
             },
             {
                 path: 'my-courses',
-                element: <MyCourses />
-            }
+                children: [
+                    {
+                        index: true,
+                        element: <MyCourses />,
+                        loader: async (): Promise<MyCoursesData> =>
+                            fetchCourses(),
+                    },
+                    {
+                        path: ':course_id',
+                        element: <CoursePage />,
+                        loader: async ({ params }): Promise<CoursePageData> =>
+                            fetchAssignments(Number(params.course_id))
+                    }
+                ]
+            },
         ]
     },
 ]);
