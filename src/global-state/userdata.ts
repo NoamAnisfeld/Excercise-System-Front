@@ -1,18 +1,19 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+import { getCookie } from '../utils'
 
 export const userDataSlice = createSlice({
-  name: 'userdata',
-  initialState: {
-    username: null as string | null,
-  },
-  reducers: {
-    dispatchUsername: (state, action: PayloadAction<string | null>) => {
-      state.username = action.payload
+    name: 'userdata',
+    initialState: {
+        username: getCookie('username') || '',
     },
-  },
+    reducers: {
+        updateUsername: (state) => {
+            state.username = getCookie('username') || '';
+        },
+    },
 })
 
-export const { dispatchUsername } = userDataSlice.actions
+export const { updateUsername } = userDataSlice.actions;
 
-const userDataReducer = userDataSlice.reducer
-export default userDataReducer
+const userDataReducer = userDataSlice.reducer;
+export default userDataReducer;

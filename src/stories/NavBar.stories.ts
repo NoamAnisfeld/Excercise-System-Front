@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
-
-import NavBar from '../components/NavBar';
+import type { Meta, StoryObj } from '@storybook/react'
+import NavBar from '../components/NavBar'
 
 const meta = {
   title: 'NavBar',
@@ -17,8 +16,4 @@ export const LoggedIn: Story = {
   }
 }
 
-export const LoggedOut: Story = {
-  args: {
-    username: null,
-  }
-}
+export const LoggedOut: Story = {}

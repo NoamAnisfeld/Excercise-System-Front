@@ -6,7 +6,7 @@ import NavBar from './NavBar'
 test('NavBar with username', () => {
     const username = 'ישראל ישראלי';
 
-    const result = render(wrapWithRouter(<NavBar username={username} setUsername={() => {}} />));
+    const result = render(wrapWithRouter(<NavBar username={username} />));
     expect(result).toMatchSnapshot();
 
     const usernameDisplay = screen.queryByText(username);
@@ -17,7 +17,7 @@ test('NavBar with username', () => {
 })
 
 test('NavBar without username', () => {
-    const result = render(wrapWithRouter(<NavBar username={null} setUsername={() => {}} />));
+    const result = render(wrapWithRouter(<NavBar />));
     expect(result).toMatchSnapshot();
 
     const usernameDisplay = screen.queryByText('ברוכים הבאים');
