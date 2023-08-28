@@ -22,7 +22,7 @@ export function useLogin() {
         if (!username) {
             throw Error('Username cannot be empty');
         } else {
-            const request = await fetch('/login', {
+            const request = await fetch('/api/login', {
                 method: 'POST',
                 body: JSON.stringify({
                     username,
@@ -47,7 +47,7 @@ export function useLogout() {
     const navigate = useNavigate();
 
     return async () => {
-        const request = await fetch('/logout', {
+        const request = await fetch('/api/logout', {
             method: 'POST',
         });
 

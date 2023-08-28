@@ -18,7 +18,7 @@ export async function getCourses() {
 
     try {
         const
-            fetchData = await fetch('/courses'),
+            fetchData = await fetch('/api/courses'),
             jsonData: Courses = await fetchData.json(),
             validatedData = courses.parse(jsonData);
 

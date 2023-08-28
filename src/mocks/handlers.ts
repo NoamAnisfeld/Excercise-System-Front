@@ -3,7 +3,7 @@ import courses from './courses.json'
 import { HTTP } from '../utils'
 
 export const handlers = [
-    rest.post('/login', async (req, res, ctx) => {
+    rest.post('/api/login', async (req, res, ctx) => {
         const json = await req.json();
         const username = json.username;
         
@@ -22,7 +22,7 @@ export const handlers = [
         }
     }),
 
-    rest.post('/logout', (_req, res, ctx) => {
+    rest.post('/api/logout', (_req, res, ctx) => {
         return res(
             ctx.status(HTTP.OK),
             ctx.cookie('session', '', {
@@ -35,7 +35,7 @@ export const handlers = [
         )
     }),
 
-    rest.get('/courses', (_req, res, ctx) => {
+    rest.get('/api/courses', (_req, res, ctx) => {
         return res(
             ctx.status(HTTP.OK),
             ctx.json(courses),
