@@ -2,7 +2,12 @@ import { test, expect, beforeAll, afterEach, afterAll, beforeEach } from "vitest
 import { server } from '../mocks/server.js'
 import mockCourses from '../mocks/courses.json'
 import mockAssignments from '../mocks/assignments.json'
-import { fetchCourses, fetchAssignments } from "./fetchers.js"
+import mockSubmissions from '../mocks/submissions.json'
+import {
+    fetchCourses,
+    fetchAssignments,
+    fetchSubmissions,
+} from "./fetchers.js"
 
 // declared here but only assigned later, after the mock server 
 // has already replaced global.fetch with it's own
@@ -39,4 +44,9 @@ test('fetch courses', async () => {
 test('fetch assignments', async () => {
     const fetchedData = await fetchAssignments(0);
     expect(fetchedData).toEqual(mockAssignments);
+})
+
+test('fetch submissions', async () => {
+    const fetchedData = await fetchSubmissions(0);
+    expect(fetchedData).toEqual(mockSubmissions);
 })

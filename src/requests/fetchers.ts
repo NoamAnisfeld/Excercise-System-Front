@@ -1,5 +1,9 @@
 import { ZodError, z } from 'zod'
-import { coursesScheme, assignmentsScheme } from './schemes'
+import {
+    coursesScheme,
+    assignmentsScheme,
+    submissionsScheme
+} from './schemes'
 
 if (process.env.NODE_ENV === 'development') {
     await import('../mocks/browser').then(({ worker }) => worker.start());
@@ -34,4 +38,8 @@ export async function fetchCourses() {
 
 export async function fetchAssignments(courseId: number) {
     return await fetchApiData(`/api/courses/${courseId}/assignments`, assignmentsScheme);
+}
+
+export async function fetchSubmissions(assignmentId: number) {
+    return await fetchApiData(`/api/assignments/${assignmentId}/submissions`, submissionsScheme);
 }

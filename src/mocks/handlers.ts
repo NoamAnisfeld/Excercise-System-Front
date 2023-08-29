@@ -1,6 +1,7 @@
 import { rest } from 'msw'
 import courses from './courses.json'
 import assignments from './assignments.json'
+import submissions from './submissions.json'
 import { HTTP } from '../utils'
 
 export const handlers = [
@@ -49,12 +50,27 @@ export const handlers = [
         const courseAssignments = [...assignments];
 
         for (let i in courseAssignments) {
-            courseAssignments[i] = {...courseAssignments[i], course: Number(course_id) } 
+            courseAssignments[i] = {...courseAssignments[i], course: Number(course_id) };
         }
 
         return res(
             ctx.status(HTTP.OK),
             ctx.json(courseAssignments),
+        )
+    }),
+
+    rest.get('/api/assignments/:assignment_id/submissions', (req, res, ctx) => {
+
+        const { assignment_id } = req.params;
+        const assignmentSubmissions = [...submissions];
+
+        for (let i in assignmentSubmissions) {
+            assignmentSubmissions[i] = {...assignmentSubmissions[i], assignment: Number(assignment_id) };
+        }
+
+        return res(
+            ctx.status(HTTP.OK),
+            ctx.json(assignmentSubmissions),
         )
     }),
 ];

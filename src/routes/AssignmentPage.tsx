@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom"
 
 import { useLoaderData } from "react-router-dom"
-import type { Assignments } from "../requests/schemes"
-export type CoursePageData = Assignments;
+import type { Submissions } from "../requests/schemes"
+export type AssignmentPageData = Submissions;
 
-export default function CoursePage() {
-    const assignments = useLoaderData() as Assignments | undefined;
+export default function AssignmentPage() {
+    const submissions = useLoaderData() as Submissions | undefined;
 
     return (
-        assignments ?
-        assignments.map(assignment => (
-            <Link to={`assignments/${assignment.id}`}
-                key={assignment.id}
+        submissions ?
+        submissions.map(submission => (
+            <Link to={`submissions/${submission.id}`}
+                key={submission.id}
                 style={{
                     display: 'block',
                     margin: '1em',
@@ -21,7 +21,7 @@ export default function CoursePage() {
                     direction: 'ltr',
                 }}
             >
-                {JSON.stringify(assignment, undefined, 4)}
+                {JSON.stringify(submission, undefined, 4)}
             </Link>
         ))
         : 'טוען...'

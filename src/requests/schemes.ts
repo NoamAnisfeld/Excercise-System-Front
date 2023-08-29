@@ -24,3 +24,20 @@ export type Assignment = z.infer<typeof assignmentScheme>
 
 export const assignmentsScheme = z.array(assignmentScheme);
 export type Assignments = z.infer<typeof assignmentsScheme>;
+
+export const submissionScheme = z.object(
+    {
+        id: z.number(),
+        sub_date: z.string(),
+        file: z.string(),
+        comment: z.string(),
+        created_at: z.string(),
+        updated_at: z.string(),
+        user: z.number(),
+        assignment: z.number(),
+    }
+)
+export type Submission = z.infer<typeof submissionScheme>
+
+export const submissionsScheme = z.array(submissionScheme);
+export type Submissions = z.infer<typeof submissionsScheme>;

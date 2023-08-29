@@ -7,12 +7,18 @@ export type MyCoursesData = Courses;
 
 export default function MyCourses() {
 
-    const coursesData = useLoaderData() as Courses;
+    const coursesData = useLoaderData() as Courses | undefined;
 
-    return <Stack spacing={5} minWidth="80%">
-        {coursesData.map(course => <CourseCard
-            key={course.id}
-            {...course}
-        />)}
-    </Stack>
+    console.info({ coursesData });
+
+    return (
+        coursesData ?
+        <Stack spacing={5} minWidth="80%">
+            {coursesData.map(course => <CourseCard
+                key={course.id}
+                {...course}
+            />)}
+        </Stack>
+        : 'טוען...'
+    );
 }
