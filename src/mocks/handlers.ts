@@ -46,6 +46,24 @@ export const handlers = [
         )
     }),
 
+    rest.get('/api/courses/:course_id', (req, res, ctx) => {
+
+        const course_id = Number(req.params.course_id);
+        const courseData = courses.find(item =>
+            item.id === course_id);
+
+        if (!courseData) {
+            return res(
+                ctx.status(HTTP.NotFound)
+            )
+        } else {
+            return res(
+                ctx.status(HTTP.OK),
+                ctx.json(courseData),
+            )
+        }
+    }),
+
     rest.get('/api/courses/:course_id/assignments', (req, res, ctx) => {
 
         const course_id = Number(req.params.course_id);
@@ -56,6 +74,24 @@ export const handlers = [
             ctx.status(HTTP.OK),
             ctx.json(courseAssignments),
         )
+    }),
+
+    rest.get('/api/assignments/:assignment_id', (req, res, ctx) => {
+
+        const assignment_id = Number(req.params.assignment_id);
+        const assignmentData = assignments.find(item =>
+            item.id === assignment_id);
+
+        if (!assignmentData) {
+            return res(
+                ctx.status(HTTP.NotFound)
+            )
+        } else {
+            return res(
+                ctx.status(HTTP.OK),
+                ctx.json(assignmentData),
+            )
+        }
     }),
 
     rest.get('/api/assignments/:assignment_id/submissions', (req, res, ctx) => {
