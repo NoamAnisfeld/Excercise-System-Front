@@ -21,11 +21,9 @@ async function fetchApiData<T>(url: string, validationScheme: z.ZodType<T>) {
 
     } catch (e) {
         if (e instanceof SyntaxError) {
-            console.log('invalid JSON');
-            return [];
+            throw SyntaxError('invalid JSON');
         } else if (e instanceof ZodError) {
-            console.log('invalid data');
-            return []
+            throw TypeError('invalid data');
         } else {
             throw e;
         }
