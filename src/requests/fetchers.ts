@@ -1,8 +1,8 @@
 import { ZodError, z } from 'zod'
 import {
-    coursesScheme,
-    assignmentsScheme,
-    submissionsScheme
+    courseScheme, coursesScheme,
+    assignmentScheme, assignmentsScheme,
+    submissionScheme, submissionsScheme,
 } from './schemes'
 
 if (process.env.NODE_ENV === 'development') {
@@ -36,10 +36,22 @@ export async function fetchCourses() {
     return await fetchApiData('/api/courses', coursesScheme);
 }
 
+export async function fetchCourseData(courseId: number) {
+    return await fetchApiData(`api/courses/${courseId}`, courseScheme);
+}
+
 export async function fetchCourseAssignments(courseId: number) {
     return await fetchApiData(`/api/courses/${courseId}/assignments`, assignmentsScheme);
 }
 
+export async function fetchAssignmentData(assignmentId: number) {
+    return await fetchApiData(`api/assignments/${assignmentId}`, assignmentScheme);
+}
+
 export async function fetchAssignmentSubmissions(assignmentId: number) {
     return await fetchApiData(`/api/assignments/${assignmentId}/submissions`, submissionsScheme);
+}
+
+export async function fetchSubmissionData(submissionId: number) {
+    return await fetchApiData(`api/courses/${submissionId}`, submissionScheme);
 }
