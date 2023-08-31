@@ -8,8 +8,8 @@ import CoursePage, { CoursePageData } from "./CoursePage"
 import AssignmentPage, { AssignmentPageData } from "./AssignmentPage"
 import {
     fetchCourses,
-    fetchAssignments,
-    fetchSubmissions,
+    fetchCourseAssignments,
+    fetchAssignmentSubmissions,
 } from "../requests/fetchers"
 
 const assignmentsRouteTree: RouteObject[] = [
@@ -17,7 +17,7 @@ const assignmentsRouteTree: RouteObject[] = [
         path: ':assignment_id',
         element: <AssignmentPage />,
         loader: async ({ params }: LoaderFunctionArgs): Promise<AssignmentPageData> =>
-            fetchSubmissions(Number(params.assignment_id)),
+            fetchAssignmentSubmissions(Number(params.assignment_id)),
     }
 ]
 
@@ -29,7 +29,7 @@ const coursesRouteTree: RouteObject[] = [
                 index: true,
                 element: <CoursePage />,
                 loader: async ({ params }: LoaderFunctionArgs): Promise<CoursePageData> =>
-                    fetchAssignments(Number(params.course_id)),
+                    fetchCourseAssignments(Number(params.course_id)),
             },
             {
                 path: 'assignments',

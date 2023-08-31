@@ -36,10 +36,10 @@ export async function fetchCourses() {
     return await fetchApiData('/api/courses', coursesScheme);
 }
 
-export async function fetchAssignments(courseId: number) {
+export async function fetchCourseAssignments(courseId: number) {
     return await fetchApiData(`/api/courses/${courseId}/assignments`, assignmentsScheme);
 }
 
-export async function fetchSubmissions(assignmentId: number) {
+export async function fetchAssignmentSubmissions(assignmentId: number) {
     return await fetchApiData(`/api/assignments/${assignmentId}/submissions`, submissionsScheme);
 }

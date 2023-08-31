@@ -4,11 +4,13 @@ import assignments from './assignments.json'
 import submissions from './submissions.json'
 import { HTTP } from '../utils'
 
+export const MOCK_LOGGED_USER_ID = 0;
+
 export const handlers = [
     rest.post('/api/login', async (req, res, ctx) => {
         const json = await req.json();
         const username = json.username;
-        
+
         if (username === 'developer') {
             return res(
                 ctx.status(HTTP.OK),
@@ -46,12 +48,9 @@ export const handlers = [
 
     rest.get('/api/courses/:course_id/assignments', (req, res, ctx) => {
 
-        const { course_id } = req.params;
-        const courseAssignments = [...assignments];
-
-        for (let i in courseAssignments) {
-            courseAssignments[i] = {...courseAssignments[i], course: Number(course_id) };
-        }
+        const course_id = Number(req.params.course_id);
+        const courseAssignments = assignments.filter(item =>
+            item.course === course_id);
 
         return res(
             ctx.status(HTTP.OK),
@@ -61,16 +60,42 @@ export const handlers = [
 
     rest.get('/api/assignments/:assignment_id/submissions', (req, res, ctx) => {
 
-        const { assignment_id } = req.params;
-        const assignmentSubmissions = [...submissions];
-
-        for (let i in assignmentSubmissions) {
-            assignmentSubmissions[i] = {...assignmentSubmissions[i], assignment: Number(assignment_id) };
+        const assignment_id = Number(req.params.assignment_id);
+        if (!Number.isInteger(assignment_id)) {
+            return res(
+                ctx.status(HTTP.BadRequest)
+            )
         }
+
+        const relevantSubmissions = submissions.filter(item =>
+            item.assignment === assignment_id &&
+            item.user === MOCK_LOGGED_USER_ID
+        );
 
         return res(
             ctx.status(HTTP.OK),
-            ctx.json(assignmentSubmissions),
+            ctx.json(relevantSubmissions),
         )
+    }),
+
+    rest.get('/api/submissions/:submission_id', (req, res, ctx) => {
+
+        const { submission_id } = req.params;
+        const submission = submissions.find(item => item.id === Number(submission_id));
+
+        if (!submission) {
+            return res(
+                ctx.status(HTTP.NotFound)
+            )
+        } else if (submission.user !== MOCK_LOGGED_USER_ID) {
+            return res(
+                ctx.status(HTTP.Unauthorized)
+            )
+        } else {
+            return res(
+                ctx.status(HTTP.OK),
+                ctx.json(submission),
+            )
+        }
     }),
 ];

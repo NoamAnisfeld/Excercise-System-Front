@@ -1,6 +1,8 @@
 export const HTTP = {
     OK: 200,
+    BadRequest: 400,
     Unauthorized: 401,
+    NotFound: 404,
 } as const;
 
 export function getCookie(cookieName: string) {

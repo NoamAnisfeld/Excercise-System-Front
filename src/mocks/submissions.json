@@ -17,7 +17,7 @@
     "created_at": "2023-09-10T10:45:00Z",
     "updated_at": "2023-09-10T10:45:00Z",
     "user": 0,
-    "assignment": 0
+    "assignment": 1
   },
   {
     "id": 2,
@@ -27,6 +27,216 @@
     "created_at": "2023-09-19T16:20:00Z",
     "updated_at": "2023-09-19T16:20:00Z",
     "user": 0,
+    "assignment": 2
+  },
+  {
+    "id": 3,
+    "sub_date": "2023-09-05T09:30:00Z",
+    "file": "http://example.com/submission/3",
+    "comment": "תיקון נדרש.",
+    "created_at": "2023-09-05T09:30:00Z",
+    "updated_at": "2023-09-06T14:10:00Z",
+    "user": 1,
     "assignment": 0
+  },
+  {
+    "id": 4,
+    "sub_date": "2023-09-12T13:15:00Z",
+    "file": "http://example.com/submission/4",
+    "comment": "תשובות נכונות, אך נדרשים עוד פרטים.",
+    "created_at": "2023-09-12T13:15:00Z",
+    "updated_at": "2023-09-12T13:20:00Z",
+    "user": 1,
+    "assignment": 1
+  },
+  {
+    "id": 5,
+    "sub_date": "2023-09-20T17:30:00Z",
+    "file": "http://example.com/submission/5",
+    "comment": "נא לבדוק שוב את התשובות.",
+    "created_at": "2023-09-20T17:30:00Z",
+    "updated_at": "2023-09-20T17:40:00Z",
+    "user": 1,
+    "assignment": 2
+  },
+  {
+    "id": 6,
+    "sub_date": "2023-09-03T11:00:00Z",
+    "file": "http://example.com/submission/6",
+    "comment": "נדרש תיקון בפרטים הטכניים.",
+    "created_at": "2023-09-03T11:00:00Z",
+    "updated_at": "2023-09-03T11:30:00Z",
+    "user": 2,
+    "assignment": 0
+  },
+  {
+    "id": 7,
+    "sub_date": "2023-09-10T14:45:00Z",
+    "file": "http://example.com/submission/7",
+    "comment": "נא להוסיף הסברים נוספים.",
+    "created_at": "2023-09-10T14:45:00Z",
+    "updated_at": "2023-09-11T09:20:00Z",
+    "user": 2,
+    "assignment": 1
+  },
+  {
+    "id": 8,
+    "sub_date": "2023-09-18T18:00:00Z",
+    "file": "http://example.com/submission/8",
+    "comment": "עבודה מצוינת!",
+    "created_at": "2023-09-18T18:00:00Z",
+    "updated_at": "2023-09-18T18:00:00Z",
+    "user": 2,
+    "assignment": 2
+  },
+  {
+    "id": 9,
+    "sub_date": "2023-09-08T09:00:00Z",
+    "file": "http://example.com/submission/9",
+    "comment": "תיקון קטן נדרש.",
+    "created_at": "2023-09-08T09:00:00Z",
+    "updated_at": "2023-09-08T09:10:00Z",
+    "user": 0,
+    "assignment": 3
+  },
+  {
+    "id": 10,
+    "sub_date": "2023-09-14T13:45:00Z",
+    "file": "http://example.com/submission/10",
+    "comment": "נדרשים פרטים נוספים בתשובה.",
+    "created_at": "2023-09-14T13:45:00Z",
+    "updated_at": "2023-09-14T13:50:00Z",
+    "user": 0,
+    "assignment": 4
+  },
+  {
+    "id": 11,
+    "sub_date": "2023-09-23T16:00:00Z",
+    "file": "http://example.com/submission/11",
+    "comment": "נא להוסיף הסברים נוספים.",
+    "created_at": "2023-09-23T16:00:00Z",
+    "updated_at": "2023-09-24T10:20:00Z",
+    "user": 0,
+    "assignment": 5
+  },
+  {
+    "id": 12,
+    "sub_date": "2023-09-10T10:00:00Z",
+    "file": "http://example.com/submission/12",
+    "comment": "עבודה טובה, אך יש לתקן כמה פרטים.",
+    "created_at": "2023-09-10T10:00:00Z",
+    "updated_at": "2023-09-11T14:30:00Z",
+    "user": 1,
+    "assignment": 3
+  },
+  {
+    "id": 13,
+    "sub_date": "2023-09-18T12:30:00Z",
+    "file": "http://example.com/submission/13",
+    "comment": "נא לשפר את המבנה הכללי של התשובה.",
+    "created_at": "2023-09-18T12:30:00Z",
+    "updated_at": "2023-09-18T12:40:00Z",
+    "user": 1,
+    "assignment": 4
+  },
+  {
+    "id": 14,
+    "sub_date": "2023-09-25T15:45:00Z",
+    "file": "http://example.com/submission/14",
+    "comment": "נא לבדוק את החישובים שוב.",
+    "created_at": "2023-09-25T15:45:00Z",
+    "updated_at": "2023-09-25T16:00:00Z",
+    "user": 1,
+    "assignment": 5
+  },
+  {
+    "id": 15,
+    "sub_date": "2023-09-06T11:15:00Z",
+    "file": "http://example.com/submission/15",
+    "comment": "נא לשפר את הסגנון הכתיבה.",
+    "created_at": "2023-09-06T11:15:00Z",
+    "updated_at": "2023-09-06T11:20:00Z",
+    "user": 2,
+    "assignment": 3
+  },
+  {
+    "id": 16,
+    "sub_date": "2023-09-15T14:30:00Z",
+    "file": "http://example.com/submission/16",
+    "comment": "עבודה מצוינת, כל הכבוד!",
+    "created_at": "2023-09-15T14:30:00Z",
+    "updated_at": "2023-09-15T14:30:00Z",
+    "user": 2,
+    "assignment": 4
+  },
+  {
+    "id": 17,
+    "sub_date": "2023-09-23T16:45:00Z",
+    "file": "http://example.com/submission/17",
+    "comment": "נא להוסיף דוגמאות נוספות.",
+    "created_at": "2023-09-23T16:45:00Z",
+    "updated_at": "2023-09-23T17:00:00Z",
+    "user": 2,
+    "assignment": 5
+  },
+  {
+    "id": 18,
+    "sub_date": "2023-09-09T11:30:00Z",
+    "file": "http://example.com/submission/18",
+    "comment": "תיקון נדרש בחלק השני.",
+    "created_at": "2023-09-09T11:30:00Z",
+    "updated_at": "2023-09-09T11:45:00Z",
+    "user": 0,
+    "assignment": 6
+  },
+  {
+    "id": 19,
+    "sub_date": "2023-09-24T17:30:00Z",
+    "file": "http://example.com/submission/20",
+    "comment": "נדרשים פרטים טכניים נוספים.",
+    "created_at": "2023-09-24T17:30:00Z",
+    "updated_at": "2023-09-24T17:40:00Z",
+    "user": 0,
+    "assignment": 8
+  },
+  {
+    "id": 20,
+    "sub_date": "2023-09-12T10:30:00Z",
+    "file": "http://example.com/submission/21",
+    "comment": "נא לבדוק את הספרות שוב.",
+    "created_at": "2023-09-12T10:30:00Z",
+    "updated_at": "2023-09-12T10:45:00Z",
+    "user": 1,
+    "assignment": 6
+  },
+  {
+    "id": 21,
+    "sub_date": "2023-09-19T12:45:00Z",
+    "file": "http://example.com/submission/22",
+    "comment": "נא להוסיף סברים נוספים.",
+    "created_at": "2023-09-19T12:45:00Z",
+    "updated_at": "2023-09-19T13:00:00Z",
+    "user": 1,
+    "assignment": 7
+  },
+  {
+    "id": 22,
+    "sub_date": "2023-09-28T16:00:00Z",
+    "file": "http://example.com/submission/23",
+    "comment": "נא לבדוק את הנספחים.",
+    "created_at": "2023-09-28T16:00:00Z",
+    "updated_at": "2023-09-28T16:30:00Z",
+    "user": 1,
+    "assignment": 8
+  },
+  {
+    "id": 23,
+    "sub_date": "2023-09-08T12:15:00Z",
+    "file": "http://example.com/submission/24",
+    "comment": "נדרשים תיקונים בהגה.",
+    "created_at": "2023-09-08T12:15:00Z",
+    "updated_at": "2023-09-08T12:20:00Z",
+    "user": 2,
+    "assignment": 6
   }
 ]

@@ -3,10 +3,11 @@ import { server } from '../mocks/server.js'
 import mockCourses from '../mocks/courses.json'
 import mockAssignments from '../mocks/assignments.json'
 import mockSubmissions from '../mocks/submissions.json'
+import { MOCK_LOGGED_USER_ID } from "../mocks/handlers.js"
 import {
     fetchCourses,
-    fetchAssignments,
-    fetchSubmissions,
+    fetchCourseAssignments,
+    fetchAssignmentSubmissions,
 } from "./fetchers.js"
 
 // declared here but only assigned later, after the mock server 
@@ -41,12 +42,28 @@ test('fetch courses', async () => {
     expect(fetchedData).toEqual(mockCourses);
 })
 
-test('fetch assignments', async () => {
-    const fetchedData = await fetchAssignments(0);
-    expect(fetchedData).toEqual(mockAssignments);
+test('fetch assignments for course 0', async () => {
+    const fetchedData = await fetchCourseAssignments(0);
+    expect(fetchedData).toEqual(mockAssignments.filter(item => item.course === 0));
 })
 
-test('fetch submissions', async () => {
-    const fetchedData = await fetchSubmissions(0);
-    expect(fetchedData).toEqual(mockSubmissions);
+test('fetch assignments for course 1', async () => {
+    const fetchedData = await fetchCourseAssignments(1);
+    expect(fetchedData).toEqual(mockAssignments.filter(item => item.course === 1));
+})
+
+test('fetch submissions for assignment 0', async () => {
+    const fetchedData = await fetchAssignmentSubmissions(0);
+    expect(fetchedData).toEqual(mockSubmissions.filter(item =>
+        item.assignment === 0 &&
+        item.user === MOCK_LOGGED_USER_ID
+    ));
+})
+
+test('fetch submissions for assignment 2', async () => {
+    const fetchedData = await fetchAssignmentSubmissions(2);
+    expect(fetchedData).toEqual(mockSubmissions.filter(item =>
+        item.assignment === 2 &&
+        item.user === MOCK_LOGGED_USER_ID
+    ));
 })
