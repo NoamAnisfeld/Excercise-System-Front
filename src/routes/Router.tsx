@@ -6,18 +6,40 @@ import MyCoursesButton from "../components/MyCoursesButton"
 import MyCourses, { MyCoursesData } from "./MyCourses"
 import CoursePage, { CoursePageData } from "./CoursePage"
 import AssignmentPage, { AssignmentPageData } from "./AssignmentPage"
+import SubmissionPage, { SubmissionPageData } from "./SubmissionPage"
 import {
     fetchCourses,
+    fetchCourseData,
     fetchCourseAssignments,
+    fetchAssignmentData,
     fetchAssignmentSubmissions,
+    fetchSubmissionData,
 } from "../requests/fetchers"
+
+const submissionsRouteTree: RouteObject[] = [
+    {
+        path: ':submission_id',
+        element: <SubmissionPage />,
+        loader: async ({ params }: LoaderFunctionArgs): Promise<SubmissionPageData> =>
+            fetchSubmissionData(Number(params.submission_id)),
+    }
+]
 
 const assignmentsRouteTree: RouteObject[] = [
     {
         path: ':assignment_id',
-        element: <AssignmentPage />,
-        loader: async ({ params }: LoaderFunctionArgs): Promise<AssignmentPageData> =>
-            fetchAssignmentSubmissions(Number(params.assignment_id)),
+        children: [
+            {
+                index: true,
+                element: <AssignmentPage />,
+                loader: async ({ params }: LoaderFunctionArgs): Promise<AssignmentPageData> =>
+                    fetchAssignmentSubmissions(Number(params.assignment_id)),
+            },
+            {
+                path: 'submissions',
+                children: submissionsRouteTree,
+            }
+        ]
     }
 ]
 
