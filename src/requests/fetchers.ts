@@ -51,5 +51,5 @@ export async function fetchAssignmentSubmissions(assignmentId: number) {
 }
 
 export async function fetchSubmissionData(submissionId: number) {
-    return await fetchApiData(`api/courses/${submissionId}`, submissionScheme);
+    return await fetchApiData(`/api/courses/${submissionId}`, submissionScheme);
 }
