@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom"
+import { Stack } from "@mui/material";
+import AssignmentCard from "../components/AssignmentCard";
 
 import { useLoaderData } from "react-router-dom"
 import type { Assignments } from "../requests/schemes"
@@ -9,21 +10,13 @@ export default function CoursePage() {
 
     return (
         assignments ?
-        assignments.map(assignment => (
-            <Link to={`assignments/${assignment.id}`}
+        <Stack spacing={5} minWidth="80%">
+            {assignments.map(assignment => <AssignmentCard
+                {...assignment}
+                linkTo={`assignments/${assignment.id}`}
                 key={assignment.id}
-                style={{
-                    display: 'block',
-                    margin: '1em',
-                    padding: '1em',
-                    border: '2px solid',
-                    whiteSpace: 'pre',
-                    direction: 'ltr',
-                }}
-            >
-                {JSON.stringify(assignment, undefined, 4)}
-            </Link>
-        ))
+            />)}
+        </Stack>
         : 'טוען...'
     );
 }

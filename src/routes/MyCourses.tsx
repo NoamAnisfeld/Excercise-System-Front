@@ -9,14 +9,13 @@ export default function MyCourses() {
 
     const coursesData = useLoaderData() as Courses | undefined;
 
-    console.info({ coursesData });
-
     return (
         coursesData ?
         <Stack spacing={5} minWidth="80%">
             {coursesData.map(course => <CourseCard
-                key={course.id}
                 {...course}
+                linkTo={String(course.id)}
+                key={course.id}
             />)}
         </Stack>
         : 'טוען...'

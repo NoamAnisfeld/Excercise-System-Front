@@ -16,3 +16,17 @@ export function getCookie(cookieName: string) {
     
     return undefined;
 }
+
+export function formatDate(datetime: Date) {
+    const _ = datetime;
+    return `${_.getDate()}/${_.getMonth() + 1}/${_.getFullYear() % 100}`;
+}
+
+export function formatTime(datetime: Date) {
+    const _ = datetime;
+    return `${_.getHours()}:${String(_.getMinutes()).padStart(2, '0')}`;
+}
+
+export function formatDateTime(datetime: Date) {
+    return `${formatDate(datetime)} ${formatTime(datetime)}`;
+}

@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom"
+import { Stack } from "@mui/material"
+import SubmissionCard from "../components/SubmissionCard"
 
 import { useLoaderData } from "react-router-dom"
 import type { Submissions } from "../requests/schemes"
@@ -9,21 +10,13 @@ export default function AssignmentPage() {
 
     return (
         submissions ?
-        submissions.map(submission => (
-            <Link to={`submissions/${submission.id}`}
+        <Stack spacing={5} minWidth="80%">
+            {submissions.map(submission => <SubmissionCard
+                {...submission}
+                linkTo={`submissions/${submission.id}`}
                 key={submission.id}
-                style={{
-                    display: 'block',
-                    margin: '1em',
-                    padding: '1em',
-                    border: '2px solid',
-                    whiteSpace: 'pre',
-                    direction: 'ltr',
-                }}
-            >
-                {JSON.stringify(submission, undefined, 4)}
-            </Link>
-        ))
+            /> )}
+        </Stack>
         : 'טוען...'
     );
 }
