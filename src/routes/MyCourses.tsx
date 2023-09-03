@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 import CourseCard from "../components/CourseCard"
 
 import { useLoaderData } from "react-router-dom"
@@ -7,10 +7,9 @@ export type MyCoursesData = Courses;
 
 export default function MyCourses() {
 
-    const coursesData = useLoaderData() as Courses | undefined;
+    const coursesData = useLoaderData() as Courses;
 
-    return (
-        coursesData ?
+    return (<>
         <Stack spacing={5} minWidth="80%">
             {coursesData.map(course => <CourseCard
                 {...course}
@@ -18,6 +17,5 @@ export default function MyCourses() {
                 key={course.id}
             />)}
         </Stack>
-        : 'טוען...'
-    );
+    </>);
 }

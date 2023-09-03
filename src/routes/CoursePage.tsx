@@ -6,10 +6,9 @@ import type { Assignments } from "../requests/schemes"
 export type CoursePageData = Assignments;
 
 export default function CoursePage() {
-    const assignments = useLoaderData() as Assignments | undefined;
+    const assignments = useLoaderData() as Assignments;
 
     return (
-        assignments ?
         <Stack spacing={5} minWidth="80%">
             {assignments.map(assignment => <AssignmentCard
                 {...assignment}
@@ -17,6 +16,5 @@ export default function CoursePage() {
                 key={assignment.id}
             />)}
         </Stack>
-        : 'טוען...'
     );
 }

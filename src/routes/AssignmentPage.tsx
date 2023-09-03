@@ -6,17 +6,15 @@ import type { Submissions } from "../requests/schemes"
 export type AssignmentPageData = Submissions;
 
 export default function AssignmentPage() {
-    const submissions = useLoaderData() as Submissions | undefined;
+    const submissions = useLoaderData() as Submissions;
 
     return (
-        submissions ?
         <Stack spacing={5} minWidth="80%">
             {submissions.map(submission => <SubmissionCard
                 {...submission}
                 linkTo={`submissions/${submission.id}`}
                 key={submission.id}
-            /> )}
+            />)}
         </Stack>
-        : 'טוען...'
     );
 }
