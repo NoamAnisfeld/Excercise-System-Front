@@ -9,11 +9,11 @@ import AssignmentPage, { AssignmentPageData } from "./AssignmentPage"
 import SubmissionPage, { SubmissionPageData } from "./SubmissionPage"
 import {
     fetchCourses,
-    fetchCourseData,
+    fetchCourseInfo,
     fetchCourseAssignments,
-    fetchAssignmentData,
+    fetchAssignmentInfo,
     fetchAssignmentSubmissions,
-    fetchSubmissionData,
+    fetchSubmissionInfo,
 } from "../requests/fetchers"
 
 const submissionsRouteTree: RouteObject[] = [
@@ -21,7 +21,7 @@ const submissionsRouteTree: RouteObject[] = [
         path: ':submission_id',
         element: <SubmissionPage />,
         loader: async ({ params }: LoaderFunctionArgs): Promise<SubmissionPageData> =>
-            fetchSubmissionData(Number(params.submission_id)),
+            fetchSubmissionInfo(Number(params.submission_id)),
     }
 ]
 
@@ -32,8 +32,10 @@ const assignmentsRouteTree: RouteObject[] = [
             {
                 index: true,
                 element: <AssignmentPage />,
-                loader: async ({ params }: LoaderFunctionArgs): Promise<AssignmentPageData> =>
-                    fetchAssignmentSubmissions(Number(params.assignment_id)),
+                loader: async ({ params }: LoaderFunctionArgs): Promise<AssignmentPageData> => ({
+                    assignmentInfo: await fetchAssignmentInfo(Number(params.assignment_id)),
+                    submissions: await fetchAssignmentSubmissions(Number(params.assignment_id)),
+                })
             },
             {
                 path: 'submissions',
@@ -50,8 +52,10 @@ const coursesRouteTree: RouteObject[] = [
             {
                 index: true,
                 element: <CoursePage />,
-                loader: async ({ params }: LoaderFunctionArgs): Promise<CoursePageData> =>
-                    fetchCourseAssignments(Number(params.course_id)),
+                loader: async ({ params }: LoaderFunctionArgs): Promise<CoursePageData> => ({
+                    courseInfo: await fetchCourseInfo(Number(params.course_id)),
+                    assignments: await fetchCourseAssignments(Number(params.course_id)),
+                }),
             },
             {
                 path: 'assignments',

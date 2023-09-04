@@ -1,12 +1,12 @@
 import ItemCard from "./ItemCard"
-import type { Submission } from "../requests/schemes"
+import type { SubmissionInfo } from "../requests/schemes"
 import { formatDateTime } from "../utils"
 
 export default function SubmissionCard({
     created_at,
     comment,
     linkTo,
-}: Submission & {
+}: SubmissionInfo & {
     linkTo: string,
 }) {
     return <ItemCard

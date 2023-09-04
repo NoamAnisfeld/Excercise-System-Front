@@ -1,9 +1,9 @@
 import { useLoaderData } from "react-router-dom"
-import type { Submission } from "../requests/schemes"
-export type SubmissionPageData = Submission;
+import type { SubmissionInfo } from "../requests/schemes"
+export type SubmissionPageData = SubmissionInfo;
 
 export default function SubmissionPage() {
-    const submission = useLoaderData() as Submission;
+    const submission = useLoaderData() as SubmissionInfo;
 
     return (
         <div

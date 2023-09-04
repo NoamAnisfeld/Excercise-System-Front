@@ -1,11 +1,11 @@
 import ItemCard from "./ItemCard"
-import type { Assignment } from "../requests/schemes"
+import type { AssignmentInfo } from "../requests/schemes"
 
 export default function AssignmentCard({
     title,
     description,
     linkTo,
-}: Assignment & {
+}: AssignmentInfo & {
     linkTo: string,
 }) {
     return <ItemCard

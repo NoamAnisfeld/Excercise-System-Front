@@ -1,17 +1,17 @@
 import { z } from 'zod';
 
-export const courseScheme = z.object({
+export const courseInfoScheme = z.object({
     id: z.number(),
     name: z.string(),
     description: z.string(),
     classrooms: z.array(z.number()),
 });
-export type Course = z.infer<typeof courseScheme>
+export type CourseInfo = z.infer<typeof courseInfoScheme>
 
-export const coursesScheme = z.array(courseScheme);
+export const coursesScheme = z.array(courseInfoScheme);
 export type Courses = z.infer<typeof coursesScheme>;
 
-export const assignmentScheme = z.object(
+export const assignmentInfoScheme = z.object(
     {
         id: z.number(),
         title: z.string(),
@@ -20,12 +20,12 @@ export const assignmentScheme = z.object(
         course: z.number(),
     }
 )
-export type Assignment = z.infer<typeof assignmentScheme>
+export type AssignmentInfo = z.infer<typeof assignmentInfoScheme>
 
-export const assignmentsScheme = z.array(assignmentScheme);
+export const assignmentsScheme = z.array(assignmentInfoScheme);
 export type Assignments = z.infer<typeof assignmentsScheme>;
 
-export const submissionScheme = z.object(
+export const submissionInfoScheme = z.object(
     {
         id: z.number(),
         sub_date: z.string(),
@@ -37,7 +37,7 @@ export const submissionScheme = z.object(
         assignment: z.number(),
     }
 )
-export type Submission = z.infer<typeof submissionScheme>
+export type SubmissionInfo = z.infer<typeof submissionInfoScheme>
 
-export const submissionsScheme = z.array(submissionScheme);
+export const submissionsScheme = z.array(submissionInfoScheme);
 export type Submissions = z.infer<typeof submissionsScheme>;

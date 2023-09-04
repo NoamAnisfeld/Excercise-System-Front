@@ -1,11 +1,11 @@
 import ItemCard from "./ItemCard"
-import type { Course } from "../requests/schemes"
+import type { CourseInfo } from "../requests/schemes"
 
 export default function CourseCard({
     name,
     description,
     linkTo,
-}: Course & {
+}: CourseInfo & {
     linkTo: string,
 }) {
     return <ItemCard

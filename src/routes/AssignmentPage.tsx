@@ -1,14 +1,24 @@
 import CardStack from "../components/CardStack"
 import SubmissionCard from "../components/SubmissionCard"
+import { Box, Typography } from "@mui/material";
 
 import { useLoaderData } from "react-router-dom"
-import type { Submissions } from "../requests/schemes"
-export type AssignmentPageData = Submissions;
+import type { AssignmentInfo, Submissions } from "../requests/schemes"
+export type AssignmentPageData = {
+    assignmentInfo: AssignmentInfo,
+    submissions: Submissions,
+};
 
 export default function AssignmentPage() {
-    const submissions = useLoaderData() as Submissions;
+    const { assignmentInfo, submissions } = useLoaderData() as AssignmentPageData;
 
-    return (
+    return (<>
+        <Box display="flex" justifyContent="center">
+            <Box display="flex" flexDirection="column" alignContent="center">
+                <Typography variant="h1">{assignmentInfo.title}</Typography>
+                <Typography variant="subtitle1" component="p">{assignmentInfo.description}</Typography>
+            </Box>
+        </Box>
         <CardStack>
             {submissions.map(submission => <SubmissionCard
                 {...submission}
@@ -16,5 +26,5 @@ export default function AssignmentPage() {
                 key={submission.id}
             />)}
         </CardStack>
-    );
+    </>);
 }
