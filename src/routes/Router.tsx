@@ -2,7 +2,7 @@ import { createBrowserRouter, RouteObject, LoaderFunctionArgs, RouterProvider } 
 
 import MainView from "./MainView"
 import Login from "./Login"
-import MyCoursesButton from "../components/MyCoursesButton"
+import MainOptions from "./MainOptions"
 import MyCourses, { MyCoursesData } from "./MyCourses"
 import CoursePage, { CoursePageData } from "./CoursePage"
 import AssignmentPage, { AssignmentPageData } from "./AssignmentPage"
@@ -67,7 +67,7 @@ const routeTree: RouteObject[] = [
         children: [
             {
                 index: true,
-                element: <MyCoursesButton />
+                element: <MainOptions />
             },
             {
                 path: 'login',

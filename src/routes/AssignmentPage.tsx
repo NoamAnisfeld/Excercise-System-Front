@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material"
+import CardStack from "../components/CardStack"
 import SubmissionCard from "../components/SubmissionCard"
 
 import { useLoaderData } from "react-router-dom"
@@ -9,12 +9,12 @@ export default function AssignmentPage() {
     const submissions = useLoaderData() as Submissions;
 
     return (
-        <Stack spacing={5} minWidth="80%">
+        <CardStack>
             {submissions.map(submission => <SubmissionCard
                 {...submission}
                 linkTo={`submissions/${submission.id}`}
                 key={submission.id}
             />)}
-        </Stack>
+        </CardStack>
     );
 }

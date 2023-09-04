@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material"
+import CardStack from "../components/CardStack"
 import CourseCard from "../components/CourseCard"
 
 import { useLoaderData } from "react-router-dom"
@@ -10,12 +10,12 @@ export default function MyCourses() {
     const coursesData = useLoaderData() as Courses;
 
     return (<>
-        <Stack spacing={5} minWidth="80%">
+        <CardStack>
             {coursesData.map(course => <CourseCard
                 {...course}
                 linkTo={String(course.id)}
                 key={course.id}
             />)}
-        </Stack>
+        </CardStack>
     </>);
 }

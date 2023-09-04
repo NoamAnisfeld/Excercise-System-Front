@@ -1,5 +1,5 @@
-import { Stack } from "@mui/material";
-import AssignmentCard from "../components/AssignmentCard";
+import CardStack from "../components/CardStack"
+import AssignmentCard from "../components/AssignmentCard"
 
 import { useLoaderData } from "react-router-dom"
 import type { Assignments } from "../requests/schemes"
@@ -9,12 +9,12 @@ export default function CoursePage() {
     const assignments = useLoaderData() as Assignments;
 
     return (
-        <Stack spacing={5} minWidth="80%">
+        <CardStack>
             {assignments.map(assignment => <AssignmentCard
                 {...assignment}
                 linkTo={`assignments/${assignment.id}`}
                 key={assignment.id}
             />)}
-        </Stack>
+        </CardStack>
     );
 }
