@@ -11,15 +11,19 @@ if (process.env.NODE_ENV === 'development') {
 
 async function fetchApiData<T>(url: string, validationScheme: z.ZodType<T>) {
     
+    let fetchedData: Response | undefined = undefined;
+
     try {
+        fetchedData = await fetch(url);
         const
-            fetchedData = await fetch(url),
             jsonData: T = await fetchedData.json(),
             validatedData = validationScheme.parse(jsonData);
 
         return validatedData;
 
     } catch (e) {
+        fetchedData?.text().then(console.error);
+
         if (e instanceof SyntaxError) {
             throw SyntaxError('invalid JSON');
         } else if (e instanceof ZodError) {
