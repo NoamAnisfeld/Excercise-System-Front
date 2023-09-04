@@ -11,10 +11,11 @@ if (process.env.NODE_ENV === 'development') {
 
 async function fetchApiData<T>(url: string, validationScheme: z.ZodType<T>) {
     
-    let fetchedData: Response | undefined = undefined;
+    let clonedFetchedData: Response | undefined = undefined;
 
     try {
-        fetchedData = await fetch(url);
+        const fetchedData = await fetch(url);
+        clonedFetchedData = fetchedData.clone();
         const
             jsonData: T = await fetchedData.json(),
             validatedData = validationScheme.parse(jsonData);
@@ -22,7 +23,7 @@ async function fetchApiData<T>(url: string, validationScheme: z.ZodType<T>) {
         return validatedData;
 
     } catch (e) {
-        fetchedData?.text().then(console.error);
+        clonedFetchedData?.text().then(console.error);
 
         if (e instanceof SyntaxError) {
             throw SyntaxError('invalid JSON');
