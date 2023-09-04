@@ -35,7 +35,7 @@ export async function fetchCourses() {
 }
 
 export async function fetchCourseData(courseId: number) {
-    return await fetchApiData(`api/courses/${courseId}`, courseScheme);
+    return await fetchApiData(`/api/courses/${courseId}`, courseScheme);
 }
 
 export async function fetchCourseAssignments(courseId: number) {
@@ -43,7 +43,7 @@ export async function fetchCourseAssignments(courseId: number) {
 }
 
 export async function fetchAssignmentData(assignmentId: number) {
-    return await fetchApiData(`api/assignments/${assignmentId}`, assignmentScheme);
+    return await fetchApiData(`/api/assignments/${assignmentId}`, assignmentScheme);
 }
 
 export async function fetchAssignmentSubmissions(assignmentId: number) {
