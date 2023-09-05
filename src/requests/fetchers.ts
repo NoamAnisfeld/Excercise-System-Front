@@ -16,6 +16,10 @@ async function fetchApiData<T>(url: string, validationScheme: z.ZodType<T>) {
     try {
         const fetchedData = await fetch(url);
         clonedFetchedData = fetchedData.clone();
+
+        if (!fetchedData.ok)
+            throw Error('request failed');
+
         const
             jsonData: T = await fetchedData.json(),
             validatedData = validationScheme.parse(jsonData);
