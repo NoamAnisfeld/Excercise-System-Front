@@ -12,7 +12,10 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedIn: Story = {
   args: {
-    username: 'ExampleUser',
+    username: 'שם משתמש לדוגמה',
+    onLogout: () => {
+      alert('Logged out!');
+    }
   }
 }
 
