@@ -4,62 +4,62 @@
     "title": "תרגיל מס' 1",
     "description": "תיאור לתרגיל מס' 1",
     "sub_end_date": "2023-09-01T14:15:22Z",
-    "course": 0
+    "course_id": 0
   },
   {
     "id": 1,
     "title": "תרגיל מס' 2",
     "description": "תיאור לתרגיל מס' 2",
     "sub_end_date": "2023-09-10T14:15:22Z",
-    "course": 0
+    "course_id": 0
   },
   {
     "id": 2,
     "title": "תרגיל מס' 3",
     "description": "תיאור לתרגיל מס' 3",
     "sub_end_date": "2023-09-20T14:15:22Z",
-    "course": 0
+    "course_id": 0
   },
   {
     "id": 3,
     "title": "תרגיל מס' 1",
     "description": "תיאור לתרגיל מס' 1",
     "sub_end_date": "2023-09-01T14:15:22Z",
-    "course": 1
+    "course_id": 1
   },
   {
     "id": 4,
     "title": "תרגיל מס' 2",
     "description": "תיאור לתרגיל מס' 2",
     "sub_end_date": "2023-09-10T14:15:22Z",
-    "course": 1
+    "course_id": 1
   },
   {
     "id": 5,
     "title": "תרגיל מס' 3",
     "description": "תיאור לתרגיל מס' 3",
     "sub_end_date": "2023-09-20T14:15:22Z",
-    "course": 1
+    "course_id": 1
   },
   {
     "id": 6,
     "title": "תרגיל מס' 1",
     "description": "תיאור לתרגיל מס' 1",
     "sub_end_date": "2023-09-01T14:15:22Z",
-    "course": 2
+    "course_id": 2
   },
   {
     "id": 7,
     "title": "תרגיל מס' 2",
     "description": "תיאור לתרגיל מס' 2",
     "sub_end_date": "2023-09-10T14:15:22Z",
-    "course": 2
+    "course_id": 2
   },
   {
     "id": 8,
     "title": "תרגיל מס' 3",
     "description": "תיאור לתרגיל מס' 3",
     "sub_end_date": "2023-09-20T14:15:22Z",
-    "course": 2
+    "course_id": 2
   }
 ]

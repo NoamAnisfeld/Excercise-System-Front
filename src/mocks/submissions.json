@@ -6,8 +6,7 @@
     "comment": "הגשה טובה!",
     "created_at": "2023-09-02T08:30:00Z",
     "updated_at": "2023-09-02T08:30:00Z",
-    "user": 0,
-    "assignment": 0
+    "user_id": 0
   },
   {
     "id": 1,
@@ -16,8 +15,7 @@
     "comment": "נא לשפר את ההגשה.",
     "created_at": "2023-09-10T10:45:00Z",
     "updated_at": "2023-09-10T10:45:00Z",
-    "user": 0,
-    "assignment": 1
+    "user_id": 0
   },
   {
     "id": 2,
@@ -26,8 +24,7 @@
     "comment": "עבודה מעולה!",
     "created_at": "2023-09-19T16:20:00Z",
     "updated_at": "2023-09-19T16:20:00Z",
-    "user": 0,
-    "assignment": 2
+    "user_id": 0
   },
   {
     "id": 3,
@@ -36,8 +33,7 @@
     "comment": "תיקון נדרש.",
     "created_at": "2023-09-05T09:30:00Z",
     "updated_at": "2023-09-06T14:10:00Z",
-    "user": 1,
-    "assignment": 0
+    "user_id": 1
   },
   {
     "id": 4,
@@ -46,8 +42,7 @@
     "comment": "תשובות נכונות, אך נדרשים עוד פרטים.",
     "created_at": "2023-09-12T13:15:00Z",
     "updated_at": "2023-09-12T13:20:00Z",
-    "user": 1,
-    "assignment": 1
+    "user_id": 1
   },
   {
     "id": 5,
@@ -56,8 +51,7 @@
     "comment": "נא לבדוק שוב את התשובות.",
     "created_at": "2023-09-20T17:30:00Z",
     "updated_at": "2023-09-20T17:40:00Z",
-    "user": 1,
-    "assignment": 2
+    "user_id": 1
   },
   {
     "id": 6,
@@ -66,8 +60,7 @@
     "comment": "נדרש תיקון בפרטים הטכניים.",
     "created_at": "2023-09-03T11:00:00Z",
     "updated_at": "2023-09-03T11:30:00Z",
-    "user": 2,
-    "assignment": 0
+    "user_id": 2
   },
   {
     "id": 7,
@@ -76,8 +69,7 @@
     "comment": "נא להוסיף הסברים נוספים.",
     "created_at": "2023-09-10T14:45:00Z",
     "updated_at": "2023-09-11T09:20:00Z",
-    "user": 2,
-    "assignment": 1
+    "user_id": 2
   },
   {
     "id": 8,
@@ -86,8 +78,7 @@
     "comment": "עבודה מצוינת!",
     "created_at": "2023-09-18T18:00:00Z",
     "updated_at": "2023-09-18T18:00:00Z",
-    "user": 2,
-    "assignment": 2
+    "user_id": 2
   },
   {
     "id": 9,
@@ -96,8 +87,7 @@
     "comment": "תיקון קטן נדרש.",
     "created_at": "2023-09-08T09:00:00Z",
     "updated_at": "2023-09-08T09:10:00Z",
-    "user": 0,
-    "assignment": 3
+    "user_id": 0
   },
   {
     "id": 10,
@@ -106,8 +96,7 @@
     "comment": "נדרשים פרטים נוספים בתשובה.",
     "created_at": "2023-09-14T13:45:00Z",
     "updated_at": "2023-09-14T13:50:00Z",
-    "user": 0,
-    "assignment": 4
+    "user_id": 0
   },
   {
     "id": 11,
@@ -116,8 +105,7 @@
     "comment": "נא להוסיף הסברים נוספים.",
     "created_at": "2023-09-23T16:00:00Z",
     "updated_at": "2023-09-24T10:20:00Z",
-    "user": 0,
-    "assignment": 5
+    "user_id": 0
   },
   {
     "id": 12,
@@ -126,8 +114,7 @@
     "comment": "עבודה טובה, אך יש לתקן כמה פרטים.",
     "created_at": "2023-09-10T10:00:00Z",
     "updated_at": "2023-09-11T14:30:00Z",
-    "user": 1,
-    "assignment": 3
+    "user_id": 1
   },
   {
     "id": 13,
@@ -136,8 +123,7 @@
     "comment": "נא לשפר את המבנה הכללי של התשובה.",
     "created_at": "2023-09-18T12:30:00Z",
     "updated_at": "2023-09-18T12:40:00Z",
-    "user": 1,
-    "assignment": 4
+    "user_id": 1
   },
   {
     "id": 14,
@@ -146,8 +132,7 @@
     "comment": "נא לבדוק את החישובים שוב.",
     "created_at": "2023-09-25T15:45:00Z",
     "updated_at": "2023-09-25T16:00:00Z",
-    "user": 1,
-    "assignment": 5
+    "user_id": 1
   },
   {
     "id": 15,
@@ -156,8 +141,7 @@
     "comment": "נא לשפר את הסגנון הכתיבה.",
     "created_at": "2023-09-06T11:15:00Z",
     "updated_at": "2023-09-06T11:20:00Z",
-    "user": 2,
-    "assignment": 3
+    "user_id": 2
   },
   {
     "id": 16,
@@ -166,8 +150,7 @@
     "comment": "עבודה מצוינת, כל הכבוד!",
     "created_at": "2023-09-15T14:30:00Z",
     "updated_at": "2023-09-15T14:30:00Z",
-    "user": 2,
-    "assignment": 4
+    "user_id": 2
   },
   {
     "id": 17,
@@ -176,8 +159,7 @@
     "comment": "נא להוסיף דוגמאות נוספות.",
     "created_at": "2023-09-23T16:45:00Z",
     "updated_at": "2023-09-23T17:00:00Z",
-    "user": 2,
-    "assignment": 5
+    "user_id": 2
   },
   {
     "id": 18,
@@ -186,8 +168,7 @@
     "comment": "תיקון נדרש בחלק השני.",
     "created_at": "2023-09-09T11:30:00Z",
     "updated_at": "2023-09-09T11:45:00Z",
-    "user": 0,
-    "assignment": 6
+    "user_id": 0
   },
   {
     "id": 19,
@@ -196,8 +177,7 @@
     "comment": "נדרשים פרטים טכניים נוספים.",
     "created_at": "2023-09-24T17:30:00Z",
     "updated_at": "2023-09-24T17:40:00Z",
-    "user": 0,
-    "assignment": 8
+    "user_id": 0
   },
   {
     "id": 20,
@@ -206,8 +186,7 @@
     "comment": "נא לבדוק את הספרות שוב.",
     "created_at": "2023-09-12T10:30:00Z",
     "updated_at": "2023-09-12T10:45:00Z",
-    "user": 1,
-    "assignment": 6
+    "user_id": 1
   },
   {
     "id": 21,
@@ -216,8 +195,7 @@
     "comment": "נא להוסיף סברים נוספים.",
     "created_at": "2023-09-19T12:45:00Z",
     "updated_at": "2023-09-19T13:00:00Z",
-    "user": 1,
-    "assignment": 7
+    "user_id": 1
   },
   {
     "id": 22,
@@ -226,8 +204,7 @@
     "comment": "נא לבדוק את הנספחים.",
     "created_at": "2023-09-28T16:00:00Z",
     "updated_at": "2023-09-28T16:30:00Z",
-    "user": 1,
-    "assignment": 8
+    "user_id": 1
   },
   {
     "id": 23,
@@ -236,7 +213,6 @@
     "comment": "נדרשים תיקונים בהגה.",
     "created_at": "2023-09-08T12:15:00Z",
     "updated_at": "2023-09-08T12:20:00Z",
-    "user": 2,
-    "assignment": 6
+    "user_id": 2
   }
 ]

@@ -17,7 +17,7 @@ export const assignmentInfoScheme = z.object(
         title: z.string(),
         description: z.string(),
         sub_end_date: z.string(),
-        course: z.number(),
+        course_id: z.number(),
     }
 )
 export type AssignmentInfo = z.infer<typeof assignmentInfoScheme>
@@ -33,8 +33,7 @@ export const submissionInfoScheme = z.object(
         comment: z.string(),
         created_at: z.string(),
         updated_at: z.string(),
-        user: z.number(),
-        assignment: z.number(),
+        user_id: z.number(),
     }
 )
 export type SubmissionInfo = z.infer<typeof submissionInfoScheme>
