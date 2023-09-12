@@ -34,6 +34,8 @@ export const submissionInfoScheme = z.object(
         created_at: z.string(),
         updated_at: z.string(),
         user_id: z.number(),
+        assignment_id: z.number(),
+        score: z.number(),
     }
 )
 export type SubmissionInfo = z.infer<typeof submissionInfoScheme>
