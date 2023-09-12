@@ -4,7 +4,7 @@ import assignments from './assignments.json'
 import submissions from './submissions.json'
 import { HTTP } from '../utils'
 
-export const MOCK_LOGGED_USER_ID = 0;
+export const MOCK_LOGGED_USER_ID = 1;
 
 export const handlers = [
     rest.post('/api/login', async (req, res, ctx) => {
@@ -68,7 +68,7 @@ export const handlers = [
 
         const course_id = Number(req.params.course_id);
         const courseAssignments = assignments.filter(item =>
-            item.course === course_id);
+            item.course_id === course_id);
 
         return res(
             ctx.status(HTTP.OK),
@@ -104,8 +104,8 @@ export const handlers = [
         }
 
         const relevantSubmissions = submissions.filter(item =>
-            item.assignment === assignment_id &&
-            item.user === MOCK_LOGGED_USER_ID
+            item.assignment_id === assignment_id &&
+            item.user_id === MOCK_LOGGED_USER_ID
         );
 
         return res(
@@ -123,7 +123,7 @@ export const handlers = [
             return res(
                 ctx.status(HTTP.NotFound)
             )
-        } else if (submission.user !== MOCK_LOGGED_USER_ID) {
+        } else if (submission.user_id !== MOCK_LOGGED_USER_ID) {
             return res(
                 ctx.status(HTTP.Unauthorized)
             )
