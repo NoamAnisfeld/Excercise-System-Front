@@ -9,12 +9,14 @@ if (process.env.NODE_ENV === 'development') {
     await import('../mocks/browser').then(({ worker }) => worker.start());
 }
 
-async function fetchApiData<T>(url: string, validationScheme: z.ZodType<T>) {
+const BASE_URL = import.meta.env.VITE_BASE_URL || location.origin;
+
+async function fetchApiData<T>(path: string, validationScheme: z.ZodType<T>) {
     
     let clonedFetchedData: Response | undefined = undefined;
 
     try {
-        const fetchedData = await fetch(url);
+        const fetchedData = await fetch(BASE_URL + path);
         clonedFetchedData = fetchedData.clone();
 
         if (!fetchedData.ok)
