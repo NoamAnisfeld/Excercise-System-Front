@@ -44,26 +44,26 @@ test('fetch courses', async () => {
 
 test('fetch assignments for course 0', async () => {
     const fetchedData = await fetchCourseAssignments(0);
-    expect(fetchedData).toEqual(mockAssignments.filter(item => item.course_id === 0));
+    expect(fetchedData).toEqual(mockAssignments.filter(item => item.course === 0));
 })
 
 test('fetch assignments for course 1', async () => {
     const fetchedData = await fetchCourseAssignments(1);
-    expect(fetchedData).toEqual(mockAssignments.filter(item => item.course_id === 1));
+    expect(fetchedData).toEqual(mockAssignments.filter(item => item.course === 1));
 })
 
 test('fetch submissions for assignment 0', async () => {
     const fetchedData = await fetchAssignmentSubmissions(0);
     expect(fetchedData).toEqual(mockSubmissions.filter(item =>
-        item.assignment_id === 0 &&
-        item.user_id === MOCK_LOGGED_USER_ID
+        item.assignment === 0 &&
+        item.user === MOCK_LOGGED_USER_ID
     ));
 })
 
 test('fetch submissions for assignment 2', async () => {
     const fetchedData = await fetchAssignmentSubmissions(2);
     expect(fetchedData).toEqual(mockSubmissions.filter(item =>
-        item.assignment_id === 2 &&
-        item.user_id === MOCK_LOGGED_USER_ID
+        item.assignment === 2 &&
+        item.user === MOCK_LOGGED_USER_ID
     ));
 })

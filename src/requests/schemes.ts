@@ -17,7 +17,7 @@ export const assignmentInfoScheme = z.object(
         title: z.string(),
         description: z.string(),
         sub_end_date: z.string(),
-        course_id: z.number(),
+        course: z.number(),
     }
 )
 export type AssignmentInfo = z.infer<typeof assignmentInfoScheme>
@@ -33,8 +33,8 @@ export const submissionInfoScheme = z.object(
         comment: z.string(),
         created_at: z.string(),
         updated_at: z.string(),
-        user_id: z.number(),
-        assignment_id: z.number(),
+        user: z.number(),
+        assignment: z.number(),
         score: z.number(),
     }
 )
@@ -42,3 +42,11 @@ export type SubmissionInfo = z.infer<typeof submissionInfoScheme>
 
 export const submissionsScheme = z.array(submissionInfoScheme);
 export type Submissions = z.infer<typeof submissionsScheme>;
+
+export const authTokensScheme = z.object(
+    {
+        refreshToken: z.string(),
+        accessToken: z.string(),
+    }
+);
+export type AuthTokens = z.infer<typeof authTokensScheme>

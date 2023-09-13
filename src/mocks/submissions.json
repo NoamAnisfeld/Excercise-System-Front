@@ -6,8 +6,8 @@
     "comment": "הגשה טובה!",
     "created_at": "2023-09-02 08:30:00",
     "updated_at": "2023-09-02 08:30:00",
-    "assignment_id": 1,
-    "user_id": 1,
+    "assignment": 1,
+    "user": 1,
     "score": 90
   },
   {
@@ -17,8 +17,8 @@
     "comment": "נא לשפר את ההגשה.",
     "created_at": "2023-09-10 10:45:00",
     "updated_at": "2023-09-10 10:45:00",
-    "assignment_id": 2,
-    "user_id": 1,
+    "assignment": 2,
+    "user": 1,
     "score": 91
   },
   {
@@ -28,8 +28,8 @@
     "comment": "עבודה מעולה!",
     "created_at": "2023-09-19 16:20:00",
     "updated_at": "2023-09-19 16:20:00",
-    "assignment_id": 3,
-    "user_id": 1,
+    "assignment": 3,
+    "user": 1,
     "score": 95
   },
   {
@@ -39,8 +39,8 @@
     "comment": "תיקון נדרש.",
     "created_at": "2023-09-05 09:30:00",
     "updated_at": "2023-09-06 14:10:00",
-    "assignment_id": 1,
-    "user_id": 2,
+    "assignment": 1,
+    "user": 2,
     "score": 80
   },
   {
@@ -50,8 +50,8 @@
     "comment": "תשובות נכונות, אך נדרשים עוד פרטים.",
     "created_at": "2023-09-12 13:15:00",
     "updated_at": "2023-09-12 13:20:00",
-    "assignment_id": 2,
-    "user_id": 2,
+    "assignment": 2,
+    "user": 2,
     "score": 99
   },
   {
@@ -61,8 +61,8 @@
     "comment": "נא לבדוק שוב את התשובות.",
     "created_at": "2023-09-20 17:30:00",
     "updated_at": "2023-09-20 17:40:00",
-    "assignment_id": 3,
-    "user_id": 2,
+    "assignment": 3,
+    "user": 2,
     "score": 100
   },
   {
@@ -72,8 +72,8 @@
     "comment": "נדרש תיקון בפרטים הטכניים.",
     "created_at": "2023-09-03 11:00:00",
     "updated_at": "2023-09-03 11:30:00",
-    "assignment_id": 1,
-    "user_id": 3,
+    "assignment": 1,
+    "user": 3,
     "score": 65
   },
   {
@@ -83,8 +83,8 @@
     "comment": "נא להוסיף הסברים נוספים.",
     "created_at": "2023-09-10 14:45:00",
     "updated_at": "2023-09-11 09:20:00",
-    "assignment_id": 2,
-    "user_id": 3,
+    "assignment": 2,
+    "user": 3,
     "score": 67
   },
   {
@@ -94,8 +94,8 @@
     "comment": "עבודה מצוינת!",
     "created_at": "2023-09-18 18:00:00",
     "updated_at": "2023-09-18 18:00:00",
-    "assignment_id": 3,
-    "user_id": 3,
+    "assignment": 3,
+    "user": 3,
     "score": 90
   },
   {
@@ -105,8 +105,8 @@
     "comment": "תיקון קטן נדרש.",
     "created_at": "2023-09-08 09:00:00",
     "updated_at": "2023-09-08 09:10:00",
-    "assignment_id": 4,
-    "user_id": 1,
+    "assignment": 4,
+    "user": 1,
     "score": 100
   },
   {
@@ -116,8 +116,8 @@
     "comment": "נדרשים פרטים נוספים בתשובה.",
     "created_at": "2023-09-14 13:45:00",
     "updated_at": "2023-09-14 13:50:00",
-    "assignment_id": 5,
-    "user_id": 1,
+    "assignment": 5,
+    "user": 1,
     "score": 83
   },
   {
@@ -127,8 +127,8 @@
     "comment": "נא להוסיף הסברים נוספים.",
     "created_at": "2023-09-23 16:00:00",
     "updated_at": "2023-09-24 10:20:00",
-    "assignment_id": 6,
-    "user_id": 1,
+    "assignment": 6,
+    "user": 1,
     "score": 92
   },
   {
@@ -138,8 +138,8 @@
     "comment": "עבודה טובה, אך יש לתקן כמה פרטים.",
     "created_at": "2023-09-10 10:00:00",
     "updated_at": "2023-09-11 14:30:00",
-    "assignment_id": 4,
-    "user_id": 2,
+    "assignment": 4,
+    "user": 2,
     "score": 90
   },
   {
@@ -149,8 +149,8 @@
     "comment": "נא לשפר את המבנה הכללי של התשובה.",
     "created_at": "2023-09-18 12:30:00",
     "updated_at": "2023-09-18 12:40:00",
-    "assignment_id": 5,
-    "user_id": 2,
+    "assignment": 5,
+    "user": 2,
     "score": 90
   },
   {
@@ -160,8 +160,8 @@
     "comment": "נא לבדוק את החישובים שוב.",
     "created_at": "2023-09-25 15:45:00",
     "updated_at": "2023-09-25 16:00:00",
-    "assignment_id": 6,
-    "user_id": 2,
+    "assignment": 6,
+    "user": 2,
     "score": 80
   },
   {
@@ -171,8 +171,8 @@
     "comment": "נא לשפר את הסגנון הכתיבה.",
     "created_at": "2023-09-06 11:15:00",
     "updated_at": "2023-09-06 11:20:00",
-    "assignment_id": 4,
-    "user_id": 3,
+    "assignment": 4,
+    "user": 3,
     "score": 96
   },
   {
@@ -182,8 +182,8 @@
     "comment": "עבודה מצוינת, כל הכבוד!",
     "created_at": "2023-09-15 14:30:00",
     "updated_at": "2023-09-15 14:30:00",
-    "assignment_id": 5,
-    "user_id": 3,
+    "assignment": 5,
+    "user": 3,
     "score": 89
   },
   {
@@ -193,8 +193,8 @@
     "comment": "נא להוסיף דוגמאות נוספות.",
     "created_at": "2023-09-23 16:45:00",
     "updated_at": "2023-09-23 17:00:00",
-    "assignment_id": 6,
-    "user_id": 3,
+    "assignment": 6,
+    "user": 3,
     "score": 90
   },
   {
@@ -204,8 +204,8 @@
     "comment": "תיקון נדרש בחלק השני.",
     "created_at": "2023-09-09 11:30:00",
     "updated_at": "2023-09-09 11:45:00",
-    "assignment_id": 7,
-    "user_id": 1,
+    "assignment": 7,
+    "user": 1,
     "score": 95
   },
   {
@@ -215,8 +215,8 @@
     "comment": "נדרשים פרטים טכניים נוספים.",
     "created_at": "2023-09-24 17:30:00",
     "updated_at": "2023-09-24 17:40:00",
-    "assignment_id": 9,
-    "user_id": 1,
+    "assignment": 9,
+    "user": 1,
     "score": 80
   },
   {
@@ -226,8 +226,8 @@
     "comment": "נא לבדוק את הספרות שוב.",
     "created_at": "2023-09-12 10:30:00",
     "updated_at": "2023-09-12 10:45:00",
-    "assignment_id": 7,
-    "user_id": 2,
+    "assignment": 7,
+    "user": 2,
     "score": 85
   },
   {
@@ -237,8 +237,8 @@
     "comment": "נא להוסיף סברים נוספים.",
     "created_at": "2023-09-19 12:45:00",
     "updated_at": "2023-09-19 13:00:00",
-    "assignment_id": 8,
-    "user_id": 2,
+    "assignment": 8,
+    "user": 2,
     "score": 90
   },
   {
@@ -248,8 +248,8 @@
     "comment": "נא לבדוק את הנספחים.",
     "created_at": "2023-09-28 16:00:00",
     "updated_at": "2023-09-28 16:30:00",
-    "assignment_id": 9,
-    "user_id": 2,
+    "assignment": 9,
+    "user": 2,
     "score": 100
   },
   {
@@ -259,8 +259,8 @@
     "comment": "נדרשים תיקונים בהגה.",
     "created_at": "2023-09-08 12:15:00",
     "updated_at": "2023-09-08 12:20:00",
-    "assignment_id": 8,
-    "user_id": 3,
+    "assignment": 8,
+    "user": 3,
     "score": 90
   }
 ]
