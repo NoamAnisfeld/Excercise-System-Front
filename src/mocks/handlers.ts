@@ -7,7 +7,7 @@ import { HTTP } from '../utils'
 export const MOCK_LOGGED_USER_ID = 1;
 
 export const handlers = [
-    rest.post('/api/login', async (req, res, ctx) => {
+    rest.post('/api/login/', async (req, res, ctx) => {
         const json = await req.json();
         const username = json.username;
 
@@ -26,7 +26,7 @@ export const handlers = [
         }
     }),
 
-    rest.post('/api/logout', (_req, res, ctx) => {
+    rest.post('/api/logout/', (_req, res, ctx) => {
         return res(
             ctx.status(HTTP.OK),
             ctx.cookie('session', '', {
@@ -39,14 +39,14 @@ export const handlers = [
         )
     }),
 
-    rest.get('/api/courses', (_req, res, ctx) => {
+    rest.get('/api/courses/', (_req, res, ctx) => {
         return res(
             ctx.status(HTTP.OK),
             ctx.json(courses),
         )
     }),
 
-    rest.get('/api/courses/:course_id', (req, res, ctx) => {
+    rest.get('/api/courses/:course_id/', (req, res, ctx) => {
 
         const course_id = Number(req.params.course_id);
         const courseData = courses.find(item =>
@@ -64,7 +64,7 @@ export const handlers = [
         }
     }),
 
-    rest.get('/api/courses/:course_id/assignments', (req, res, ctx) => {
+    rest.get('/api/courses/:course_id/assignments/', (req, res, ctx) => {
 
         const course_id = Number(req.params.course_id);
         const courseAssignments = assignments.filter(item =>
@@ -76,7 +76,7 @@ export const handlers = [
         )
     }),
 
-    rest.get('/api/assignments/:assignment_id', (req, res, ctx) => {
+    rest.get('/api/assignments/:assignment_id/', (req, res, ctx) => {
 
         const assignment_id = Number(req.params.assignment_id);
         const assignmentData = assignments.find(item =>
@@ -94,7 +94,7 @@ export const handlers = [
         }
     }),
 
-    rest.get('/api/assignments/:assignment_id/submissions', (req, res, ctx) => {
+    rest.get('/api/assignments/:assignment_id/submissions/', (req, res, ctx) => {
 
         const assignment_id = Number(req.params.assignment_id);
         if (!Number.isInteger(assignment_id)) {
@@ -114,7 +114,7 @@ export const handlers = [
         )
     }),
 
-    rest.get('/api/submissions/:submission_id', (req, res, ctx) => {
+    rest.get('/api/submissions/:submission_id/', (req, res, ctx) => {
 
         const { submission_id } = req.params;
         const submission = submissions.find(item => item.id === Number(submission_id));

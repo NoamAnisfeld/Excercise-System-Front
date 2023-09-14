@@ -5,18 +5,57 @@ import {
     submissionInfoScheme, submissionsScheme,
 } from './schemes'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string || location.origin;
+
 if (process.env.NODE_ENV === 'development') {
-    await import('../mocks/browser').then(({ worker }) => worker.start());
-}
+    await import('../mocks/browser').then(({ worker }) => worker.start({
+        onUnhandledRequest(req) {
+            if (req.url.origin === location.origin) {
+                if (req.url.pathname.startsWith('/api/')) {
+                    console.warn('Unhandled same-origin API request: ' + req.url.href);
+                } else {
+                    console.log('Non-API same-origin request: ' + req.url.href);
+                }
+            } else if (req.url.origin === API_BASE_URL) {
+                if (req.url.pathname.startsWith('/api/')) {
+                    console.log('API request passed to the API server: ' + req.url.href);
+                } else {
+                    console.warn('Non-API request passed to the API server: ' + req.url.href);
+                }
+            } else {
+                console.log('External request: ' + req.url.href)
+            }
+        }
+    })
+)}
 
-const BASE_URL = import.meta.env.VITE_BASE_URL || location.origin;
 
-async function fetchApiData<T>(path: string, validationScheme: z.ZodType<T>) {
+async function fetchApiData<T>(
+    path: string,
+    validationScheme: z.ZodType<T>,
+    accessToken = import.meta.env.VITE_API_ACCESS_TOKEN as string,
+) {
     
     let clonedFetchedData: Response | undefined = undefined;
+    const headers = new Headers({
+        Authorization: 'Bearer ' + accessToken,
+    })
+
+    // temporarily directing broken endpoints to the mock server
+    // const url = BASE_URL + path;
+    let url: string;
+    if (path.match(new RegExp('^/api/(courses|assignments)/\\d+/$'))) {
+        console.warn(`Endpoint ${path} is currently broken on the server, directing to mock server instead.`);
+        url = path;
+    } else {
+        url = API_BASE_URL + path;
+    }
 
     try {
-        const fetchedData = await fetch(BASE_URL + path);
+        const fetchedData = await fetch(url, {
+            headers,
+            mode: 'cors',
+        });
         clonedFetchedData = fetchedData.clone();
 
         if (!fetchedData.ok)
@@ -42,25 +81,25 @@ async function fetchApiData<T>(path: string, validationScheme: z.ZodType<T>) {
 }
 
 export async function fetchCourses() {
-    return await fetchApiData('/api/courses', coursesScheme);
+    return await fetchApiData('/api/courses/', coursesScheme);
 }
 
 export async function fetchCourseInfo(courseId: number) {
-    return await fetchApiData(`/api/courses/${courseId}`, courseInfoScheme);
+    return await fetchApiData(`/api/courses/${courseId}/`, courseInfoScheme);
 }
 
 export async function fetchCourseAssignments(courseId: number) {
-    return await fetchApiData(`/api/courses/${courseId}/assignments`, assignmentsScheme);
+    return await fetchApiData(`/api/courses/${courseId}/assignments/`, assignmentsScheme);
 }
 
 export async function fetchAssignmentInfo(assignmentId: number) {
-    return await fetchApiData(`/api/assignments/${assignmentId}`, assignmentInfoScheme);
+    return await fetchApiData(`/api/assignments/${assignmentId}/`, assignmentInfoScheme);
 }
 
 export async function fetchAssignmentSubmissions(assignmentId: number) {
-    return await fetchApiData(`/api/assignments/${assignmentId}/submissions`, submissionsScheme);
+    return await fetchApiData(`/api/assignments/${assignmentId}/submissions/`, submissionsScheme);
 }
 
 export async function fetchSubmissionInfo(submissionId: number) {
-    return await fetchApiData(`/api/submissions/${submissionId}`, submissionInfoScheme);
+    return await fetchApiData(`/api/submissions/${submissionId}/`, submissionInfoScheme);
 }
