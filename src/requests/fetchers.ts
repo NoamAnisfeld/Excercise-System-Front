@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'development') {
 async function fetchApiData<T>(
     path: string,
     validationScheme: z.ZodType<T>,
-    accessToken = import.meta.env.VITE_API_ACCESS_TOKEN as string,
+    accessToken = import.meta.env.VITE_DEVELOPMENT_API_ACCESS_TOKEN as string,
 ) {
     
     let clonedFetchedData: Response | undefined = undefined;
