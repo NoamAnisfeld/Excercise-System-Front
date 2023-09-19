@@ -22,7 +22,7 @@ export function useLogin() {
         if (!username) {
             throw Error('Username cannot be empty');
         } else {
-            const request = await fetch('/api/login', {
+            const request = await fetch('/api/login/', {
                 method: 'POST',
                 body: JSON.stringify({
                     username,
