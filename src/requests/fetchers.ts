@@ -41,15 +41,7 @@ async function fetchApiData<T>(
         Authorization: 'Bearer ' + accessToken,
     })
 
-    // temporarily directing broken endpoints to the mock server
-    // const url = BASE_URL + path;
-    let url: string;
-    if (path.match(new RegExp('^/api/(courses|assignments)/\\d+/$'))) {
-        console.warn(`Endpoint ${path} is currently broken on the server, directing to mock server instead.`);
-        url = path;
-    } else {
-        url = API_BASE_URL + path;
-    }
+    const url = API_BASE_URL + path;
 
     try {
         const fetchedData = await fetch(url, {
