@@ -63,19 +63,16 @@ afterAll(() => server.close());
 test('fetch courses', async () => {
     const fetchedData = await fetchCourses();
     expect(fetchedData).toEqual(mockCourses);
-    console.log(fetchedData);
 })
 
 test('fetch assignments for course 1', async () => {
     const fetchedData = await fetchCourseAssignments(1);
     expect(fetchedData).toEqual(mockAssignments.filter(item => item.course === 1));
-    console.log(fetchedData);
 })
 
 test('fetch assignments for course 2', async () => {
     const fetchedData = await fetchCourseAssignments(2);
     expect(fetchedData).toEqual(mockAssignments.filter(item => item.course === 2));
-    console.log(fetchedData);
 })
 
 test('fetch submissions for assignment 3', async () => {
@@ -84,7 +81,6 @@ test('fetch submissions for assignment 3', async () => {
         item.assignment === 3 &&
         item.user === loggedInUserId
     ));
-    console.log(fetchedData);
 })
 
 test('fetch submissions for assignment 6', async () => {
@@ -93,5 +89,4 @@ test('fetch submissions for assignment 6', async () => {
         item.assignment === 6 &&
         item.user === loggedInUserId
     ));
-    console.log(fetchedData);
 })
