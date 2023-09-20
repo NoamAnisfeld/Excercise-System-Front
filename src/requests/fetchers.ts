@@ -5,9 +5,6 @@ import {
     submissionInfoScheme, submissionsScheme,
 } from './schemes'
 
-if (process.env.NODE_ENV === 'development')
-    import('../mocks/browser');
-
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string || location.origin;
 
 async function fetchApiData<T>(
