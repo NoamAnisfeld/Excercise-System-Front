@@ -8,7 +8,8 @@ export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 interface LoginData {
-    username: string,
+    email: string,
+    password: string,
 }
 
 export function useLogin() {
@@ -16,28 +17,26 @@ export function useLogin() {
     const navigate = useNavigate();
 
     return async ({
-        username
+        email,
+        password,
     }: LoginData) => {
 
-        if (!username) {
-            throw Error('Username cannot be empty');
-        } else {
-            const request = await fetch('/api/login/', {
-                method: 'POST',
-                body: JSON.stringify({
-                    username,
-                }),
-            });
+        const request = await fetch('/api/login/', {
+            method: 'POST',
+            body: JSON.stringify({
+                email,
+                password
+            }),
+        });
 
-            if (request.ok) {
-                dispatch(updateUsername());
-                navigate('/');
-                return { username };
-            } else if (request.status === HTTP.Unauthorized) {
-                throw Error('פרטי הכניסה אינם תואמים. נסו את שם המשתמש הזמני developer');
-            } else {
-                throw Error();
-            }
+        if (request.ok) {
+            dispatch(updateUsername(email));
+            navigate('/');
+            return { email };
+        } else if (request.status === HTTP.Unauthorized) {
+            throw Error('פרטי הכניסה אינם תואמים');
+        } else {
+            throw Error();
         }
     }
 }
@@ -47,15 +46,7 @@ export function useLogout() {
     const navigate = useNavigate();
 
     return async () => {
-        const request = await fetch('/api/logout', {
-            method: 'POST',
-        });
-
-        if (request.ok) {
-            dispatch(updateUsername());
-            navigate('/');
-        } else {
-            throw Error();
-        }   
+        dispatch(updateUsername(''));
+        navigate('/');
     }
 }

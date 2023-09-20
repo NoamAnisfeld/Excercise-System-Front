@@ -12,20 +12,31 @@ import { useLogin } from '../hooks'
 
 export default function Login() {
 
-    const [inputUsername, setInputUsername] = useState('');
+    console.log('Login is rendered');
+
+    const [inputUserEmail, setInputUserEmail] = useState('');
+    const [inputPassword, setInputPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const login = useLogin();
  
-    function handleInputUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setInputUsername(event.target.value);
+    function handleInputUserEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setInputUserEmail(event.target.value);
+        setErrorMessage('');
+    }
+
+    function handleInputPasswordChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setInputPassword(event.target.value);
         setErrorMessage('');
     }
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        if (inputUsername) {
+        if (inputUserEmail && inputPassword) {
             try {
-                await login({ username: inputUsername });
+                await login({
+                    email: inputUserEmail,
+                    password: inputPassword,
+                });
             } catch (error) {
                 setErrorMessage(error instanceof Error && error.message || 'שגיאה');
             }
@@ -57,17 +68,31 @@ export default function Login() {
                         margin="normal"
                         required
                         fullWidth
-                        id="username"
-                        label="שם משתמש"
-                        name="username"
-                        autoFocus
+                        id="user-email"
+                        label="כתובת אימייל"
+                        name="user-email"
+                        autoFocus={Boolean(!inputUserEmail || inputPassword)}
 
-                        value={inputUsername}
-                        onChange={handleInputUsernameChange}
+                        value={inputUserEmail}
+                        onChange={handleInputUserEmailChange}
+                    />
+
+                    <TextField
+                        type="password"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="password"
+                        label="סיסמה"
+                        name="password"
+
+                        value={inputPassword}
+                        onChange={handleInputPasswordChange}
                     />
 
                     <Button
                         type="submit"
+                        disabled={!inputUserEmail || !inputPassword}
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}

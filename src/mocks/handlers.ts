@@ -1,42 +1,32 @@
 import { rest } from 'msw'
+import users from './users.json'
 import courses from './courses.json'
 import assignments from './assignments.json'
 import submissions from './submissions.json'
 import { HTTP } from '../utils'
 
-export const MOCK_LOGGED_USER_ID = 1;
+export let loggedInUserId: number | null =
+        users.find(item =>
+            item.username === localStorage.getItem((import.meta.env.VITE_STORAGE_PREFIX || '') + 'username')
+        )?.id || null;
 
 export const handlers = [
     rest.post('/api/login/', async (req, res, ctx) => {
         const json = await req.json();
-        const username = json.username;
+        const { email, password } = json;
 
-        if (username === 'developer') {
+        const user = users.find(item => email === item.email && /* mock */password === item.first_name)
+
+        if (user) {
+            loggedInUserId = user.id;
             return res(
                 ctx.status(HTTP.OK),
-                ctx.cookie('session', 'development', {
-                    httpOnly: true,
-                }),
-                ctx.cookie('username', username),
             )
         } else {
             return res(
                 ctx.status(HTTP.Unauthorized),
             )
         }
-    }),
-
-    rest.post('/api/logout/', (_req, res, ctx) => {
-        return res(
-            ctx.status(HTTP.OK),
-            ctx.cookie('session', '', {
-                maxAge: 0,
-                httpOnly: true,
-            }),
-            ctx.cookie('username', '', {
-                maxAge: 0,
-            }),
-        )
     }),
 
     rest.get('/api/courses/', (_req, res, ctx) => {
@@ -105,7 +95,7 @@ export const handlers = [
 
         const relevantSubmissions = submissions.filter(item =>
             item.assignment === assignment_id &&
-            item.user === MOCK_LOGGED_USER_ID
+            item.user === loggedInUserId
         );
 
         return res(
@@ -123,7 +113,7 @@ export const handlers = [
             return res(
                 ctx.status(HTTP.NotFound)
             )
-        } else if (submission.user !== MOCK_LOGGED_USER_ID) {
+        } else if (submission.user !== loggedInUserId) {
             return res(
                 ctx.status(HTTP.Unauthorized)
             )
