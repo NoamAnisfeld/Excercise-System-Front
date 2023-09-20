@@ -12,8 +12,6 @@ import { useLogin } from '../hooks'
 
 export default function Login() {
 
-    console.log('Login is rendered');
-
     const [inputUserEmail, setInputUserEmail] = useState('');
     const [inputPassword, setInputPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
