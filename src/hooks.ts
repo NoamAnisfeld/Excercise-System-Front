@@ -1,52 +1,38 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import type { RootState, AppDispatch } from './global-state/store'
-import { HTTP } from './utils'
+import { ApiSession, LoginCredentials } from './requests/auth'
+import { apiSession, setApiSession } from './appAuth'
 import { updateUsername } from './global-state/userdata'
 import { useNavigate } from 'react-router-dom'
+
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-interface LoginData {
-    email: string,
-    password: string,
-}
 
-export function useLogin() {
+export function useLogin(): (credentials: LoginCredentials) => Promise<void> {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    return async ({
-        email,
-        password,
-    }: LoginData) => {
+    return async (credentials: LoginCredentials) => {
 
-        const request = await fetch('/api/login/', {
-            method: 'POST',
-            body: JSON.stringify({
-                email,
-                password
-            }),
-        });
-
-        if (request.ok) {
-            dispatch(updateUsername(email));
-            navigate('/');
-            return { email };
-        } else if (request.status === HTTP.Unauthorized) {
-            throw Error('פרטי הכניסה אינם תואמים');
-        } else {
-            throw Error();
-        }
+        const apiSession = new ApiSession();
+        setApiSession(apiSession);
+        await apiSession.login(credentials);
+        dispatch(updateUsername(credentials.email));
+        navigate('/');
     }
 }
 
-export function useLogout() {
+
+export function useLogout(): () => void {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    return async () => {
+    return () => {
+        apiSession?.logout();
+        setApiSession(null);
         dispatch(updateUsername(''));
-        navigate('/');
+        navigate('/login');
     }
 }

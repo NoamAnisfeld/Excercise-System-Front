@@ -1,35 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { getStorageItem, setStorageItem, removeStorageItem } from '../utils'
+import type { ApiSession } from '../requests/auth'
 
-function getStorageItem(key: string): ReturnType<typeof localStorage.getItem> {
-    return localStorage.getItem(
-        (import.meta.env.VITE_STORAGE_PREFIX || '') + key,
-    );
-}
-
-function setStorageItem(key: string, value: string): ReturnType<typeof localStorage.setItem> {
-    const actualKey = (import.meta.env.VITE_STORAGE_PREFIX || '') + key;
-    
-    if (value) {
-        localStorage.setItem(actualKey, value);
-    } else {
-        localStorage.removeItem(actualKey);
-    }
-}
 
 export const userDataSlice = createSlice({
     name: 'userdata',
+
     initialState: {
         username: getStorageItem('username') || '',
+        apiSession: null as ApiSession | null,
     },
+
     reducers: {
         updateUsername: (state, { payload }: PayloadAction<string>) => {
-            setStorageItem('username', payload);
+
+            if (payload){
+                setStorageItem('username', payload);
+            } else {
+                removeStorageItem('username');
+            }
+            
             state.username = payload;
         },
+
+        updateApiSession: (state, { payload }: PayloadAction<ApiSession | null>) => {
+            state.apiSession = null;
+        }
     },
 })
 
-export const { updateUsername } = userDataSlice.actions;
+
+export const { updateUsername, updateApiSession } = userDataSlice.actions;
 
 const userDataReducer = userDataSlice.reducer;
 export default userDataReducer;

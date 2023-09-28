@@ -1,15 +1,16 @@
 import { test, expect, beforeAll, afterEach, afterAll, beforeEach } from "vitest"
 import { server } from '../mocks/server.js'
+import mockUsers from '../mocks/users.json'
 import mockCourses from '../mocks/courses.json'
 import mockAssignments from '../mocks/assignments.json'
 import mockSubmissions from '../mocks/submissions.json'
-import { loggedInUserId } from "../mocks/handlers.js"
+import { ApiSession } from "./auth.js"
 import {
     fetchCourses,
     fetchCourseAssignments,
     fetchAssignmentSubmissions,
 } from "./fetchers.js"
-import users from '../mocks/users.json'
+
 
 // declared here but only assigned later, after the mock server 
 // has already replaced global.fetch with it's own
@@ -27,30 +28,20 @@ function createCustomFetch(originalFetch: typeof global.fetch) {
     }
 }
 
-beforeAll(async () => {
-    server.listen();
 
-    originalFetch = global.fetch;
-    global.fetch = createCustomFetch(originalFetch);
+let apiSession: ApiSession;
 
-    const request = await fetch('/api/login/', {
-        method: 'POST',
-        body: JSON.stringify({
-            email: users[0].email,
-            password: users[0].first_name
-        }),
-    });
-
-    if (!request.ok) {
-        throw Error('Mock login failed');
-    }
-
-    global.fetch = originalFetch;
-});
+beforeAll(() => server.listen());
 
 beforeEach(async () => {
     originalFetch = global.fetch;
     global.fetch = createCustomFetch(originalFetch);
+
+    apiSession = new ApiSession();
+    await apiSession.login({
+        email: mockUsers[0].email,
+        password: mockUsers[0].first_name
+    })
 })
 
 afterEach(() => {
@@ -60,33 +51,38 @@ afterEach(() => {
 
 afterAll(() => server.close());
 
+
 test('fetch courses', async () => {
-    const fetchedData = await fetchCourses();
+    const fetchedData = await fetchCourses(apiSession);
     expect(fetchedData).toEqual(mockCourses);
 })
 
+
 test('fetch assignments for course 1', async () => {
-    const fetchedData = await fetchCourseAssignments(1);
+    const fetchedData = await fetchCourseAssignments(1, apiSession);
     expect(fetchedData).toEqual(mockAssignments.filter(item => item.course === 1));
 })
 
+
 test('fetch assignments for course 2', async () => {
-    const fetchedData = await fetchCourseAssignments(2);
+    const fetchedData = await fetchCourseAssignments(2, apiSession);
     expect(fetchedData).toEqual(mockAssignments.filter(item => item.course === 2));
 })
 
-test('fetch submissions for assignment 3', async () => {
-    const fetchedData = await fetchAssignmentSubmissions(3);
-    expect(fetchedData).toEqual(mockSubmissions.filter(item =>
-        item.assignment === 3 &&
-        item.user === loggedInUserId
-    ));
+
+test('assignments for different courses (1 and 2) don\'t match', async () => {
+    const fetchedData = await fetchCourseAssignments(1, apiSession);
+    expect(fetchedData).not.toEqual(mockAssignments.filter(item => item.course === 2));
 })
 
+
+test('fetch submissions for assignment 3', async () => {
+    const fetchedData = await fetchAssignmentSubmissions(3, apiSession);
+    expect(fetchedData).toEqual(mockSubmissions.filter(item => item.assignment === 3));
+})
+
+
 test('fetch submissions for assignment 6', async () => {
-    const fetchedData = await fetchAssignmentSubmissions(6);
-    expect(fetchedData).toEqual(mockSubmissions.filter(item =>
-        item.assignment === 6 &&
-        item.user === loggedInUserId
-    ));
+    const fetchedData = await fetchAssignmentSubmissions(6, apiSession);
+    expect(fetchedData).toEqual(mockSubmissions.filter(item => item.assignment === 6));
 })

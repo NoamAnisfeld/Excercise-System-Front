@@ -9,6 +9,7 @@ import Container from '@mui/material/Container'
 
 import { useState } from 'react'
 import { useLogin } from '../hooks'
+import { InvalidCredentialsError } from '../requests/auth'
 
 export default function Login() {
 
@@ -36,7 +37,13 @@ export default function Login() {
                     password: inputPassword,
                 });
             } catch (error) {
-                setErrorMessage(error instanceof Error && error.message || 'שגיאה');
+                if (error instanceof InvalidCredentialsError) {
+                    setErrorMessage('פרטי ההתחברות אינם תואמים')
+                } else {
+                    setErrorMessage(
+                        'אירעה שגיאה בעת ניסיון ההתחברות. בידקו את החיבור לאינטרנט או נסו שוב מאוחר יותר.'
+                    );
+                }
             }
         }
     };

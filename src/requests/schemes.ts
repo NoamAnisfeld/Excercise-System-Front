@@ -1,4 +1,18 @@
-import { z } from 'zod';
+import { z } from 'zod'
+
+
+export const tokensScheme = z.object({
+    refresh: z.string(),
+    access: z.string(),
+});
+export type TokensInfo = z.infer<typeof tokensScheme>
+
+
+export const refreshedTokensScheme = z.object({
+    access: z.string(),
+});
+export type RefreshedTokensInfo = z.infer<typeof refreshedTokensScheme>
+
 
 export const courseInfoScheme = z.object({
     id: z.number(),
@@ -8,8 +22,10 @@ export const courseInfoScheme = z.object({
 });
 export type CourseInfo = z.infer<typeof courseInfoScheme>
 
+
 export const coursesScheme = z.array(courseInfoScheme);
 export type Courses = z.infer<typeof coursesScheme>;
+
 
 export const assignmentInfoScheme = z.object(
     {
@@ -22,8 +38,10 @@ export const assignmentInfoScheme = z.object(
 )
 export type AssignmentInfo = z.infer<typeof assignmentInfoScheme>
 
+
 export const assignmentsScheme = z.array(assignmentInfoScheme);
 export type Assignments = z.infer<typeof assignmentsScheme>;
+
 
 export const submissionInfoScheme = z.object(
     {
@@ -40,8 +58,10 @@ export const submissionInfoScheme = z.object(
 )
 export type SubmissionInfo = z.infer<typeof submissionInfoScheme>
 
+
 export const submissionsScheme = z.array(submissionInfoScheme);
 export type Submissions = z.infer<typeof submissionsScheme>;
+
 
 export const authTokensScheme = z.object(
     {

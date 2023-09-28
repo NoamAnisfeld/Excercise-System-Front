@@ -4,71 +4,89 @@ import {
     assignmentInfoScheme, assignmentsScheme,
     submissionInfoScheme, submissionsScheme,
 } from './schemes'
+import { ApiSession, InvalidTokenError } from './auth'
+import { HTTP } from '../utils'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string || location.origin;
+type MaybeApiSession = ApiSession | null;
+
+async function makeRequest(path: string, accessToken: string) {
+
+    return await fetch(API_BASE_URL + path, {
+        headers: new Headers({
+            Authorization: 'Bearer ' + accessToken,
+        }),
+        mode: 'cors',
+    });
+}
+
 
 async function fetchApiData<T>(
     path: string,
     validationScheme: z.ZodType<T>,
-    accessToken = import.meta.env.VITE_DEVELOPMENT_API_ACCESS_TOKEN as string,
+    apiSession: MaybeApiSession,
 ) {
-    
-    let clonedFetchedData: Response | undefined = undefined;
-    const headers = new Headers({
-        Authorization: 'Bearer ' + accessToken,
-    })
 
-    const url = API_BASE_URL + path;
+    if (!apiSession || !apiSession.isLoggedIn())
+        throw new InvalidTokenError('User is not logged in');
 
     try {
-        const fetchedData = await fetch(url, {
-            headers,
-            mode: 'cors',
-        });
-        clonedFetchedData = fetchedData.clone();
+        let accessToken = await apiSession.getAccessToken();
+        let response = await makeRequest(path, accessToken);
 
-        if (!fetchedData.ok)
-            throw Error('request failed');
+        if (response.status === HTTP.Unauthorized) {
+            await apiSession.refreshTokens();
+            accessToken = await apiSession.getAccessToken();
+            response = await makeRequest(path, accessToken);
+        }
 
-        const
-            jsonData: T = await fetchedData.json(),
-            validatedData = validationScheme.parse(jsonData);
+        if (response.status === HTTP.Unauthorized)
+            throw new InvalidTokenError('Unexpected issue with access token. Try logout and login back');
 
+        if (!response.ok)
+            throw new Error('Request failed');
+
+        const json: T = await response.json();
+        const validatedData = validationScheme.parse(json);
         return validatedData;
 
     } catch (e) {
-        clonedFetchedData?.text().then(console.error);
-
         if (e instanceof SyntaxError) {
-            throw SyntaxError('invalid JSON');
+            throw new SyntaxError('invalid JSON');
         } else if (e instanceof ZodError) {
-            throw TypeError('invalid data');
+            throw new TypeError('invalid data');
         } else {
             throw e;
         }
     }
 }
 
-export async function fetchCourses() {
-    return await fetchApiData('/api/courses/', coursesScheme);
+
+export async function fetchCourses(apiSession: MaybeApiSession) {
+    return await fetchApiData('/api/courses/', coursesScheme, apiSession);
 }
 
-export async function fetchCourseInfo(courseId: number) {
-    return await fetchApiData(`/api/courses/${courseId}/`, courseInfoScheme);
+
+export async function fetchCourseInfo(courseId: number, apiSession: MaybeApiSession) {
+    return await fetchApiData(`/api/courses/${courseId}/`, courseInfoScheme, apiSession);
 }
 
-export async function fetchCourseAssignments(courseId: number) {
-    return await fetchApiData(`/api/courses/${courseId}/assignments/`, assignmentsScheme);
+
+export async function fetchCourseAssignments(courseId: number, apiSession: MaybeApiSession) {
+    return await fetchApiData(`/api/courses/${courseId}/assignments/`, assignmentsScheme, apiSession);
 }
 
-export async function fetchAssignmentInfo(assignmentId: number) {
-    return await fetchApiData(`/api/assignments/${assignmentId}/`, assignmentInfoScheme);
+
+export async function fetchAssignmentInfo(assignmentId: number, apiSession: MaybeApiSession) {
+    return await fetchApiData(`/api/assignments/${assignmentId}/`, assignmentInfoScheme, apiSession);
 }
 
-export async function fetchAssignmentSubmissions(assignmentId: number) {
-    return await fetchApiData(`/api/assignments/${assignmentId}/submissions/`, submissionsScheme);
+
+export async function fetchAssignmentSubmissions(assignmentId: number, apiSession: MaybeApiSession) {
+    return await fetchApiData(`/api/assignments/${assignmentId}/submissions/`, submissionsScheme, apiSession);
 }
 
-export async function fetchSubmissionInfo(submissionId: number) {
-    return await fetchApiData(`/api/submissions/${submissionId}/`, submissionInfoScheme);
+
+export async function fetchSubmissionInfo(submissionId: number, apiSession: MaybeApiSession) {
+    return await fetchApiData(`/api/submissions/${submissionId}/`, submissionInfoScheme, apiSession);
 }
