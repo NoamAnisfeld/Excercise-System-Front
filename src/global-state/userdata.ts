@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { getStorageItem, setStorageItem, removeStorageItem } from '../utils'
-import type { ApiSession } from '../requests/auth'
 
 
 export const userDataSlice = createSlice({
@@ -8,7 +7,6 @@ export const userDataSlice = createSlice({
 
     initialState: {
         username: getStorageItem('username') || '',
-        apiSession: null as ApiSession | null,
     },
 
     reducers: {
@@ -22,15 +20,11 @@ export const userDataSlice = createSlice({
             
             state.username = payload;
         },
-
-        updateApiSession: (state, { payload }: PayloadAction<ApiSession | null>) => {
-            state.apiSession = null;
-        }
     },
 })
 
 
-export const { updateUsername, updateApiSession } = userDataSlice.actions;
+export const { updateUsername } = userDataSlice.actions;
 
 const userDataReducer = userDataSlice.reducer;
 export default userDataReducer;
