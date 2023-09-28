@@ -80,6 +80,7 @@ const routeTree: RouteObject[] = [
             },
             {
                 path: 'my-courses',
+                errorElement: <div>error</div>,
                 children: [
                     {
                         index: true,
