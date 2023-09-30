@@ -5,9 +5,8 @@ import {
     submissionInfoScheme, submissionsScheme,
 } from './schemes'
 import { ApiSession, InvalidTokenError } from './auth'
-import { HTTP } from '../utils'
+import { API_BASE_URL, HTTP } from '../utils'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string || location.origin;
 type MaybeApiSession = ApiSession | null;
 
 async function makeRequest(path: string, accessToken: string) {
@@ -63,30 +62,30 @@ async function fetchApiData<T>(
 
 
 export async function fetchCourses(apiSession: MaybeApiSession) {
-    return await fetchApiData('/api/courses/', coursesScheme, apiSession);
+    return await fetchApiData('/courses/', coursesScheme, apiSession);
 }
 
 
 export async function fetchCourseInfo(courseId: number, apiSession: MaybeApiSession) {
-    return await fetchApiData(`/api/courses/${courseId}/`, courseInfoScheme, apiSession);
+    return await fetchApiData(`/courses/${courseId}/`, courseInfoScheme, apiSession);
 }
 
 
 export async function fetchCourseAssignments(courseId: number, apiSession: MaybeApiSession) {
-    return await fetchApiData(`/api/courses/${courseId}/assignments/`, assignmentsScheme, apiSession);
+    return await fetchApiData(`/courses/${courseId}/assignments/`, assignmentsScheme, apiSession);
 }
 
 
 export async function fetchAssignmentInfo(assignmentId: number, apiSession: MaybeApiSession) {
-    return await fetchApiData(`/api/assignments/${assignmentId}/`, assignmentInfoScheme, apiSession);
+    return await fetchApiData(`/assignments/${assignmentId}/`, assignmentInfoScheme, apiSession);
 }
 
 
 export async function fetchAssignmentSubmissions(assignmentId: number, apiSession: MaybeApiSession) {
-    return await fetchApiData(`/api/assignments/${assignmentId}/submissions/`, submissionsScheme, apiSession);
+    return await fetchApiData(`/assignments/${assignmentId}/submissions/`, submissionsScheme, apiSession);
 }
 
 
 export async function fetchSubmissionInfo(submissionId: number, apiSession: MaybeApiSession) {
-    return await fetchApiData(`/api/submissions/${submissionId}/`, submissionInfoScheme, apiSession);
+    return await fetchApiData(`/submissions/${submissionId}/`, submissionInfoScheme, apiSession);
 }

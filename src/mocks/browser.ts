@@ -1,9 +1,9 @@
 import { setupWorker } from 'msw'
 import { handlers } from './handlers'
+import { API_BASE_URL } from '../utils'
 
 const worker = setupWorker(...handlers);
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string || location.origin;
 worker.start({
     onUnhandledRequest(req) {
         if (req.url.origin === location.origin) {
@@ -12,7 +12,7 @@ worker.start({
             } else {
                 console.log('Non-API same-origin request: ' + req.url.href);
             }
-        } else if (req.url.origin === API_BASE_URL) {
+        } else if (req.url.href.startsWith(API_BASE_URL)) {
             if (req.url.pathname.startsWith('/api/')) {
                 console.log('API request passed to the API server: ' + req.url.href);
             } else {

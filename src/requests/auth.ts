@@ -3,6 +3,7 @@ import {
     refreshedTokensScheme,
 } from "./schemes"
 import {
+    API_BASE_URL,
     HTTP,
     getStorageItem,
     setStorageItem,
@@ -30,7 +31,6 @@ export class InvalidTokenError extends Error {
 }
 
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string || location.origin;
 const REFRESH_TOKEN_STORAGE_KEY = 'refreshToken';
 
 
@@ -62,7 +62,7 @@ export class ApiSession {
 
     async login(credentials: LoginCredentials) {
 
-        const response = await fetch(API_BASE_URL + '/api/token/', {
+        const response = await fetch(API_BASE_URL + '/token/', {
             method: 'POST',
             headers: new Headers({
                 'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ export class ApiSession {
         if (!this.#refreshToken)
             throw new InvalidTokenError('No refresh token is stored');
 
-        const response = await fetch(API_BASE_URL + '/api/token/refresh/', {
+        const response = await fetch(API_BASE_URL + '/token/refresh/', {
             method: 'POST',
             headers: new Headers({
                 'Content-Type': 'application/json',

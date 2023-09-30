@@ -1,3 +1,12 @@
+if (typeof import.meta.env.VITE_API_BASE_URL === 'undefined') {
+    throw new TypeError(`API base URL isn\'t properly defined in the env.`)
+}
+if (typeof import.meta.env.VITE_API_BASE_URL !== 'string') {
+    throw new TypeError(`API base URL defined in the env is improperly of type ${typeof(import.meta.env.VITE_API_BASE_URL)}.`)
+}
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
 export const HTTP = {
     OK: 200,
     BadRequest: 400,
