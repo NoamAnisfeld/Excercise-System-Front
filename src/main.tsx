@@ -13,7 +13,7 @@ import RTLProvider from './RTLProvider'
 
 const store = setupStore();
 
-if (process.env.NODE_ENV === 'development')
+if (process.env.NODE_ENV === 'development' && import.meta.env.VITE_USE_MOCK_API_IN_BROWSER === 'true')
     import('./mocks/browser');
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
