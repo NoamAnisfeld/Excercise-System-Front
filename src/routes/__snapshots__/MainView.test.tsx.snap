@@ -50,7 +50,7 @@ exports[`MainView 1`] = `
         </header>
       </div>
       <div
-        class="MuiBox-root css-tvxkav"
+        class="MuiBox-root css-h70664"
       />
     </div>
   </body>,
@@ -100,7 +100,7 @@ exports[`MainView 1`] = `
       </header>
     </div>
     <div
-      class="MuiBox-root css-tvxkav"
+      class="MuiBox-root css-h70664"
     />
   </div>,
   "debug": [Function],
