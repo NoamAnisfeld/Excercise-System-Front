@@ -39,7 +39,7 @@ export default function SubmissionDetails({
 
                 <TableRow>
                     <TableCell component="th">משוב</TableCell>
-                    <TableCell>{comment}</TableCell>
+                    <TableCell>{comment || '-'}</TableCell>
                 </TableRow>
 
                 <TableRow>

@@ -48,7 +48,7 @@ export const submissionInfoScheme = z.object(
         id: z.number(),
         sub_date: z.string(),
         file: z.string(),
-        comment: z.string(),
+        comment: z.string().nullable(),
         created_at: z.string(),
         updated_at: z.string(),
         user: z.number(),
