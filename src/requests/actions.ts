@@ -1,26 +1,28 @@
 import { ZodError, z } from 'zod'
 import {
-    courseInfoScheme, coursesScheme,
-    assignmentInfoScheme, assignmentsScheme,
-    submissionInfoScheme, submissionsScheme,
+    submissionInfoScheme,
 } from './schemes'
 import { getApiSession, InvalidTokenError } from './auth'
 import { API_BASE_URL, HTTP } from '../utils'
 
 
-async function makeRequest(path: string, accessToken: string) {
+async function makeRequest(path: string, accessToken: string, payload: BodyInit, method: string) {
 
     return await fetch(API_BASE_URL + path, {
+        method: method,
         headers: new Headers({
             Authorization: 'Bearer ' + accessToken,
         }),
+        body: payload,
     });
 }
 
 
-async function fetchApiData<T>(
+async function performApiAction<T>(
     path: string,
     validationScheme: z.ZodType<T>,
+    payload: BodyInit,
+    method = 'POST',
 ) {
     const apiSession = getApiSession();
 
@@ -29,12 +31,12 @@ async function fetchApiData<T>(
 
     try {
         let accessToken = await apiSession.getAccessToken();
-        let response = await makeRequest(path, accessToken);
+        let response = await makeRequest(path, accessToken, payload, method);
 
         if (response.status === HTTP.Unauthorized) {
             await apiSession.refreshTokens();
             accessToken = await apiSession.getAccessToken();
-            response = await makeRequest(path, accessToken);
+            response = await makeRequest(path, accessToken, payload, method);
         }
 
         if (response.status === HTTP.Unauthorized)
@@ -59,31 +61,20 @@ async function fetchApiData<T>(
 }
 
 
-export async function fetchCourses() {
-    return await fetchApiData('/courses/', coursesScheme);
-}
+export async function submitSubmission(file: File, assignmentId: number, userId: number) {
 
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('assignment', String(assignmentId));
+    // expected to become optional for students
+    formData.append('user', String(userId));
+    // expected to be removed, it's a bug
+    formData.append('comment', '');
+    
 
-export async function fetchCourseInfo(courseId: number) {
-    return await fetchApiData(`/courses/${courseId}/`, courseInfoScheme);
-}
-
-
-export async function fetchCourseAssignments(courseId: number) {
-    return await fetchApiData(`/courses/${courseId}/assignments/`, assignmentsScheme);
-}
-
-
-export async function fetchAssignmentInfo(assignmentId: number) {
-    return await fetchApiData(`/assignments/${assignmentId}/`, assignmentInfoScheme);
-}
-
-
-export async function fetchAssignmentSubmissions(assignmentId: number) {
-    return await fetchApiData(`/assignments/${assignmentId}/submissions/`, submissionsScheme);
-}
-
-
-export async function fetchSubmissionInfo(submissionId: number) {
-    return await fetchApiData(`/submissions/${submissionId}/`, submissionInfoScheme);
+    return await performApiAction(
+        '/submissions/',
+        submissionInfoScheme,
+        formData,
+    );
 }
