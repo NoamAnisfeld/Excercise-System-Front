@@ -42,8 +42,17 @@ async function performApiAction<T>(
         if (response.status === HTTP.Unauthorized)
             throw new InvalidTokenError('Unexpected issue with access token. Try logout and login back');
 
-        if (!response.ok)
-            throw new Error('Request failed');
+        if (!response.ok) {
+            let errorMessage: string;
+
+            try {
+                ({ error: errorMessage } = await response.json());
+            } catch {
+                debugger;
+                throw new Error(`Server responded with HTTP ${response.status}`);
+            }
+            throw new Error(`Server responded with HTTP ${response.status}: ${errorMessage}`);
+        }
 
         const json: T = await response.json();
         const validatedData = validationScheme.parse(json);
