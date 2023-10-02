@@ -50,7 +50,7 @@ export default function SubmissionDetails({
                 <TableRow>
                     <TableCell component="th">תאריך אחרון לעדכון</TableCell>
                     <TableCell>
-                        {new Date(sub_date) <= new Date() ?
+                        {new Date() <= new Date(sub_date) ?
                             <>
                                 {formatDate(sub_date)}
                             </>
