@@ -3,9 +3,6 @@ import {
     TableBody,
     TableRow,
     TableCell,
-    Button,
-    Typography,
-    Box,
 } from '@mui/material'
 import type { SubmissionInfo } from "../requests/schemes"
 import { formatDateTime, formatDate } from '../utils';
@@ -56,7 +53,6 @@ export default function SubmissionDetails({
                         {new Date(sub_date) <= new Date() ?
                             <>
                                 {formatDate(sub_date)}
-                                <Button variant="contained" size="small" sx={{ mx: 2 }}>עדכון</Button>
                             </>
                             : 'עבר'}
                     </TableCell>
