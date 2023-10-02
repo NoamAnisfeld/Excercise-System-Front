@@ -34,7 +34,7 @@ export class InvalidTokenError extends Error {
 const REFRESH_TOKEN_STORAGE_KEY = 'refreshToken';
 
 
-export class ApiSession {
+class ApiSession {
 
     #accessToken: string | null = null
     #refreshToken: string | null = getStorageItem(REFRESH_TOKEN_STORAGE_KEY)
@@ -131,4 +131,18 @@ export class ApiSession {
 
         this.#updateAccessToken(validatedData.access);
     }
+}
+
+
+let apiSession = new ApiSession();
+
+
+export function getApiSession() {
+    return apiSession;
+}
+
+
+export function resetApiSession() {
+    apiSession = new ApiSession();
+    return apiSession;
 }

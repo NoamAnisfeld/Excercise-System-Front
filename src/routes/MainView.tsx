@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import NavBar from "../components/NavBar"
 import { Box } from "@mui/material"
 import { Outlet } from "react-router-dom"
-import { apiSession } from "../appAuth"
+import { getApiSession } from "../requests/auth"
 import { useAppSelector, useLogout } from "../hooks"
 import { useNavigate } from "react-router-dom"
 
@@ -13,7 +13,7 @@ export default function MainView() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!apiSession || !apiSession.isLoggedIn())
+        if (!getApiSession().isLoggedIn())
             navigate('/login');
     }, [username]);
 

@@ -1,10 +1,10 @@
-import { test, expect, beforeAll, afterEach, afterAll, beforeEach } from "vitest"
+import { test, expect, beforeAll, beforeEach, afterEach, afterAll } from "vitest"
 import { server } from '../mocks/server.js'
 import mockUsers from '../mocks/users.json'
 import mockCourses from '../mocks/courses.json'
 import mockAssignments from '../mocks/assignments.json'
 import mockSubmissions from '../mocks/submissions.json'
-import { ApiSession } from "./auth.js"
+import { getApiSession, resetApiSession } from "./auth.js"
 import {
     fetchCourses,
     fetchCourseAssignments,
@@ -29,7 +29,7 @@ function createCustomFetch(originalFetch: typeof global.fetch) {
 }
 
 
-let apiSession: ApiSession;
+let apiSession = getApiSession();
 
 beforeAll(() => server.listen());
 
@@ -37,7 +37,7 @@ beforeEach(async () => {
     originalFetch = global.fetch;
     global.fetch = createCustomFetch(originalFetch);
 
-    apiSession = new ApiSession();
+    apiSession = resetApiSession();
     await apiSession.login({
         email: mockUsers[0].email,
         password: mockUsers[0].first_name
@@ -53,36 +53,36 @@ afterAll(() => server.close());
 
 
 test('fetch courses', async () => {
-    const fetchedData = await fetchCourses(apiSession);
+    const fetchedData = await fetchCourses();
     expect(fetchedData).toEqual(mockCourses);
 })
 
 
 test('fetch assignments for course 1', async () => {
-    const fetchedData = await fetchCourseAssignments(1, apiSession);
+    const fetchedData = await fetchCourseAssignments(1);
     expect(fetchedData).toEqual(mockAssignments.filter(item => item.course === 1));
 })
 
 
 test('fetch assignments for course 2', async () => {
-    const fetchedData = await fetchCourseAssignments(2, apiSession);
+    const fetchedData = await fetchCourseAssignments(2);
     expect(fetchedData).toEqual(mockAssignments.filter(item => item.course === 2));
 })
 
 
 test('assignments for different courses (1 and 2) don\'t match', async () => {
-    const fetchedData = await fetchCourseAssignments(1, apiSession);
+    const fetchedData = await fetchCourseAssignments(1);
     expect(fetchedData).not.toEqual(mockAssignments.filter(item => item.course === 2));
 })
 
 
 test('fetch submissions for assignment 3', async () => {
-    const fetchedData = await fetchAssignmentSubmissions(3, apiSession);
+    const fetchedData = await fetchAssignmentSubmissions(3);
     expect(fetchedData).toEqual(mockSubmissions.filter(item => item.assignment === 3));
 })
 
 
 test('fetch submissions for assignment 6', async () => {
-    const fetchedData = await fetchAssignmentSubmissions(6, apiSession);
+    const fetchedData = await fetchAssignmentSubmissions(6);
     expect(fetchedData).toEqual(mockSubmissions.filter(item => item.assignment === 6));
 })

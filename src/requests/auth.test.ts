@@ -1,6 +1,11 @@
 import { test, expect, beforeAll, afterEach, afterAll, beforeEach } from "vitest"
 import { server } from '../mocks/server.js'
-import { ApiSession, InvalidCredentialsError, InvalidTokenError } from "./auth.js"
+import {
+    getApiSession,
+    resetApiSession,
+    InvalidCredentialsError,
+    InvalidTokenError,
+} from "./auth.js"
 import mockUsers from '../mocks/users.json'
 import { setStorageItem } from "../utils.js";
 
@@ -21,7 +26,7 @@ function createCustomFetch(originalFetch: typeof global.fetch) {
     }
 }
 
-let apiSession: ApiSession;
+let apiSession = getApiSession();
 
 beforeAll(() => server.listen());
 
@@ -29,7 +34,7 @@ beforeEach(() => {
     originalFetch = global.fetch;
     global.fetch = createCustomFetch(originalFetch);
 
-    apiSession = new ApiSession();
+    apiSession = resetApiSession();
 })
 
 afterEach(() => {
@@ -67,82 +72,34 @@ test('bad login fails', async () => {
 })
 
 
-test('refresh token retrieved from local storage', async () => {
+test('successful session resume when a valid refresh token exists on localStorage', async () => {
 
-    const originalLocalStorage = globalThis.localStorage;
-    const mockLocalStorage = {
-        _entries: new Map<string, string>(),
+    const refreshToken = JSON.stringify({
+        type: 'refresh',
+        userId: 1,
+        createdAt: Date.now(),
+        expired: false,
+    });
+    setStorageItem('refreshToken', refreshToken);
+    const newApiSession = resetApiSession();
 
-        getItem(key: string): string | null {
-            return this._entries.get(key) || null;
-        },
-
-        setItem(key: string, value: string) {
-            this._entries.set(key, value);
-        },
-
-        removeItem(key: string) {
-            this._entries.delete(key);
-        }
-    };
-    // @ts-ignore
-    global.localStorage = mockLocalStorage as Storage;
-
-    try {
-        const refreshToken = {
-            type: 'refresh',
-            userId: 1,
-            createdAt: Date.now(),
-            expired: false,
-        };
-        setStorageItem('refreshToken', JSON.stringify(refreshToken));
-        const newApiSession = new ApiSession();
-
-        expect(newApiSession.isLoggedIn()).toBe(true);
-        await expect(newApiSession.refreshTokens()).resolves.not.toThrowError();
-
-    } finally {
-        globalThis.localStorage = originalLocalStorage;
-    }
+    expect(newApiSession.isLoggedIn()).toBe(true);
+    await expect(newApiSession.refreshTokens()).resolves.not.toThrowError();
 })
 
 
-test('bad refresh token does not work', async () => {
+test('session resume fails when an invaild refresh token is stored on localStorage', async () => {
 
-    const originalLocalStorage = globalThis.localStorage;
-    const mockLocalStorage = {
-        _entries: new Map<string, string>(),
+    const refreshToken = JSON.stringify({
+        type: 'refresh',
+        userId: 0,
+        createdAt: Date.now(),
+        expired: true,
+    });
+    setStorageItem('refreshToken', refreshToken);
+    const newApiSession = resetApiSession();
 
-        getItem(key: string): string | null {
-            return this._entries.get(key) || null;
-        },
-
-        setItem(key: string, value: string) {
-            this._entries.set(key, value);
-        },
-
-        removeItem(key: string) {
-            this._entries.delete(key);
-        }
-    };
-    // @ts-ignore
-    global.localStorage = mockLocalStorage as Storage;
-
-    try {
-        const refreshToken = {
-            type: 'refresh',
-            userId: 0,
-            createdAt: Date.now(),
-            expired: true,
-        };
-        setStorageItem('refreshToken', JSON.stringify(refreshToken));
-        const newApiSession = new ApiSession();
-
-        expect(newApiSession.isLoggedIn()).toBe(true);
-        await expect(newApiSession.refreshTokens()).rejects.toThrow(InvalidTokenError);
-        expect(newApiSession.isLoggedIn()).toBe(false);
-
-    } finally {
-        globalThis.localStorage = originalLocalStorage;
-    }
+    expect(newApiSession.isLoggedIn()).toBe(true);
+    await expect(newApiSession.refreshTokens()).rejects.toThrow(InvalidTokenError);
+    expect(newApiSession.isLoggedIn()).toBe(false);
 })

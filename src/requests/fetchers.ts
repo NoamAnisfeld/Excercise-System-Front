@@ -4,10 +4,9 @@ import {
     assignmentInfoScheme, assignmentsScheme,
     submissionInfoScheme, submissionsScheme,
 } from './schemes'
-import { ApiSession, InvalidTokenError } from './auth'
+import { getApiSession, InvalidTokenError } from './auth'
 import { API_BASE_URL, HTTP } from '../utils'
 
-type MaybeApiSession = ApiSession | null;
 
 async function makeRequest(path: string, accessToken: string) {
 
@@ -23,10 +22,10 @@ async function makeRequest(path: string, accessToken: string) {
 async function fetchApiData<T>(
     path: string,
     validationScheme: z.ZodType<T>,
-    apiSession: MaybeApiSession,
 ) {
+    const apiSession = getApiSession();
 
-    if (!apiSession || !apiSession.isLoggedIn())
+    if (!apiSession.isLoggedIn())
         throw new InvalidTokenError('User is not logged in');
 
     try {
@@ -61,31 +60,31 @@ async function fetchApiData<T>(
 }
 
 
-export async function fetchCourses(apiSession: MaybeApiSession) {
-    return await fetchApiData('/courses/', coursesScheme, apiSession);
+export async function fetchCourses() {
+    return await fetchApiData('/courses/', coursesScheme);
 }
 
 
-export async function fetchCourseInfo(courseId: number, apiSession: MaybeApiSession) {
-    return await fetchApiData(`/courses/${courseId}/`, courseInfoScheme, apiSession);
+export async function fetchCourseInfo(courseId: number) {
+    return await fetchApiData(`/courses/${courseId}/`, courseInfoScheme);
 }
 
 
-export async function fetchCourseAssignments(courseId: number, apiSession: MaybeApiSession) {
-    return await fetchApiData(`/courses/${courseId}/assignments/`, assignmentsScheme, apiSession);
+export async function fetchCourseAssignments(courseId: number) {
+    return await fetchApiData(`/courses/${courseId}/assignments/`, assignmentsScheme);
 }
 
 
-export async function fetchAssignmentInfo(assignmentId: number, apiSession: MaybeApiSession) {
-    return await fetchApiData(`/assignments/${assignmentId}/`, assignmentInfoScheme, apiSession);
+export async function fetchAssignmentInfo(assignmentId: number) {
+    return await fetchApiData(`/assignments/${assignmentId}/`, assignmentInfoScheme);
 }
 
 
-export async function fetchAssignmentSubmissions(assignmentId: number, apiSession: MaybeApiSession) {
-    return await fetchApiData(`/assignments/${assignmentId}/submissions/`, submissionsScheme, apiSession);
+export async function fetchAssignmentSubmissions(assignmentId: number) {
+    return await fetchApiData(`/assignments/${assignmentId}/submissions/`, submissionsScheme);
 }
 
 
-export async function fetchSubmissionInfo(submissionId: number, apiSession: MaybeApiSession) {
-    return await fetchApiData(`/submissions/${submissionId}/`, submissionInfoScheme, apiSession);
+export async function fetchSubmissionInfo(submissionId: number) {
+    return await fetchApiData(`/submissions/${submissionId}/`, submissionInfoScheme);
 }

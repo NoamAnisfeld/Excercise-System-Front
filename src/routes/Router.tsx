@@ -14,7 +14,6 @@ import {
     fetchAssignmentSubmissions,
     fetchSubmissionInfo,
 } from "../requests/fetchers"
-import { apiSession } from "../appAuth"
 
 
 const submissionsRouteTree: RouteObject[] = [
@@ -22,7 +21,7 @@ const submissionsRouteTree: RouteObject[] = [
         path: ':submission_id',
         element: <SubmissionPage />,
         loader: async ({ params }: LoaderFunctionArgs): Promise<SubmissionPageData> =>
-            fetchSubmissionInfo(Number(params.submission_id), apiSession),
+            fetchSubmissionInfo(Number(params.submission_id)),
     }
 ]
 
@@ -34,8 +33,8 @@ const assignmentsRouteTree: RouteObject[] = [
                 index: true,
                 element: <AssignmentPage />,
                 loader: async ({ params }: LoaderFunctionArgs): Promise<AssignmentPageData> => ({
-                    assignmentInfo: await fetchAssignmentInfo(Number(params.assignment_id), apiSession),
-                    submissions: await fetchAssignmentSubmissions(Number(params.assignment_id), apiSession),
+                    assignmentInfo: await fetchAssignmentInfo(Number(params.assignment_id)),
+                    submissions: await fetchAssignmentSubmissions(Number(params.assignment_id)),
                 })
             },
             {
@@ -54,8 +53,8 @@ const coursesRouteTree: RouteObject[] = [
                 index: true,
                 element: <CoursePage />,
                 loader: async ({ params }: LoaderFunctionArgs): Promise<CoursePageData> => ({
-                    courseInfo: await fetchCourseInfo(Number(params.course_id), apiSession),
-                    assignments: await fetchCourseAssignments(Number(params.course_id), apiSession),
+                    courseInfo: await fetchCourseInfo(Number(params.course_id)),
+                    assignments: await fetchCourseAssignments(Number(params.course_id)),
                 }),
             },
             {
@@ -86,7 +85,7 @@ const routeTree: RouteObject[] = [
                         index: true,
                         element: <MyCourses />,
                         loader: async (): Promise<MyCoursesData> =>
-                            fetchCourses(apiSession),
+                            fetchCourses(),
                     },
 
                     ...coursesRouteTree,
