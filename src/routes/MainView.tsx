@@ -23,7 +23,14 @@ export default function MainView() {
                 username={username}
                 onLogout={logout}
             />
-            <Box pt={5} px={{sm: 5, md: 10}} m="auto" width="fit-content" maxWidth="100%">
+            <Box
+                pt={5}
+                px={{sm: 5, md: 10}}
+                m="auto"
+                width="fit-content"
+                maxWidth="min(100%, 800px)"
+                overflow="auto"
+            >
                 <Outlet />
             </Box>
         </>

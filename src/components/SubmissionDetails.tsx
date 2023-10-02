@@ -1,4 +1,12 @@
-import { Table, TableBody, TableRow, TableCell, Button } from '@mui/material'
+import {
+    Table,
+    TableBody,
+    TableRow,
+    TableCell,
+    Button,
+    Typography,
+    Box,
+} from '@mui/material'
 import type { SubmissionInfo } from "../requests/schemes"
 import { formatDateTime, formatDate } from '../utils';
 
@@ -10,7 +18,15 @@ export default function SubmissionDetails({
     updated_at,
 }: SubmissionInfo) {
     return (
-        <Table sx={{ width: "auto", margin: "auto" }}>
+        <Table sx={{
+            width: "auto",
+            margin: "auto",
+            '.MuiTableCell-root': {
+                maxWidth: "50ch",
+                overflow: "hidden",
+                textOverflow: "ellipsis"
+            }
+        }}>
             <TableBody>
                 <TableRow>
                     <TableCell component="th">הוגש בתאריך</TableCell>
