@@ -1,4 +1,10 @@
-import { createBrowserRouter, RouteObject, LoaderFunctionArgs, RouterProvider } from "react-router-dom"
+import {
+    createBrowserRouter,
+    RouteObject,
+    LoaderFunctionArgs,
+    RouterProvider,
+    ScrollRestoration,
+} from "react-router-dom"
 import MainView from "./MainView"
 import Login from "./Login"
 import MainOptions from "./MainOptions"
@@ -65,9 +71,13 @@ const coursesRouteTree: RouteObject[] = [
     }
 ]
 
-const routeTree: RouteObject[] = [
+const mainRouteTree: RouteObject[] = [
     {
-        element: <MainView />,
+        element:
+            <>
+                <ScrollRestoration />
+                <MainView />
+            </>,
         children: [
             {
                 index: true,
@@ -95,7 +105,7 @@ const routeTree: RouteObject[] = [
     },
 ];
 
-const router = createBrowserRouter(routeTree);
+const router = createBrowserRouter(mainRouteTree);
 
 export default function Router() {
     return <RouterProvider router={router} />
