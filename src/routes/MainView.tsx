@@ -28,7 +28,8 @@ export default function MainView() {
                 px={{sm: 5, md: 10}}
                 m="auto"
                 width="fit-content"
-                maxWidth="min(100%, 800px)"
+                maxWidth="min(100%, 560px)"
+                boxSizing="content-box" // so that the max-width isn't affected my padding
                 overflow="auto"
             >
                 <Outlet />
