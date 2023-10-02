@@ -1,4 +1,4 @@
-import { test, expect, beforeAll, afterEach, afterAll, beforeEach } from "vitest"
+import { describe, test, expect, beforeAll, afterEach, afterAll, beforeEach } from "vitest"
 import { server } from '../mocks/server.js'
 import {
     getApiSession,
@@ -7,7 +7,7 @@ import {
     InvalidTokenError,
 } from "./auth.js"
 import mockUsers from '../mocks/users.json'
-import { setStorageItem } from "../utils.js";
+import { setStorageItem, removeStorageItem } from "../utils.js";
 
 
 // declared here but only assigned later, after the mock server 
@@ -34,6 +34,7 @@ beforeEach(() => {
     originalFetch = global.fetch;
     global.fetch = createCustomFetch(originalFetch);
 
+    removeStorageItem('refreshToken')
     apiSession = resetApiSession();
 })
 
@@ -45,61 +46,66 @@ afterEach(() => {
 afterAll(() => server.close());
 
 
-test('successful login and logout', async () => {
+describe.shuffle('stored sessions', () => {
 
-    expect(apiSession.isLoggedIn()).toBe(false);
+    test('original state is not logged in', () => {
+        expect(apiSession.isLoggedIn()).toBe(false);        
+    })
 
-    await expect(apiSession.login({
-        email: mockUsers[1].email,
-        password: mockUsers[1].first_name
-    })).resolves.not.toThrowError();
+    test('successful login and logout', async () => {
 
-    expect(apiSession.isLoggedIn()).toBe(true);
+        await expect(apiSession.login({
+            email: mockUsers[1].email,
+            password: mockUsers[1].first_name
+        })).resolves.not.toThrowError();
 
-    apiSession.logout();
-    expect(apiSession.isLoggedIn()).toBe(false);
-})
+        expect(apiSession.isLoggedIn()).toBe(true);
 
-
-test('bad login fails', async () => {
-
-    await expect(apiSession.login({
-        email: mockUsers[1].email,
-        password: 'wrongPassword'
-    })).rejects.toThrow(InvalidCredentialsError);
-
-    expect(apiSession.isLoggedIn()).toBe(false);
-})
+        apiSession.logout();
+        expect(apiSession.isLoggedIn()).toBe(false);
+    })
 
 
-test('successful session resume when a valid refresh token exists on localStorage', async () => {
+    test('bad login fails', async () => {
 
-    const refreshToken = JSON.stringify({
-        type: 'refresh',
-        userId: 1,
-        createdAt: Date.now(),
-        expired: false,
-    });
-    setStorageItem('refreshToken', refreshToken);
-    const newApiSession = resetApiSession();
+        await expect(apiSession.login({
+            email: mockUsers[1].email,
+            password: 'wrongPassword'
+        })).rejects.toThrow(InvalidCredentialsError);
 
-    expect(newApiSession.isLoggedIn()).toBe(true);
-    await expect(newApiSession.refreshTokens()).resolves.not.toThrowError();
-})
+        expect(apiSession.isLoggedIn()).toBe(false);
+    })
 
 
-test('session resume fails when an invaild refresh token is stored on localStorage', async () => {
+    test('successful session resume when a valid refresh token exists on localStorage', async () => {
 
-    const refreshToken = JSON.stringify({
-        type: 'refresh',
-        userId: 0,
-        createdAt: Date.now(),
-        expired: true,
-    });
-    setStorageItem('refreshToken', refreshToken);
-    const newApiSession = resetApiSession();
+        const refreshToken = JSON.stringify({
+            type: 'refresh',
+            userId: 1,
+            createdAt: Date.now(),
+            expired: false,
+        });
+        setStorageItem('refreshToken', refreshToken);
+        const newApiSession = resetApiSession();
 
-    expect(newApiSession.isLoggedIn()).toBe(true);
-    await expect(newApiSession.refreshTokens()).rejects.toThrow(InvalidTokenError);
-    expect(newApiSession.isLoggedIn()).toBe(false);
+        expect(newApiSession.isLoggedIn()).toBe(true);
+        await expect(newApiSession.refreshTokens()).resolves.not.toThrowError();
+    })
+
+
+    test('session resume fails when an invaild refresh token is stored on localStorage', async () => {
+
+        const refreshToken = JSON.stringify({
+            type: 'refresh',
+            userId: 0,
+            createdAt: Date.now(),
+            expired: true,
+        });
+        setStorageItem('refreshToken', refreshToken);
+        const newApiSession = resetApiSession();
+
+        expect(newApiSession.isLoggedIn()).toBe(true);
+        await expect(newApiSession.refreshTokens()).rejects.toThrow(InvalidTokenError);
+        expect(newApiSession.isLoggedIn()).toBe(false);
+    })
 })
