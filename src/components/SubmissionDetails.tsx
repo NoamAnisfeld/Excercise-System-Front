@@ -38,11 +38,6 @@ export default function SubmissionDetails({
                     : undefined}
 
                 <TableRow>
-                    <TableCell component="th">קובץ</TableCell>
-                    <TableCell><a href={file} download>{file}</a></TableCell>
-                </TableRow>
-
-                <TableRow>
                     <TableCell component="th">משוב</TableCell>
                     <TableCell>{comment}</TableCell>
                 </TableRow>
