@@ -10,9 +10,11 @@ interface StoredUserInfo {
 }
 
 const initialState: StoredUserInfo & {
-    initialized: boolean
+    initialized: boolean,
+    requiresLogin: boolean
 } = Object.freeze({
     initialized: false,
+    requiresLogin: false, // because we first try to resume the session
     id: 0,
     email: '',
     first_name: '',
@@ -30,16 +32,22 @@ export const userDataSlice = createSlice({
         updateUserInfo: (state, { payload }: PayloadAction<StoredUserInfo>) => {
             Object.assign(state, payload);
             state.initialized = true;
+            state.requiresLogin = false;
         },
 
         resetUserInfo: (state) => {
             Object.assign(state, initialState);
+            state.requiresLogin = true;
+        },
+
+        requireLogin: (state) => {
+            state.requiresLogin = true;
         }
     },
 })
 
 
-export const { updateUserInfo, resetUserInfo } = userDataSlice.actions;
+export const { updateUserInfo, resetUserInfo, requireLogin } = userDataSlice.actions;
 
 const userDataReducer = userDataSlice.reducer;
 export default userDataReducer;

@@ -6,7 +6,7 @@ import {
     userInfoScheme, UserInfo,
 } from './schemes'
 import { getApiSession, InvalidTokenError } from './auth'
-import { API_BASE_URL, HTTP } from '../utils'
+import { API_BASE_URL, HTTP, sleep } from '../utils'
 
 
 async function makeRequest(path: string, accessToken: string) {
@@ -25,8 +25,20 @@ async function fetchApiData<T>(
 ) {
     const apiSession = getApiSession();
 
-    if (!apiSession.isLoggedIn())
-        throw new InvalidTokenError('User is not logged in');
+    {
+        // deals with race condition against the automatic session resume
+        // TODO: find a cleaner solution
+        const MAX_WAITING = 5000;
+        const INTERVAL = 100;
+        let times = MAX_WAITING / INTERVAL;
+        while (!apiSession.isLoggedIn()) {
+            await sleep(INTERVAL);
+            if (times === 0) {
+                throw new InvalidTokenError('User is not logged in');
+            }
+            times--;
+        }
+    }
 
     try {
         let accessToken = await apiSession.getAccessToken();

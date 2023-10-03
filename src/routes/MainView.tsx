@@ -1,19 +1,22 @@
+import { useEffect } from "react"
 import NavBar from "../components/NavBar"
 import { Box } from "@mui/material"
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import {
     useAppSelector,
-    useResumeApiSession,
     useLogout,
 } from "../hooks"
 
 export default function MainView() {
 
-    useResumeApiSession();
-
-    const { first_name } = useAppSelector(({ userdata }) => userdata);
+    const { requiresLogin, first_name } = useAppSelector(({ userdata }) => userdata);
+    const navigate = useNavigate();
     const logout = useLogout();
 
+    useEffect(() => {
+        if (requiresLogin)
+            navigate('/login');
+    }, [requiresLogin]);
 
     return (
         <>
@@ -23,7 +26,7 @@ export default function MainView() {
             />
             <Box
                 pt={5}
-                px={{sm: 5, md: 10}}
+                px={{ sm: 5, md: 10 }}
                 m="auto"
                 width="fit-content"
                 maxWidth="min(100%, 560px)"

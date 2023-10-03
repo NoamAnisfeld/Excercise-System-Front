@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import type { RootState, AppDispatch } from './global-state/store'
-import { resetUserInfo, updateUserInfo } from './global-state/userdata'
+import { updateUserInfo, resetUserInfo, requireLogin } from './global-state/userdata'
 import { useNavigate } from 'react-router-dom'
 import {
     getApiSession,
@@ -63,8 +63,6 @@ export function useLogout(): () => void {
 export function useResumeApiSession() {
 
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-    const logout = useLogout();
 
     useEffect(() => {
         (async () => {
@@ -72,6 +70,9 @@ export function useResumeApiSession() {
             const apiSessionToken = getStorageItem(API_SESSION_TOKEN_STORAGE_KEY);
             if (apiSessionToken) {
                 const apiSession = getApiSession();
+                if (apiSession.isLoggedIn())
+                    return;
+
                 try {
                     const {
                         tokenClaims: {
@@ -84,14 +85,14 @@ export function useResumeApiSession() {
                                
                 } catch (e) {
                     if (e instanceof InvalidTokenError) {
-                        logout();
+                        dispatch(requireLogin());
                     } else {
                         // the issue might be temporary so assume the session is still valid
                         // TODO: Indicate to the user that there's an issue
                     }
                 }
             } else {
-                navigate('/login');
+                dispatch(requireLogin());
             }
         })();
     }, []);

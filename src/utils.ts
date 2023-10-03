@@ -65,3 +65,8 @@ export function formatTime(datetime: Date | string | number) {
 export function formatDateTime(datetime: Date | string | number) {
     return `${formatDate(datetime)} ${formatTime(datetime)}`;
 }
+
+
+export async function sleep(ms: number) {
+    await new Promise(res => setInterval(res, ms));
+}
