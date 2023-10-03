@@ -1,24 +1,35 @@
 import { RestRequest, rest } from 'msw'
-import users from './users.json'
+import mockTokens from './tokens.json'
+import mockUsers from './users.json'
+import originalJwtDecode from 'jwt-decode'
+import { ApiTokenClaims, apiTokenClaimsScheme } from '../requests/schemes'
 import { HTTP } from '../utils'
 
 
-interface Token {
-    type: 'refresh' | 'access',
-    userId: number,
-    createdAt: number,
-    expired: boolean,
+const decodeCache: Record<string, ApiTokenClaims> = {}
+function jwtDecode(token: string) {
+    try {
+        return decodeCache[token] ||
+        (decodeCache[token] = apiTokenClaimsScheme.parse(originalJwtDecode(token)));
+    } catch (e) {
+        console.log(token, originalJwtDecode(token));
+        throw e;
+    }
 }
 
 
 function validateRefreshToken(token: string): number | null {
 
     try {
-        const { type, userId, expired } = JSON.parse(token) as Token;
-        const user = users.find(item => userId === item.id);
+        const {
+            token_type,
+            exp,
+            user_id,
+        } = apiTokenClaimsScheme.parse(jwtDecode(token));
+        const user = mockUsers.find(item => user_id === item.id);
 
-        if (type === 'refresh' && !expired && user) {
-            return Number(userId);
+        if (token_type === 'refresh' && new Date() < new Date(exp * 1000) && user) {
+            return user_id;
         } else {
             return null;
         }
@@ -31,11 +42,15 @@ function validateRefreshToken(token: string): number | null {
 function validateAccessToken(token: string): number | null {
 
     try {
-        const { type, userId, expired } = JSON.parse(token) as Token;
-        const user = users.find(item => userId === item.id);
+        const {
+            token_type,
+            user_id,
+            exp
+        } = apiTokenClaimsScheme.parse(jwtDecode(token));
+        const user = mockUsers.find(item => user_id === item.id);
 
-        if (type === 'access' && !expired && user) {
-            return Number(userId);
+        if (token_type === 'access' && new Date() < new Date(exp * 1000) && user) {
+            return Number(user_id);
         } else {
             return null;
         }
@@ -59,35 +74,26 @@ export const authHandlers = [
 
         const { email, password } = await req.json();
 
-        const user = users.find(item => email === item.email && /* mock */password === item.first_name)
-
+        const user = mockUsers.find(item => email === item.email && /* mock */password === item.first_name)
         if (user) {
+            const refreshToken = mockTokens.validRefreshTokens.find(token => jwtDecode(token).user_id === user.id);
+            const accessToken = mockTokens.validAccessTokens.find(token => jwtDecode(token).user_id === user.id);
 
-            const refreshToken: Token = {
-                type: 'refresh',
-                userId: user.id,
-                createdAt: Date.now(),
-                expired: false,
-            };
-            const accessToken: Token = {
-                type: 'access',
-                userId: user.id,
-                createdAt: Date.now(),
-                expired: false,
-            };
+            if (refreshToken && accessToken) {
 
-            return res(
-                ctx.status(HTTP.OK),
-                ctx.json({
-                    refresh: JSON.stringify(refreshToken),
-                    access: JSON.stringify(accessToken),
-                })
-            )
-        } else {
-            return res(
-                ctx.status(HTTP.Unauthorized),
-            )
+                return res(
+                    ctx.status(HTTP.OK),
+                    ctx.json({
+                        refresh: refreshToken,
+                        access: accessToken,
+                    })
+                )
+            }
         }
+
+        return res(
+            ctx.status(HTTP.Unauthorized),
+        )
     }),
 
     rest.post('/api/token/refresh/', async (req, res, ctx) => {
@@ -102,19 +108,21 @@ export const authHandlers = [
                 );
             }
 
-            const accessToken: Token = {
-                type: 'access',
-                userId: userId,
-                createdAt: Date.now(),
-                expired: false,
-            }
+            const accessToken = mockTokens.validAccessTokens.find(token => jwtDecode(token).user_id === userId);
+            if (accessToken) {
+                return res(
+                    ctx.status(HTTP.OK),
+                    ctx.json({
+                        access: accessToken,
+                    }),
+                );
+            } else {
+                return res(
+                    ctx.status(HTTP.InternalServerError),
+                    ctx.text('Mock tokens error - cannot find a matching token')
+                )
 
-            return res(
-                ctx.status(HTTP.OK),
-                ctx.json({
-                    access: JSON.stringify(accessToken),
-                }),
-            );
+            }
         } catch (e) {
             return res(
                 ctx.status(HTTP.Unauthorized),

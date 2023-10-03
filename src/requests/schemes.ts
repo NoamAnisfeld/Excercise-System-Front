@@ -15,6 +15,7 @@ export type RefreshedApiTokens = z.infer<typeof refreshedApiTokensScheme>
 
 
 export const apiTokenClaimsScheme = z.object({
+    token_type: z.string(),
     exp: z.number(),
     user_id: z.number(),
     role: z.string(),

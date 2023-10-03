@@ -1,11 +1,13 @@
 import {
     apiTokensScheme,
     refreshedApiTokensScheme,
+    apiTokenClaimsScheme,
 } from "./schemes"
 import {
     API_BASE_URL,
     HTTP,
 } from "../utils"
+import jwtDecode from "jwt-decode";
 
 
 export interface LoginCredentials {
@@ -31,11 +33,13 @@ export class InvalidTokenError extends Error {
 class ApiSession {
 
     #accessToken: string | null = null
+    #accessTokenExpiry: Date | null = null
     #refreshToken: string | null = null
 
     
-    #updateAccessToken(token: string | null) {
+    #updateAccessToken(token: string | null, expiry: Date | null) {
         this.#accessToken = token;
+        this.#accessTokenExpiry = expiry;
     }
 
 
@@ -66,19 +70,22 @@ class ApiSession {
             throw Error('Login error');
 
         const json = await response.json();
-        const validatedData = apiTokensScheme.parse(json);
+        const { access, refresh } = apiTokensScheme.parse(json);
+        const claims = apiTokenClaimsScheme.parse(jwtDecode(access));
 
-        this.#updateAccessToken(validatedData.access);
-        this.#updateRefreshToken(validatedData.refresh);
+        this.#updateAccessToken(access, new Date(claims.exp * 1000));
+        this.#updateRefreshToken(refresh);
 
         return {
-            longtermSessionToken: validatedData.refresh
+            accessToken: access,
+            longtermSessionToken: refresh,
+            tokenClaims: claims,
         }
     }
 
 
     logout() {
-        this.#updateAccessToken(null);
+        this.#updateAccessToken(null, null);
         this.#updateRefreshToken(null);
     }
 
@@ -92,14 +99,14 @@ class ApiSession {
 
     async getAccessToken() {
 
-        if (this.#accessToken) {
+        if (this.#accessToken && this.#accessTokenExpiry && new Date() < this.#accessTokenExpiry) {
             return this.#accessToken;
         } else {
             await this.refreshTokens();
             if (this.#accessToken) {
                 return this.#accessToken;
             } else {
-                throw new InvalidTokenError('Unexpected issue with access token. Try logout and login back');
+                throw new InvalidTokenError('An issue occured when trying to retrieve access token. Try logout and login back');
             }
         }
     }
@@ -134,9 +141,15 @@ class ApiSession {
         }
 
         const json = await response.json();
-        const validatedData = refreshedApiTokensScheme.parse(json);
+        const { access } = refreshedApiTokensScheme.parse(json);
+        const claims = apiTokenClaimsScheme.parse(jwtDecode(access));
 
-        this.#updateAccessToken(validatedData.access);
+        this.#updateAccessToken(access, new Date(claims.exp * 1000));
+
+        return {
+            accessToken: access,
+            tokenClaims: claims,
+        }
     }
 }
 
@@ -149,6 +162,7 @@ export function getApiSession() {
 }
 
 
+// mostly for testing purposes
 export function resetApiSession() {
     apiSession = new ApiSession();
     return apiSession;

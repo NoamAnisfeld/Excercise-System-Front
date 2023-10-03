@@ -3,6 +3,7 @@ import {
     courseInfoScheme, coursesScheme,
     assignmentInfoScheme, assignmentsScheme,
     submissionInfoScheme, submissionsScheme,
+    userInfoScheme, UserInfo,
 } from './schemes'
 import { getApiSession, InvalidTokenError } from './auth'
 import { API_BASE_URL, HTTP } from '../utils'
@@ -64,6 +65,11 @@ async function fetchApiData<T>(
             throw e;
         }
     }
+}
+
+
+export async function fetchUserInfo(userId: number): Promise<UserInfo> {
+    return await fetchApiData(`/users/${userId}/`, userInfoScheme);
 }
 
 
