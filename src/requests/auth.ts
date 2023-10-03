@@ -5,9 +5,6 @@ import {
 import {
     API_BASE_URL,
     HTTP,
-    getStorageItem,
-    setStorageItem,
-    removeStorageItem,
 } from "../utils"
 
 
@@ -31,13 +28,10 @@ export class InvalidTokenError extends Error {
 }
 
 
-const REFRESH_TOKEN_STORAGE_KEY = 'refreshToken';
-
-
 class ApiSession {
 
     #accessToken: string | null = null
-    #refreshToken: string | null = getStorageItem(REFRESH_TOKEN_STORAGE_KEY)
+    #refreshToken: string | null = null
 
     
     #updateAccessToken(token: string | null) {
@@ -47,11 +41,6 @@ class ApiSession {
 
     #updateRefreshToken(token: string | null) {
         this.#refreshToken = token;
-        if (token) {
-            setStorageItem(REFRESH_TOKEN_STORAGE_KEY, token);
-        } else {
-            removeStorageItem(REFRESH_TOKEN_STORAGE_KEY);
-        }
     }
 
 
@@ -81,6 +70,10 @@ class ApiSession {
 
         this.#updateAccessToken(validatedData.access);
         this.#updateRefreshToken(validatedData.refresh);
+
+        return {
+            longtermSessionToken: validatedData.refresh
+        }
     }
 
 
@@ -90,7 +83,15 @@ class ApiSession {
     }
 
 
+    async resumeSession(longtermSessionToken: string) {
+
+        this.#refreshToken = longtermSessionToken;
+        return await this.refreshTokens();
+    }
+
+
     async getAccessToken() {
+
         if (this.#accessToken) {
             return this.#accessToken;
         } else {
@@ -106,7 +107,7 @@ class ApiSession {
 
     async refreshTokens() {
         if (!this.#refreshToken)
-            throw new InvalidTokenError('No refresh token is stored');
+            throw new InvalidTokenError('User is not logged in');
 
         const response = await fetch(API_BASE_URL + '/token/refresh/', {
             method: 'POST',
@@ -119,12 +120,18 @@ class ApiSession {
         });
 
         if (response.status === HTTP.Unauthorized) {
-            this.#updateRefreshToken(null);
-            throw new InvalidTokenError('Refresh token has been declined');
+            this.logout();
+            throw new InvalidTokenError('Session token is expired or invalid. User has been logged out');
         }
 
-        if (!response.ok)
-            throw new Error('Token refresh error');
+        if (!response.ok) {
+            let text = '';
+            try {
+                text = await response.text();
+            } finally {
+                throw new Error(`Token refresh error - server responded with HTTP ${response.status}${text ? ': ' + text : ''}`);                
+            }
+        }
 
         const json = await response.json();
         const validatedData = refreshedTokensScheme.parse(json);

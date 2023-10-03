@@ -77,7 +77,7 @@ describe.shuffle('stored sessions', () => {
     })
 
 
-    test('successful session resume when a valid refresh token exists on localStorage', async () => {
+    test('successful session resume when given a valid refresh token', async () => {
 
         const refreshToken = JSON.stringify({
             type: 'refresh',
@@ -85,15 +85,15 @@ describe.shuffle('stored sessions', () => {
             createdAt: Date.now(),
             expired: false,
         });
-        setStorageItem('refreshToken', refreshToken);
-        const newApiSession = resetApiSession();
 
-        expect(newApiSession.isLoggedIn()).toBe(true);
-        await expect(newApiSession.refreshTokens()).resolves.not.toThrowError();
+        await expect(apiSession.resumeSession(refreshToken)).resolves.not.toThrowError();
+        await expect(apiSession.getAccessToken()).resolves.toBeTypeOf('string');
+        expect(apiSession.isLoggedIn()).toBe(true);
+        await expect(apiSession.refreshTokens()).resolves.not.toThrowError();
     })
 
 
-    test('session resume fails when an invaild refresh token is stored on localStorage', async () => {
+    test('session resume fails when an invaild refresh token is given', async () => {
 
         const refreshToken = JSON.stringify({
             type: 'refresh',
@@ -101,11 +101,9 @@ describe.shuffle('stored sessions', () => {
             createdAt: Date.now(),
             expired: true,
         });
-        setStorageItem('refreshToken', refreshToken);
-        const newApiSession = resetApiSession();
 
-        expect(newApiSession.isLoggedIn()).toBe(true);
-        await expect(newApiSession.refreshTokens()).rejects.toThrow(InvalidTokenError);
-        expect(newApiSession.isLoggedIn()).toBe(false);
+        await expect(apiSession.resumeSession(refreshToken)).rejects.toThrow(InvalidTokenError);
+        expect(apiSession.isLoggedIn()).toBe(false);
+        await expect(apiSession.refreshTokens()).rejects.toThrow(InvalidTokenError);
     })
 })

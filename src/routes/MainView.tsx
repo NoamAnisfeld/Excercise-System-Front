@@ -1,21 +1,19 @@
-import { useEffect } from "react"
 import NavBar from "../components/NavBar"
 import { Box } from "@mui/material"
 import { Outlet } from "react-router-dom"
-import { getApiSession } from "../requests/auth"
-import { useAppSelector, useLogout } from "../hooks"
-import { useNavigate } from "react-router-dom"
+import {
+    useAppSelector,
+    useResumeApiSession,
+    useLogout,
+} from "../hooks"
 
 export default function MainView() {
 
+    useResumeApiSession();
+
     const { username } = useAppSelector(({ userdata }) => userdata);
     const logout = useLogout();
-    const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!getApiSession().isLoggedIn())
-            navigate('/login');
-    }, [username]);
 
     return (
         <>
