@@ -9,7 +9,6 @@ import { formatDateTime, formatDate } from '../utils';
 
 export default function SubmissionDetails({
     sub_date,
-    file,
     comment,
     created_at,
     updated_at,

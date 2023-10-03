@@ -11,14 +11,14 @@ export default function MainView() {
 
     useResumeApiSession();
 
-    const { username } = useAppSelector(({ userdata }) => userdata);
+    const { first_name } = useAppSelector(({ userdata }) => userdata);
     const logout = useLogout();
 
 
     return (
         <>
             <NavBar
-                username={username}
+                username={first_name}
                 onLogout={logout}
             />
             <Box
