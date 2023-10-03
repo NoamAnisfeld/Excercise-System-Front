@@ -25,7 +25,8 @@ export default function AssignmentPage() {
 
     const [errorAlert, setErrorAlert] = useState<ErrorAlertInterface | null>(null);
     const { assignmentInfo, submissions } = useLoaderData() as AssignmentPageData;
-    const refresh = () => useNavigate()(0);
+    const navigate = useNavigate();
+    const refresh = () => navigate(0);
 
     async function handleSubmitSubmission(file: File) {
         // The userId is currently ignored for students (because it uses the student's id) yet
