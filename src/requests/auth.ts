@@ -1,6 +1,6 @@
 import {
-    tokensScheme,
-    refreshedTokensScheme,
+    apiTokensScheme,
+    refreshedApiTokensScheme,
 } from "./schemes"
 import {
     API_BASE_URL,
@@ -66,7 +66,7 @@ class ApiSession {
             throw Error('Login error');
 
         const json = await response.json();
-        const validatedData = tokensScheme.parse(json);
+        const validatedData = apiTokensScheme.parse(json);
 
         this.#updateAccessToken(validatedData.access);
         this.#updateRefreshToken(validatedData.refresh);
@@ -134,7 +134,7 @@ class ApiSession {
         }
 
         const json = await response.json();
-        const validatedData = refreshedTokensScheme.parse(json);
+        const validatedData = refreshedApiTokensScheme.parse(json);
 
         this.#updateAccessToken(validatedData.access);
     }

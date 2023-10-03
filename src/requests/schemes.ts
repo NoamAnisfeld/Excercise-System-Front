@@ -1,17 +1,35 @@
 import { z } from 'zod'
 
 
-export const tokensScheme = z.object({
+export const apiTokensScheme = z.object({
     refresh: z.string(),
     access: z.string(),
 });
-export type TokensInfo = z.infer<typeof tokensScheme>
+export type ApiTokens = z.infer<typeof apiTokensScheme>
 
 
-export const refreshedTokensScheme = z.object({
+export const refreshedApiTokensScheme = z.object({
     access: z.string(),
 });
-export type RefreshedTokensInfo = z.infer<typeof refreshedTokensScheme>
+export type RefreshedApiTokens = z.infer<typeof refreshedApiTokensScheme>
+
+
+export const apiTokenClaimsScheme = z.object({
+    exp: z.number(),
+    user_id: z.number(),
+    role: z.string(),
+});
+export type ApiTokenClaims = z.infer<typeof apiTokenClaimsScheme>
+
+
+export const userInfoScheme = z.object({
+    id: z.number(),
+    username: z.string().optional(),
+    email: z.string(),
+    first_name: z.string(),
+    last_name: z.string(),
+});
+export type UserInfo = z.infer<typeof userInfoScheme>
 
 
 export const courseInfoScheme = z.object({
