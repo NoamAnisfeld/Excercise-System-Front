@@ -17,7 +17,7 @@ export type RefreshedTokensInfo = z.infer<typeof refreshedTokensScheme>
 export const courseInfoScheme = z.object({
     id: z.number(),
     name: z.string(),
-    description: z.string(),
+    description: z.string().nullable(),
     classrooms: z.array(z.number()),
 });
 export type CourseInfo = z.infer<typeof courseInfoScheme>
@@ -31,7 +31,7 @@ export const assignmentInfoScheme = z.object(
     {
         id: z.number(),
         title: z.string(),
-        description: z.string(),
+        description: z.string().nullable(),
         sub_end_date: z.string(),
         course: z.number(),
     }

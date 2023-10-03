@@ -11,7 +11,7 @@ export default function SubmissionCard({
 }) {
     return <ItemCard
         title={`הוגשה ב-${formatDateTime(new Date(created_at))}`}
-        description={`משוב: ${comment}`}
+        description={comment && `משוב: ${comment}`}
         linkTo={linkTo}
     />
 }

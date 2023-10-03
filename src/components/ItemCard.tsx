@@ -7,7 +7,7 @@ export default function ItemCard({
     linkTo,
 }: {
     title: string,
-    description: string,
+    description: string | null,
     linkTo: string,
 }) {
     return (
@@ -23,9 +23,13 @@ export default function ItemCard({
                 <CardHeader
                     title={title}
                 />
-                <CardContent>
-                    <Typography>{description}</Typography>
-                </CardContent>
+                {description ?
+                    <CardContent>
+                        <Typography>{description}</Typography>
+                    </CardContent>
+                    :
+                    undefined
+                }
             </CardActionArea>
         </Card>
     )

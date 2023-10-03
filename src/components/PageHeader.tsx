@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material"
 
 interface PageHeaderProps {
     title: string,
-    subtitle?: string
+    subtitle?: string | null,
 }
 
 export default function PageHeader({
