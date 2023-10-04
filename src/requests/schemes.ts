@@ -25,7 +25,7 @@ export type ApiTokenClaims = z.infer<typeof apiTokenClaimsScheme>
 
 export const userInfoScheme = z.object({
     id: z.number(),
-    username: z.string().optional(),
+    username: z.string().nullable(),
     email: z.string(),
     first_name: z.string(),
     last_name: z.string(),
