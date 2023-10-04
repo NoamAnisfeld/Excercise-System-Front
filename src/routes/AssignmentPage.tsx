@@ -1,10 +1,10 @@
 import { useState } from "react"
 import PageHeader from "../components/PageHeader"
 import CardStack from "../components/CardStack"
+import ErrorAlert, { ErrorAlertProps } from "../components/ErrorAlert"
 import SubmissionCard from "../components/SubmissionCard"
 import SubmissionDetails from "../components/SubmissionDetails"
 import SubmissionUploader from "../components/SubmissionUploader"
-import Alert from "@mui/material/Alert"
 import { submitSubmission } from "../requests/actions"
 
 import { useLoaderData, useNavigate } from "react-router-dom"
@@ -16,15 +16,9 @@ export type AssignmentPageData = {
 };
 
 
-interface ErrorAlertInterface {
-    userMessage: string,
-    errorObject?: Error,
-}
-
-
 export default function AssignmentPage() {
 
-    const [errorAlert, setErrorAlert] = useState<ErrorAlertInterface | null>(null);
+    const [errorAlert, setErrorAlert] = useState<ErrorAlertProps | null>(null);
     const { assignmentInfo, submissions } = useLoaderData() as AssignmentPageData;
     const { id: userId } = useAppSelector(state => state.userdata);
     const navigate = useNavigate();
@@ -59,27 +53,6 @@ export default function AssignmentPage() {
                 :
                 <SubmissionUploader onFileChosen={handleSubmitSubmission} />
         }
-        {errorAlert ?
-            <Alert severity="error">
-                {errorAlert.userMessage}
-                {errorAlert.errorObject ?
-                    <>
-                        <p><strong>פרטים נוספים:</strong></p>
-                        <pre dir="ltr">{JSON.stringify(
-                            {
-                                name: errorAlert.errorObject.name,
-                                message: errorAlert.errorObject.message,
-                            },
-                            undefined,
-                            4
-                        )}</pre>
-                    </>
-                    :
-                    undefined
-                }
-            </Alert>
-            :
-            undefined
-        }
+        {errorAlert ? <ErrorAlert {...errorAlert} /> : undefined}
     </>);
 }
