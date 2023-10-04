@@ -9,14 +9,14 @@ import {
 
 export default function MainView() {
 
-    const { requiresLogin, first_name } = useAppSelector(({ userdata }) => userdata);
+    const { loginStatus, first_name } = useAppSelector(({ userdata }) => userdata);
     const navigate = useNavigate();
     const logout = useLogout();
 
     useEffect(() => {
-        if (requiresLogin)
+        if (loginStatus === 'loggedOut')
             navigate('/login');
-    }, [requiresLogin]);
+    }, [loginStatus]);
 
     return (
         <>

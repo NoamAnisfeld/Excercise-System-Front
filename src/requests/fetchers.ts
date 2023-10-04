@@ -25,18 +25,19 @@ async function fetchApiData<T>(
 ) {
     const apiSession = getApiSession();
 
-    {
-        // deals with race condition against the automatic session resume
-        // TODO: find a cleaner solution
+    if (!apiSession.isLoggedIn()) {
+        // deals with session resume period when page loads
         const MAX_WAITING = 5000;
         const INTERVAL = 100;
         let times = MAX_WAITING / INTERVAL;
-        while (!apiSession.isLoggedIn()) {
+
+        while (apiSession.sessionMightResume() && times > 0) {
             await sleep(INTERVAL);
-            if (times === 0) {
-                throw new InvalidTokenError('User is not logged in');
-            }
             times--;
+        }
+
+        if (!apiSession.isLoggedIn()) {
+            throw new InvalidTokenError('User is not logged in');
         }
     }
 

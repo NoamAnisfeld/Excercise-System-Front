@@ -6,15 +6,15 @@ interface StoredUserInfo {
     email: string,
     first_name: string,
     last_name: string,
-    isStaff: boolean,    
+    isStaff: boolean,
+}
+type LoginStatus = 'uninitialized' | 'loggedIn' | 'loggedOut'
+type StoredUserInfoWithLoginStatus = StoredUserInfo & {
+    loginStatus: LoginStatus
 }
 
-const initialState: StoredUserInfo & {
-    initialized: boolean,
-    requiresLogin: boolean
-} = Object.freeze({
-    initialized: false,
-    requiresLogin: false, // because we first try to resume the session
+const initialState: StoredUserInfoWithLoginStatus = Object.freeze({
+    loginStatus: 'uninitialized',
     id: 0,
     email: '',
     first_name: '',
@@ -29,25 +29,20 @@ export const userDataSlice = createSlice({
     initialState,
 
     reducers: {
-        updateUserInfo: (state, { payload }: PayloadAction<StoredUserInfo>) => {
+        logUserIn: (state, { payload }: PayloadAction<StoredUserInfo>) => {
             Object.assign(state, payload);
-            state.initialized = true;
-            state.requiresLogin = false;
+            state.loginStatus = 'loggedIn';
         },
 
-        resetUserInfo: (state) => {
+        logUserOut: (state) => {
             Object.assign(state, initialState);
-            state.requiresLogin = true;
+            state.loginStatus = 'loggedOut';
         },
-
-        requireLogin: (state) => {
-            state.requiresLogin = true;
-        }
     },
 })
 
 
-export const { updateUserInfo, resetUserInfo, requireLogin } = userDataSlice.actions;
+export const { logUserIn, logUserOut } = userDataSlice.actions;
 
 const userDataReducer = userDataSlice.reducer;
 export default userDataReducer;

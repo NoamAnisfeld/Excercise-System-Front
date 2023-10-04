@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import type { RootState, AppDispatch } from './global-state/store'
-import { updateUserInfo, resetUserInfo, requireLogin } from './global-state/userdata'
+import { logUserIn, logUserOut } from './global-state/userdata'
 import { useNavigate } from 'react-router-dom'
 import {
     getApiSession,
@@ -35,11 +35,11 @@ export function useLogin(): (credentials: LoginCredentials) => Promise<void> {
                 role
             }
         } = await apiSession.login(credentials);
-        
+
         setStorageItem(API_SESSION_TOKEN_STORAGE_KEY, longtermSessionToken);
-        
+
         const userInfo = await fetchUserInfo(user_id);
-        dispatch(updateUserInfo({ ...userInfo, isStaff: role === 'admin' }));
+        dispatch(logUserIn({ ...userInfo, isStaff: role === 'admin' }));
         navigate('/');
     }
 }
@@ -47,53 +47,58 @@ export function useLogin(): (credentials: LoginCredentials) => Promise<void> {
 
 export function useLogout(): () => void {
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
 
     return () => {
 
         const apiSession = getApiSession();
         apiSession.logout();
         removeStorageItem(API_SESSION_TOKEN_STORAGE_KEY);
-        dispatch(resetUserInfo());
-        navigate('/login');
+        dispatch(logUserOut());
     }
 }
 
 
 export function useResumeApiSession() {
 
+    const { loginStatus } = useAppSelector(state => state.userdata)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         (async () => {
 
-            const apiSessionToken = getStorageItem(API_SESSION_TOKEN_STORAGE_KEY);
-            if (apiSessionToken) {
-                const apiSession = getApiSession();
-                if (apiSession.isLoggedIn())
-                    return;
+            if (loginStatus !== 'uninitialized')
+                return;            
 
-                try {
-                    const {
-                        tokenClaims: {
-                            user_id,
-                            role
-                        }
-                    } = await apiSession.resumeSession(apiSessionToken);
-                    const userInfo = await fetchUserInfo(user_id);
-                    dispatch(updateUserInfo({ ...userInfo, isStaff: role === 'admin' }));
-                               
-                } catch (e) {
-                    if (e instanceof InvalidTokenError) {
-                        dispatch(requireLogin());
-                    } else {
-                        // the issue might be temporary so assume the session is still valid
-                        // TODO: Indicate to the user that there's an issue
+            const apiSession = getApiSession();
+            const apiSessionToken = getStorageItem(API_SESSION_TOKEN_STORAGE_KEY);
+
+            if (apiSession.isLoggedIn())
+                return;
+
+            if (!apiSessionToken) {
+                apiSession.doNotExpectSessionResume();
+                dispatch(logUserOut());
+                return;
+            }
+
+            try {
+                const {
+                    tokenClaims: {
+                        user_id,
+                        role
                     }
+                } = await apiSession.resumeSession(apiSessionToken);
+                const userInfo = await fetchUserInfo(user_id);
+                dispatch(logUserIn({ ...userInfo, isStaff: role === 'admin' }));
+
+            } catch (e) {
+                if (e instanceof InvalidTokenError) {
+                    dispatch(logUserOut());
+                } else {
+                    // the issue might be temporary so assume the session is still valid
+                    // TODO: Indicate to the user that there's an issue
                 }
-            } else {
-                dispatch(requireLogin());
             }
         })();
-    }, []);
+    }, [loginStatus]);
 }

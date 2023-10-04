@@ -35,8 +35,18 @@ class ApiSession {
     #accessToken: string | null = null
     #accessTokenExpiry: Date | null = null
     #refreshToken: string | null = null
+    #sessionMightResume = true
 
+
+    constructor() {
+        const MAX_TIME_TO_WAIT_FOR_SESSION_RESUME = 5000;
+        setInterval(
+            () => this.doNotExpectSessionResume(),
+            MAX_TIME_TO_WAIT_FOR_SESSION_RESUME
+        );
+    }
     
+
     #updateAccessToken(token: string | null, expiry: Date | null) {
         this.#accessToken = token;
         this.#accessTokenExpiry = expiry;
@@ -50,6 +60,16 @@ class ApiSession {
 
     isLoggedIn() {
         return Boolean(this.#refreshToken);
+    }
+
+
+    sessionMightResume() {
+        return this.#sessionMightResume;
+    }
+
+
+    doNotExpectSessionResume() {
+        this.#sessionMightResume = false;
     }
 
 
@@ -93,7 +113,11 @@ class ApiSession {
     async resumeSession(longtermSessionToken: string) {
 
         this.#refreshToken = longtermSessionToken;
-        return await this.refreshTokens();
+        try {
+            return await this.refreshTokens();
+        } finally {
+            this.doNotExpectSessionResume();
+        }            
     }
 
 
