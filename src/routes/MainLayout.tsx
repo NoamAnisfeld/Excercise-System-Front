@@ -7,7 +7,7 @@ import {
     useLogout,
 } from "../hooks"
 
-export default function MainView() {
+export default function MainLayout() {
 
     const { loginStatus, first_name } = useAppSelector(({ userdata }) => userdata);
     const navigate = useNavigate();

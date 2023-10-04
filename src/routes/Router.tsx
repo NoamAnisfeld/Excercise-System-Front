@@ -5,8 +5,9 @@ import {
     RouterProvider,
     ScrollRestoration,
 } from "react-router-dom"
-import MainView from "./MainView"
+import MainLayout from "./MainLayout"
 import Login from "./Login"
+import AppLayout from "./AppLayout"
 import MainOptions from "./MainOptions"
 import MyCourses, { MyCoursesData } from "./MyCourses"
 import CoursePage, { CoursePageData } from "./CoursePage"
@@ -76,29 +77,34 @@ const mainRouteTree: RouteObject[] = [
         element:
             <>
                 <ScrollRestoration />
-                <MainView />
+                <MainLayout />
             </>,
         children: [
-            {
-                index: true,
-                element: <MainOptions />
-            },
             {
                 path: 'login',
                 element: <Login />
             },
             {
-                path: 'my-courses',
+                element: <AppLayout />,
                 errorElement: <div>error</div>,
                 children: [
                     {
                         index: true,
-                        element: <MyCourses />,
-                        loader: async (): Promise<MyCoursesData> =>
-                            fetchCourses(),
+                        element: <MainOptions />
                     },
+                    {
+                        path: 'my-courses',
+                        children: [
+                            {
+                                index: true,
+                                element: <MyCourses />,
+                                loader: async (): Promise<MyCoursesData> =>
+                                    fetchCourses(),
+                            },
 
-                    ...coursesRouteTree,
+                            ...coursesRouteTree,
+                        ]
+                    },
                 ]
             },
         ]

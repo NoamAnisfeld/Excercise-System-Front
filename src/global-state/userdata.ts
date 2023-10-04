@@ -8,7 +8,7 @@ interface StoredUserInfo {
     last_name: string,
     isStaff: boolean,
 }
-type LoginStatus = 'uninitialized' | 'loggedIn' | 'loggedOut'
+type LoginStatus = 'uninitialized' | 'loggedIn' | 'loggedOut' | 'error'
 type StoredUserInfoWithLoginStatus = StoredUserInfo & {
     loginStatus: LoginStatus
 }
@@ -38,11 +38,15 @@ export const userDataSlice = createSlice({
             Object.assign(state, initialState);
             state.loginStatus = 'loggedOut';
         },
+
+        reportError: (state) => {
+            state.loginStatus = 'error';
+        }
     },
 })
 
 
-export const { logUserIn, logUserOut } = userDataSlice.actions;
+export const { logUserIn, logUserOut, reportError } = userDataSlice.actions;
 
 const userDataReducer = userDataSlice.reducer;
 export default userDataReducer;

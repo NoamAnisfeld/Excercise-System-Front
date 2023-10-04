@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import type { RootState, AppDispatch } from './global-state/store'
-import { logUserIn, logUserOut } from './global-state/userdata'
+import { logUserIn, logUserOut, reportError } from './global-state/userdata'
 import { useNavigate } from 'react-router-dom'
 import {
     getApiSession,
@@ -95,8 +95,7 @@ export function useResumeApiSession() {
                 if (e instanceof InvalidTokenError) {
                     dispatch(logUserOut());
                 } else {
-                    // the issue might be temporary so assume the session is still valid
-                    // TODO: Indicate to the user that there's an issue
+                    dispatch(reportError());
                 }
             }
         })();
