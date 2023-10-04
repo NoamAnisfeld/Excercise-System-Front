@@ -9,6 +9,7 @@ import { submitSubmission } from "../requests/actions"
 
 import { useLoaderData, useNavigate } from "react-router-dom"
 import type { AssignmentInfo, Submissions } from "../requests/schemes"
+import { useAppSelector } from "../hooks"
 export type AssignmentPageData = {
     assignmentInfo: AssignmentInfo,
     submissions: Submissions,
@@ -25,14 +26,12 @@ export default function AssignmentPage() {
 
     const [errorAlert, setErrorAlert] = useState<ErrorAlertInterface | null>(null);
     const { assignmentInfo, submissions } = useLoaderData() as AssignmentPageData;
+    const { id: userId } = useAppSelector(state => state.userdata);
     const navigate = useNavigate();
     const refresh = () => navigate(0);
 
     async function handleSubmitSubmission(file: File) {
-        // The userId is currently ignored for students (because it uses the student's id) yet
-        // required. It's expected to become optional for students, and need to be configurable by
-        // non-students
-        const userId = 1;
+
         try {
 
             await submitSubmission(file, assignmentInfo.id, userId);
