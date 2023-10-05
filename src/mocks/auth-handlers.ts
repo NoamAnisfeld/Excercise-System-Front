@@ -2,7 +2,7 @@ import { RestRequest, rest } from 'msw'
 import mockTokens from './tokens.json'
 import mockUsers from './users.json'
 import originalJwtDecode from 'jwt-decode'
-import { ApiTokenClaims, apiTokenClaimsScheme } from '../requests/schemes'
+import { ApiTokenClaims, apiTokenClaimsSchema } from '../requests/schemas'
 import { HTTP } from '../utils'
 
 
@@ -10,7 +10,7 @@ const decodeCache: Record<string, ApiTokenClaims> = {}
 function jwtDecode(token: string) {
     try {
         return decodeCache[token] ||
-        (decodeCache[token] = apiTokenClaimsScheme.parse(originalJwtDecode(token)));
+        (decodeCache[token] = apiTokenClaimsSchema.parse(originalJwtDecode(token)));
     } catch (e) {
         console.log(token, originalJwtDecode(token));
         throw e;
@@ -25,7 +25,7 @@ function validateRefreshToken(token: string): number | null {
             token_type,
             exp,
             user_id,
-        } = apiTokenClaimsScheme.parse(jwtDecode(token));
+        } = apiTokenClaimsSchema.parse(jwtDecode(token));
         const user = mockUsers.find(item => user_id === item.id);
 
         if (token_type === 'refresh' && new Date() < new Date(exp * 1000) && user) {
@@ -46,7 +46,7 @@ function validateAccessToken(token: string): number | null {
             token_type,
             user_id,
             exp
-        } = apiTokenClaimsScheme.parse(jwtDecode(token));
+        } = apiTokenClaimsSchema.parse(jwtDecode(token));
         const user = mockUsers.find(item => user_id === item.id);
 
         if (token_type === 'access' && new Date() < new Date(exp * 1000) && user) {

@@ -1,8 +1,8 @@
 import {
-    apiTokensScheme,
-    refreshedApiTokensScheme,
-    apiTokenClaimsScheme,
-} from "./schemes"
+    apiTokensSchema,
+    refreshedApiTokensSchema,
+    apiTokenClaimsSchema,
+} from "./schemas"
 import {
     API_BASE_URL,
     HTTP,
@@ -90,8 +90,8 @@ class ApiSession {
             throw Error('Login error');
 
         const json = await response.json();
-        const { access, refresh } = apiTokensScheme.parse(json);
-        const claims = apiTokenClaimsScheme.parse(jwtDecode(access));
+        const { access, refresh } = apiTokensSchema.parse(json);
+        const claims = apiTokenClaimsSchema.parse(jwtDecode(access));
 
         this.#updateAccessToken(access, new Date(claims.exp * 1000));
         this.#updateRefreshToken(refresh);
@@ -165,8 +165,8 @@ class ApiSession {
         }
 
         const json = await response.json();
-        const { access } = refreshedApiTokensScheme.parse(json);
-        const claims = apiTokenClaimsScheme.parse(jwtDecode(access));
+        const { access } = refreshedApiTokensSchema.parse(json);
+        const claims = apiTokenClaimsSchema.parse(jwtDecode(access));
 
         this.#updateAccessToken(access, new Date(claims.exp * 1000));
 

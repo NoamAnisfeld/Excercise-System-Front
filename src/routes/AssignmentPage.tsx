@@ -4,7 +4,7 @@ import { Typography } from "@mui/material"
 
 import { timeHasPassed, formatDateTime } from "../utils"
 import { useAppSelector } from "../hooks"
-import type { AssignmentInfo, Submissions } from "../requests/schemes"
+import type { AssignmentInfo, Submissions } from "../requests/schemas"
 import { submitSubmission } from "../requests/actions"
 
 import PageHeader from "../components/PageHeader"

@@ -1,10 +1,10 @@
 import { ZodError, z } from 'zod'
 import {
-    courseInfoScheme, coursesScheme,
-    assignmentInfoScheme, assignmentsScheme,
-    submissionInfoScheme, submissionsScheme,
-    userInfoScheme, UserInfo,
-} from './schemes'
+    courseInfoSchema, coursesSchema,
+    assignmentInfoSchema, assignmentsSchema,
+    submissionInfoSchema, submissionsSchema,
+    userInfoSchema, UserInfo,
+} from './schemas'
 import { getApiSession, InvalidTokenError } from './auth'
 import { API_BASE_URL, HTTP, sleep } from '../utils'
 
@@ -21,7 +21,7 @@ async function makeRequest(path: string, accessToken: string) {
 
 async function fetchApiData<T>(
     path: string,
-    validationScheme: z.ZodType<T>,
+    validationSchema: z.ZodType<T>,
 ) {
     const apiSession = getApiSession();
 
@@ -66,7 +66,7 @@ async function fetchApiData<T>(
         }
 
         const json: T = await response.json();
-        const validatedData = validationScheme.parse(json);
+        const validatedData = validationSchema.parse(json);
         return validatedData;
 
     } catch (e) {
@@ -82,35 +82,35 @@ async function fetchApiData<T>(
 
 
 export async function fetchUserInfo(userId: number): Promise<UserInfo> {
-    return await fetchApiData(`/users/${userId}/`, userInfoScheme);
+    return await fetchApiData(`/users/${userId}/`, userInfoSchema);
 }
 
 
 export async function fetchCourses() {
-    return await fetchApiData('/courses/', coursesScheme);
+    return await fetchApiData('/courses/', coursesSchema);
 }
 
 
 export async function fetchCourseInfo(courseId: number) {
-    return await fetchApiData(`/courses/${courseId}/`, courseInfoScheme);
+    return await fetchApiData(`/courses/${courseId}/`, courseInfoSchema);
 }
 
 
 export async function fetchCourseAssignments(courseId: number) {
-    return await fetchApiData(`/courses/${courseId}/assignments/`, assignmentsScheme);
+    return await fetchApiData(`/courses/${courseId}/assignments/`, assignmentsSchema);
 }
 
 
 export async function fetchAssignmentInfo(assignmentId: number) {
-    return await fetchApiData(`/assignments/${assignmentId}/`, assignmentInfoScheme);
+    return await fetchApiData(`/assignments/${assignmentId}/`, assignmentInfoSchema);
 }
 
 
 export async function fetchAssignmentSubmissions(assignmentId: number) {
-    return await fetchApiData(`/assignments/${assignmentId}/submissions/`, submissionsScheme);
+    return await fetchApiData(`/assignments/${assignmentId}/submissions/`, submissionsSchema);
 }
 
 
 export async function fetchSubmissionInfo(submissionId: number) {
-    return await fetchApiData(`/submissions/${submissionId}/`, submissionInfoScheme);
+    return await fetchApiData(`/submissions/${submissionId}/`, submissionInfoSchema);
 }

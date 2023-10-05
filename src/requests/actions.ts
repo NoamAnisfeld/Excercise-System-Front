@@ -1,7 +1,7 @@
 import { ZodError, z } from 'zod'
 import {
-    submissionInfoScheme,
-} from './schemes'
+    submissionInfoSchema,
+} from './schemas'
 import { getApiSession, InvalidTokenError } from './auth'
 import { API_BASE_URL, HTTP } from '../utils'
 
@@ -20,7 +20,7 @@ async function makeRequest(path: string, accessToken: string, payload: BodyInit,
 
 async function performApiAction<T>(
     path: string,
-    validationScheme: z.ZodType<T>,
+    validationSchema: z.ZodType<T>,
     payload: BodyInit,
     method = 'POST',
 ) {
@@ -55,7 +55,7 @@ async function performApiAction<T>(
         }
 
         const json: T = await response.json();
-        const validatedData = validationScheme.parse(json);
+        const validatedData = validationSchema.parse(json);
         return validatedData;
 
     } catch (e) {
@@ -83,7 +83,7 @@ export async function submitSubmission(file: File, assignmentId: number, userId:
 
     return await performApiAction(
         '/submissions/',
-        submissionInfoScheme,
+        submissionInfoSchema,
         formData,
     );
 }

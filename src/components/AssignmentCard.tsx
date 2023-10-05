@@ -1,5 +1,5 @@
 import ItemCard from "./ItemCard"
-import type { AssignmentInfo } from "../requests/schemes"
+import type { AssignmentInfo } from "../requests/schemas"
 
 export default function AssignmentCard({
     title,

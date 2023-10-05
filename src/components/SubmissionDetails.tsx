@@ -4,7 +4,7 @@ import {
     TableRow,
     TableCell,
 } from '@mui/material'
-import type { SubmissionInfo } from "../requests/schemes"
+import type { SubmissionInfo } from "../requests/schemas"
 import { formatDateTime } from '../utils';
 
 export default function SubmissionDetails({

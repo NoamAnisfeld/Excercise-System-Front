@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router-dom"
-import type { SubmissionInfo } from "../requests/schemes"
+import type { SubmissionInfo } from "../requests/schemas"
 import SubmissionDetails from "../components/SubmissionDetails";
 export type SubmissionPageData = SubmissionInfo;
 

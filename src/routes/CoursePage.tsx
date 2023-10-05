@@ -3,7 +3,7 @@ import CardStack from "../components/CardStack"
 import AssignmentCard from "../components/AssignmentCard"
 
 import { useLoaderData } from "react-router-dom"
-import type { CourseInfo, Assignments } from "../requests/schemes"
+import type { CourseInfo, Assignments } from "../requests/schemas"
 export type CoursePageData = {
     courseInfo: CourseInfo,
     assignments: Assignments
