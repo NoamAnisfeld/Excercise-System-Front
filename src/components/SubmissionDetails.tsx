@@ -5,10 +5,9 @@ import {
     TableCell,
 } from '@mui/material'
 import type { SubmissionInfo } from "../requests/schemes"
-import { formatDateTime, formatDate } from '../utils';
+import { formatDateTime } from '../utils';
 
 export default function SubmissionDetails({
-    sub_date,
     comment,
     created_at,
     updated_at,
@@ -39,17 +38,6 @@ export default function SubmissionDetails({
                 <TableRow>
                     <TableCell component="th">משוב</TableCell>
                     <TableCell>{comment || '-'}</TableCell>
-                </TableRow>
-
-                <TableRow>
-                    <TableCell component="th">תאריך אחרון לעדכון</TableCell>
-                    <TableCell>
-                        {new Date() <= new Date(sub_date) ?
-                            <>
-                                {formatDate(sub_date)}
-                            </>
-                            : 'עבר'}
-                    </TableCell>
                 </TableRow>
             </TableBody>
         </Table>

@@ -50,6 +50,11 @@ export function removeStorageItem(key: string): ReturnType<typeof localStorage.r
 }
 
 
+export function timeHasPassed(time: Date | number): boolean {
+    return new Date(time) < new Date();
+}
+
+
 export function formatDate(datetime: Date | string | number) {
     const _ = new Date(datetime);
     return `${_.getDate()}/${_.getMonth() + 1}/${_.getFullYear() % 100}`;
