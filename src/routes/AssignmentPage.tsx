@@ -51,7 +51,7 @@ export default function AssignmentPage() {
             : submissions.length === 1 ?
                 <SubmissionDetails {...submissions[0]} />
                 :
-                <SubmissionUploader onFileChosen={handleSubmitSubmission} />
+                <SubmissionUploader onSubmit={handleSubmitSubmission} />
         }
         {errorAlert ? <ErrorAlert {...errorAlert} /> : undefined}
     </>);
