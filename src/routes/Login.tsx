@@ -7,8 +7,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 
-import { useState } from 'react'
-import { useLogin } from '../hooks'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAppSelector, useLogin } from '../hooks'
 import { InvalidCredentialsError } from '../requests/auth'
 
 export default function Login() {
@@ -17,7 +18,15 @@ export default function Login() {
     const [inputPassword, setInputPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const login = useLogin();
- 
+
+    const { loginStatus } = useAppSelector(({ userdata }) => userdata);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (loginStatus === "loggedIn") {
+            navigate('/');
+        }
+    });
+
     function handleInputUserEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
         setInputUserEmail(event.target.value);
         setErrorMessage('');
@@ -108,10 +117,10 @@ export default function Login() {
                 </Box>
 
                 {errorMessage ?
-                <Alert severity="error">
-                    {errorMessage}
-                </Alert>
-                : undefined}
+                    <Alert severity="error">
+                        {errorMessage}
+                    </Alert>
+                    : undefined}
             </Box>
         </Container>
     );
