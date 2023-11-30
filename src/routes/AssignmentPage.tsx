@@ -13,6 +13,7 @@ import ErrorAlert, { ErrorAlertProps } from "../components/ErrorAlert"
 import SubmissionCard from "../components/SubmissionCard"
 import SubmissionDetails from "../components/SubmissionDetails"
 import SubmissionUploader from "../components/SubmissionUploader"
+import FadeIn from "../components/FadeIn"
 
 export type AssignmentPageData = {
     assignmentInfo: AssignmentInfo,
@@ -43,7 +44,7 @@ export default function AssignmentPage() {
     }
 
     return (
-        <>
+        <FadeIn>
             <PageHeader title={assignmentInfo.title} subtitle={assignmentInfo.description} />
             {submissions.length === 0 ?
                 <>
@@ -71,5 +72,6 @@ export default function AssignmentPage() {
                     </CardStack>
             }
             {errorAlert ? <ErrorAlert {...errorAlert} /> : undefined}
-        </>);
+        </FadeIn>
+    );
 }

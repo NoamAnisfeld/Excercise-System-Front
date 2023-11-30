@@ -1,12 +1,15 @@
 import { Grid } from "@mui/material"
 import MyCoursesButton from "../components/MyCoursesButton"
+import FadeIn from "../components/FadeIn"
 
 export default function MainOptions() {
     return (
-        <Grid container justifyContent="center">
-            <Grid item>
-                <MyCoursesButton />
+        <FadeIn>
+            <Grid container justifyContent="center">
+                <Grid item>
+                    <MyCoursesButton />
+                </Grid>
             </Grid>
-        </Grid>
+        </FadeIn>
     );
 }
