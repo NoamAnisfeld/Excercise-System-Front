@@ -9,6 +9,7 @@ import {
     NativeSelect,
     TextField,
     Typography,
+    Collapse,
 } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete'
 import { InputLabelStyledAsButton } from "./util-components"
@@ -29,7 +30,7 @@ export default function SubmissionUploader({
     const [textFileExtension, setTextFileExtension] = useState(SUGGESTED_TEXT_FILE_EXTENSIONS[0]);
 
     const filePicker = (
-        <Box>
+        <Box m={1} textAlign="center">
             {!selectedFile ?
                 <InputLabelStyledAsButton
                     variant="contained"
@@ -59,7 +60,7 @@ export default function SubmissionUploader({
     );
 
     const textBox = (
-        <Box>
+        <Box m={1}>
             <TextField
                 multiline
                 variant="filled"
@@ -90,6 +91,7 @@ export default function SubmissionUploader({
                 onClick={() => onSubmit(
                     selectedFile || new File([typedText], `submission.${textFileExtension}`)
                 )}
+                disabled={!selectedFile && !typedText}
             >
                 שליחה
             </Button>
@@ -114,9 +116,13 @@ export default function SubmissionUploader({
                 display: 'inline',
             },
         }}>
-            {!typedText ? filePicker : undefined}
-            {!selectedFile ? textBox : undefined}
-            {Boolean(selectedFile || typedText) ? submitButton : undefined}
+            <Collapse in={!typedText}>
+                {filePicker}
+            </Collapse>
+            <Collapse in={!selectedFile}>
+                {textBox}
+            </Collapse>
+            {submitButton}
         </FormGroup>
     )
 }
