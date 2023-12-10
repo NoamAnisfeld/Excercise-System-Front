@@ -11,17 +11,20 @@ import AppLayout from "./AppLayout"
 import MainOptions from "./MainOptions"
 import MyCourses, { MyCoursesData } from "./MyCourses"
 import CoursePage, { CoursePageData } from "./CoursePage"
+import MyAssignments, { MyAssignmentsData } from "./MyAssignments"
 import AssignmentPage, { AssignmentPageData } from "./AssignmentPage"
+import MySubmissions, { MySubmissionsData } from "./MySubmissions"
 import SubmissionPage, { SubmissionPageData } from "./SubmissionPage"
 import {
     fetchCourses,
-    fetchCourseInfo,
+    fetchAssignments,
+    fetchSubmissions,
     fetchCourseAssignments,
-    fetchAssignmentInfo,
     fetchAssignmentSubmissions,
+    fetchCourseInfo,
+    fetchAssignmentInfo,
     fetchSubmissionInfo,
 } from "../requests/fetchers"
-
 
 const submissionsRouteTree: RouteObject[] = [
     {
@@ -103,6 +106,32 @@ const mainRouteTree: RouteObject[] = [
                             },
 
                             ...coursesRouteTree,
+                        ]
+                    },
+                    {
+                        path: 'my-assignments',
+                        children: [
+                            {
+                                index: true,
+                                element: <MyAssignments />,
+                                loader: async (): Promise<MyAssignmentsData> =>
+                                    fetchAssignments(),
+                            },
+
+                            ...assignmentsRouteTree,
+                        ]
+                    },
+                    {
+                        path: 'my-submissions',
+                        children: [
+                            {
+                                index: true,
+                                element: <MySubmissions />,
+                                loader: async (): Promise<MySubmissionsData> =>
+                                    fetchSubmissions(),
+                            },
+
+                            ...submissionsRouteTree,
                         ]
                     },
                 ]

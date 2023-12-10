@@ -1,17 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import MyCoursesButton from '../components/MyCoursesButton';
+import MainOptionsButton from '../components/MainOptionsButton';
 
 const meta = {
-  title: 'MyCoursesButton',
-  component: MyCoursesButton,
+  title: 'MainOptionsButton',
+  component: MainOptionsButton,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof MyCoursesButton>;
+} satisfies Meta<typeof MainOptionsButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Component: Story = {}
+export const Component: Story = {
+  args: {
+    title: "הקורסים שלי",
+    linkTo: "."
+  }
+}

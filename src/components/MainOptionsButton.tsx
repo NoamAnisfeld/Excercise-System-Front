@@ -1,12 +1,22 @@
 import { Card, CardActionArea, CardHeader, SxProps } from "@mui/material"
 import { Link } from "react-router-dom"
 
-export default function MyCoursesButton() {
+export interface MainOptionsButtonProps {
+    title: string,
+    linkTo: string,
+}
+
+export default function MainOptionsButton({
+    title,
+    linkTo,
+}: MainOptionsButtonProps) {
 
     const styles: SxProps = {
         borderRadius: '50%',
-        width: 250,
-        height: 250,
+        width: 200,
+        height: 200,
+        mx: 3,
+        my: 1,
         display: 'flex',
         bgcolor: 'primary.main',
         color: 'primary.contrastText',
@@ -19,12 +29,12 @@ export default function MyCoursesButton() {
 
     return (
         <Card sx={styles}>
-            <CardActionArea component={Link} to="my-courses">
+            <CardActionArea component={Link} to={linkTo}>
                 <CardHeader
-                    title="הקורסים שלי"
+                    title={title}
                     titleTypographyProps={{
                         textAlign: "center",
-                        fontSize: "h3.fontSize",
+                        fontSize: "h4.fontSize",
                     }}
                 />
             </CardActionArea>

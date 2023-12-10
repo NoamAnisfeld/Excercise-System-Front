@@ -91,8 +91,13 @@ export async function fetchCourses() {
 }
 
 
-export async function fetchCourseInfo(courseId: number) {
-    return await fetchApiData(`/courses/${courseId}/`, courseInfoSchema);
+export async function fetchAssignments() {
+    return await fetchApiData('/assignments/', assignmentsSchema);
+}
+
+
+export async function fetchSubmissions() {
+    return await fetchApiData('/submissions/', submissionsSchema);
 }
 
 
@@ -101,13 +106,18 @@ export async function fetchCourseAssignments(courseId: number) {
 }
 
 
-export async function fetchAssignmentInfo(assignmentId: number) {
-    return await fetchApiData(`/assignments/${assignmentId}/`, assignmentInfoSchema);
+export async function fetchAssignmentSubmissions(assignmentId: number) {
+    return await fetchApiData(`/assignments/${assignmentId}/submissions/`, submissionsSchema);
 }
 
 
-export async function fetchAssignmentSubmissions(assignmentId: number) {
-    return await fetchApiData(`/assignments/${assignmentId}/submissions/`, submissionsSchema);
+export async function fetchCourseInfo(courseId: number) {
+    return await fetchApiData(`/courses/${courseId}/`, courseInfoSchema);
+}
+
+
+export async function fetchAssignmentInfo(assignmentId: number) {
+    return await fetchApiData(`/assignments/${assignmentId}/`, assignmentInfoSchema);
 }
 
 
