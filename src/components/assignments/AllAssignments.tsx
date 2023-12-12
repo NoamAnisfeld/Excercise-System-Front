@@ -13,7 +13,7 @@ export default function AllAssignments() {
 
     return (
         <FadeIn>
-            <PageHeader title="התרגילים שלי" />
+            <PageHeader title="כל התרגילים" />
             <CardStack>
                 {assignmentsInfo.map(assignment => <AssignmentCard
                     {...assignment}

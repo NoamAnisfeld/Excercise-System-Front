@@ -13,7 +13,7 @@ export default function AllSubmissions() {
 
     return (
         <FadeIn>
-            <PageHeader title="ההגשות שלי" />
+            <PageHeader title="כל ההגשות" />
             <CardStack>
                 {submissionsData.map(submission => <SubmissionCard
                     {...submission}

@@ -7,13 +7,13 @@ export default function MainOptions() {
         <FadeIn>
             <Grid container justifyContent="center" p={1}>
                 <Grid item>
-                    <MainOptionsButton title="הקורסים שלי" linkTo="my-courses" />
+                    <MainOptionsButton title="כל הקורסים" linkTo="courses" />
                 </Grid>
                 <Grid item>
-                    <MainOptionsButton title="התרגילים שלי" linkTo="my-assignments" />
+                    <MainOptionsButton title="כל התרגילים" linkTo="assignments" />
                 </Grid>
                 <Grid item>
-                    <MainOptionsButton title="ההגשות שלי" linkTo="my-submissions" />
+                    <MainOptionsButton title="כל ההגשות" linkTo="submissions" />
                 </Grid>
             </Grid>
         </FadeIn>

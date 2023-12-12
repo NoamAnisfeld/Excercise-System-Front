@@ -13,7 +13,7 @@ export default function AllCourses() {
 
     return (
         <FadeIn>
-            <PageHeader title="הקורסים שלי" />
+            <PageHeader title="כל הקורסים" />
             <CardStack>
                 {coursesInfo.map(course => <CourseCard
                     {...course}

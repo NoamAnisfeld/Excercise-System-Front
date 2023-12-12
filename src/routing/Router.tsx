@@ -96,7 +96,7 @@ const mainRouteTree: RouteObject[] = [
                         element: <MainOptions />
                     },
                     {
-                        path: 'my-courses',
+                        path: 'courses',
                         children: [
                             {
                                 index: true,
@@ -109,7 +109,7 @@ const mainRouteTree: RouteObject[] = [
                         ]
                     },
                     {
-                        path: 'my-assignments',
+                        path: 'assignments',
                         children: [
                             {
                                 index: true,
@@ -122,7 +122,7 @@ const mainRouteTree: RouteObject[] = [
                         ]
                     },
                     {
-                        path: 'my-submissions',
+                        path: 'submissions',
                         children: [
                             {
                                 index: true,

@@ -16,7 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Component: Story = {
   args: {
-    title: "הקורסים שלי",
+    title: "כל הקורסים",
     linkTo: "."
   }
 }
