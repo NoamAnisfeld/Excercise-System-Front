@@ -82,7 +82,12 @@ const mainRouteTree: RouteObject[] = [
                 <ScrollRestoration />
                 <MainLayout />
             </>,
+        errorElement: <div>error</div>,
         children: [
+            {
+                path: '*',
+                element: <div>שגיאה 404 - הדף אינו קיים</div>
+            },
             {
                 path: 'login',
                 element: <Login />
