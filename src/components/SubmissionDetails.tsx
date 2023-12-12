@@ -5,13 +5,24 @@ import {
     TableCell,
 } from '@mui/material'
 import type { SubmissionInfo } from "../requests/schemas"
-import { formatDateTime } from '../utils';
+import { formatDateTime } from '../utils'
+import EditableText from './EditableText'
+import { updateSubmissionComment } from '../requests/actions'
+import { useNavigate } from 'react-router-dom'
+import { useAppSelector } from '../hooks'
 
 export default function SubmissionDetails({
     comment,
     created_at,
     updated_at,
+    id,
+    assignment,
+    user,
 }: SubmissionInfo) {
+
+    const userIsStaff = useAppSelector(({ userdata }) => userdata.isStaff);
+    const navigate = useNavigate();
+
     return (
         <Table sx={{
             width: "auto",
@@ -37,7 +48,25 @@ export default function SubmissionDetails({
 
                 <TableRow>
                     <TableCell component="th">משוב</TableCell>
-                    <TableCell>{comment || '-'}</TableCell>
+                    <TableCell>
+                        {userIsStaff ?
+                        <EditableText
+                            currentText={comment || ''}
+                            placeholderText='טרם ניתן משוב'
+                            onSave={async (newComment) => {
+                                await updateSubmissionComment(
+                                    newComment,
+                                    id,
+                                    assignment,
+                                    user,
+                                );
+                                navigate('.');
+                            }}
+                        />
+                        :
+                        (comment || '-')
+                    }
+                    </TableCell>
                 </TableRow>
             </TableBody>
         </Table>

@@ -87,3 +87,20 @@ export async function submitSubmission(file: File, assignmentId: number, userId:
         formData,
     );
 }
+
+
+export async function updateSubmissionComment(newComment: string, submissionId: number, assignmentId: number, userId: number) {
+    
+    const formData = new FormData();
+    formData.append('comment', newComment);
+    formData.append('assignment', String(assignmentId));
+    formData.append('user', String(userId));
+   
+
+    return await performApiAction(
+        `/submissions/${submissionId}/`,
+        submissionInfoSchema,
+        formData,
+        'PATCH',
+    )
+}
