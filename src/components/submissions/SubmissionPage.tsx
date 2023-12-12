@@ -1,8 +1,8 @@
-import FadeIn from "../components/FadeIn"
+import FadeIn from "../FadeIn"
 
 import { useLoaderData } from "react-router-dom"
-import type { SubmissionInfo } from "../requests/schemas"
-import SubmissionDetails from "../components/SubmissionDetails";
+import type { SubmissionInfo } from "../../requests/schemas"
+import SubmissionDetails from "./SubmissionDetails";
 export type SubmissionPageData = SubmissionInfo;
 
 export default function SubmissionPage() {

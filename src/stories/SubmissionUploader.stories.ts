@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import SubmissionUploader from '../components/SubmissionUploader'
+import SubmissionUploader from '../components/submissions/SubmissionUploader'
 
 const meta = {
     title: 'SubmissionUploader',

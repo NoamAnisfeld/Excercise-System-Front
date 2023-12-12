@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom"
-import { useAppSelector } from "../hooks"
+import { useAppSelector } from "../../hooks"
 
 export default function AppLayout() {
 

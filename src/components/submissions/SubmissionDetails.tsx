@@ -4,12 +4,12 @@ import {
     TableRow,
     TableCell,
 } from '@mui/material'
-import type { SubmissionInfo } from "../requests/schemas"
-import { formatDateTime } from '../utils'
-import EditableText from './EditableText'
-import { updateSubmissionComment } from '../requests/actions'
+import type { SubmissionInfo } from "../../requests/schemas"
+import { formatDateTime } from '../../utils'
+import EditableText from '../EditableText'
+import { updateSubmissionComment } from '../../requests/actions'
 import { useNavigate } from 'react-router-dom'
-import { useAppSelector } from '../hooks'
+import { useAppSelector } from '../../hooks'
 
 export default function SubmissionDetails({
     comment,

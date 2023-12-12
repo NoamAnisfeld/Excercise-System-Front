@@ -1,15 +1,15 @@
-import PageHeader from "../components/PageHeader";
-import CardStack from "../components/CardStack"
-import SubmissionCard from "../components/SubmissionCard"
-import FadeIn from "../components/FadeIn"
+import PageHeader from "../PageHeader";
+import CardStack from "../CardStack"
+import SubmissionCard from "./SubmissionCard"
+import FadeIn from "../FadeIn"
 
 import { useLoaderData } from "react-router-dom"
-import type { Submissions } from "../requests/schemas"
-export type MySubmissionsData = Submissions;
+import type { Submissions } from "../../requests/schemas"
+export type SubmissionsInfo = Submissions;
 
-export default function MySubmissions() {
+export default function AllSubmissions() {
 
-    const submissionsData = useLoaderData() as Submissions;
+    const submissionsData = useLoaderData() as SubmissionsInfo;
 
     return (
         <FadeIn>

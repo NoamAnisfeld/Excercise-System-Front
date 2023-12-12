@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material"
-import FadeIn from "../components/FadeIn"
-import MainOptionsButton from "../components/MainOptionsButton";
+import FadeIn from "../FadeIn"
+import MainOptionsButton from "./MainOptionsButton";
 
 export default function MainOptions() {
     return (

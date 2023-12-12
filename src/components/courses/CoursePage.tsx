@@ -1,10 +1,10 @@
-import PageHeader from "../components/PageHeader";
-import CardStack from "../components/CardStack"
-import AssignmentCard from "../components/AssignmentCard"
-import FadeIn from "../components/FadeIn"
+import PageHeader from "../PageHeader";
+import CardStack from "../CardStack"
+import AssignmentCard from "../assignments/AssignmentCard"
+import FadeIn from "../FadeIn"
 
 import { useLoaderData } from "react-router-dom"
-import type { CourseInfo, Assignments } from "../requests/schemas"
+import type { CourseInfo, Assignments } from "../../requests/schemas"
 export type CoursePageData = {
     courseInfo: CourseInfo,
     assignments: Assignments

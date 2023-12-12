@@ -12,7 +12,7 @@ import {
     Collapse,
 } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete'
-import { InputLabelStyledAsButton } from "./util-components"
+import { InputLabelStyledAsButton } from "../util-components"
 
 interface SubmissionUploaderProps {
     onSubmit: (file: File) => void,

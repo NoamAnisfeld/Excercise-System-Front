@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { wrapWithRouter } from '../test-utils'
+import { wrapWithRouter } from '../../test-utils'
 import { render, screen } from '@testing-library/react'
 import NavBar from './NavBar'
 

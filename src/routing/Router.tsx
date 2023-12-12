@@ -5,16 +5,16 @@ import {
     RouterProvider,
     ScrollRestoration,
 } from "react-router-dom"
-import MainLayout from "./MainLayout"
-import Login from "./Login"
-import AppLayout from "./AppLayout"
-import MainOptions from "./MainOptions"
-import MyCourses, { MyCoursesData } from "./MyCourses"
-import CoursePage, { CoursePageData } from "./CoursePage"
-import MyAssignments, { MyAssignmentsData } from "./MyAssignments"
-import AssignmentPage, { AssignmentPageData } from "./AssignmentPage"
-import MySubmissions, { MySubmissionsData } from "./MySubmissions"
-import SubmissionPage, { SubmissionPageData } from "./SubmissionPage"
+import MainLayout from "../components/main/MainLayout"
+import Login from "../components/main/Login"
+import AppLayout from "../components/main/AppLayout"
+import MainOptions from "../components/main/MainOptions"
+import AllCourses, { CoursesInfo } from "../components/courses/AllCourses"
+import CoursePage, { CoursePageData } from "../components/courses/CoursePage"
+import AllAssignments, { AssignmentsInfo } from "../components/assignments/AllAssignments"
+import AssignmentPage, { AssignmentPageData } from "../components/assignments/AssignmentPage"
+import AllSubmissions, { SubmissionsInfo } from "../components/submissions/AllSubmissions"
+import SubmissionPage, { SubmissionPageData } from "../components/submissions/SubmissionPage"
 import {
     fetchCourses,
     fetchAssignments,
@@ -100,8 +100,8 @@ const mainRouteTree: RouteObject[] = [
                         children: [
                             {
                                 index: true,
-                                element: <MyCourses />,
-                                loader: async (): Promise<MyCoursesData> =>
+                                element: <AllCourses />,
+                                loader: async (): Promise<CoursesInfo> =>
                                     fetchCourses(),
                             },
 
@@ -113,8 +113,8 @@ const mainRouteTree: RouteObject[] = [
                         children: [
                             {
                                 index: true,
-                                element: <MyAssignments />,
-                                loader: async (): Promise<MyAssignmentsData> =>
+                                element: <AllAssignments />,
+                                loader: async (): Promise<AssignmentsInfo> =>
                                     fetchAssignments(),
                             },
 
@@ -126,8 +126,8 @@ const mainRouteTree: RouteObject[] = [
                         children: [
                             {
                                 index: true,
-                                element: <MySubmissions />,
-                                loader: async (): Promise<MySubmissionsData> =>
+                                element: <AllSubmissions />,
+                                loader: async (): Promise<SubmissionsInfo> =>
                                     fetchSubmissions(),
                             },
 

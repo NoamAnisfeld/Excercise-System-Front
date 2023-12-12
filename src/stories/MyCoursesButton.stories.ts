@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import MainOptionsButton from '../components/MainOptionsButton';
+import MainOptionsButton from '../components/main/MainOptionsButton';
 
 const meta = {
   title: 'MainOptionsButton',
