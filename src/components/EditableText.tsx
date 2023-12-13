@@ -8,12 +8,14 @@ export interface EditableTextProps {
     currentText: string,
     placeholderText?: string,
     onSave: (newText: string) => void | Promise<void>,
+    editable?: boolean,
 }
 
 export default function EditableText({
     currentText,
     placeholderText = '',
     onSave,
+    editable = true,
 }: EditableTextProps) {
 
     const [editMode, setEditMode] = useState(false);
@@ -68,19 +70,23 @@ export default function EditableText({
                     <Typography>
                         {currentText || placeholderText}
                     </Typography>
-                    <Button
-                        variant="contained"
-                        size="small"
-                        sx={{
-                            py: 0,
-                            px: 1,
-                            minWidth: 0,
-                            marginInlineStart: 1,
-                        }}
-                        onClick={() => setEditMode(true)}
-                    >
-                        עריכה
-                    </Button>
+                    {editable ?
+                        <Button
+                            variant="contained"
+                            size="small"
+                            sx={{
+                                py: 0,
+                                px: 1,
+                                minWidth: 0,
+                                marginInlineStart: 1,
+                            }}
+                            onClick={() => setEditMode(true)}
+                        >
+                            עריכה
+                        </Button>
+                        :
+                        undefined
+                    }
                 </>
             }
         </Box>

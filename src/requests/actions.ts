@@ -1,5 +1,6 @@
 import { ZodError, z } from 'zod'
 import {
+    SubmissionInfo,
     submissionInfoSchema,
 } from './schemas'
 import { getApiSession, InvalidTokenError } from './auth'
@@ -89,18 +90,39 @@ export async function submitSubmission(file: File, assignmentId: number, userId:
 }
 
 
-export async function updateSubmissionComment(newComment: string, submissionId: number, assignmentId: number, userId: number) {
+type SubmissionNewInfo = Partial<{
+    comment: string,
+    score: number,
+    file: File,
+}>
+const updatableSubmissionFields = ['comment', 'score', 'file'] satisfies
+    (keyof SubmissionInfo & keyof SubmissionNewInfo)[];
+export async function updateSubmissionComment(
+    newInfo: SubmissionNewInfo,
+    submissionId: number,
+    assignmentId: number,
+    userId: number,
+) {
     
     const formData = new FormData();
-    formData.append('comment', newComment);
+    updatableSubmissionFields.forEach(key => {
+        const value = newInfo[key];
+
+        if (typeof value === 'string' || value instanceof File) {
+            formData.append(key, value);
+        } else if (typeof value === 'number') {
+            formData.append(key, String(value));
+        } else {
+            console.error(`An attempt to update field "${key}" of submission info failed type checking`)
+        }
+    });
     formData.append('assignment', String(assignmentId));
     formData.append('user', String(userId));
-   
 
     return await performApiAction(
         `/submissions/${submissionId}/`,
         submissionInfoSchema,
         formData,
         'PATCH',
-    )
+    );
 }

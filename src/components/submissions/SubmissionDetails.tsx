@@ -1,15 +1,15 @@
+import type { SubmissionInfo } from "../../requests/schemas"
+import { updateSubmissionComment } from '../../requests/actions'
+import { formatDateTime } from '../../utils'
+import { useReloadRoute, useUserIsStaff } from '../../hooks'
 import {
     Table,
     TableBody,
     TableRow,
     TableCell,
 } from '@mui/material'
-import type { SubmissionInfo } from "../../requests/schemas"
-import { formatDateTime } from '../../utils'
 import EditableText from '../EditableText'
-import { updateSubmissionComment } from '../../requests/actions'
-import { useNavigate } from 'react-router-dom'
-import { useAppSelector } from '../../hooks'
+
 
 export default function SubmissionDetails({
     comment,
@@ -20,8 +20,8 @@ export default function SubmissionDetails({
     user,
 }: SubmissionInfo) {
 
-    const userIsStaff = useAppSelector(({ userdata }) => userdata.isStaff);
-    const navigate = useNavigate();
+    const userIsStaff = useUserIsStaff();
+    const reload = useReloadRoute();
 
     return (
         <Table sx={{
@@ -49,23 +49,20 @@ export default function SubmissionDetails({
                 <TableRow>
                     <TableCell component="th">משוב</TableCell>
                     <TableCell>
-                        {userIsStaff ?
                         <EditableText
+                            editable={userIsStaff}
                             currentText={comment || ''}
-                            placeholderText='טרם ניתן משוב'
+                            placeholderText='לא ניתן משוב'
                             onSave={async (newComment) => {
                                 await updateSubmissionComment(
-                                    newComment,
+                                    { comment: newComment },
                                     id,
                                     assignment,
                                     user,
                                 );
-                                navigate('.');
+                                reload();
                             }}
                         />
-                        :
-                        (comment || '-')
-                    }
                     </TableCell>
                 </TableRow>
             </TableBody>

@@ -101,3 +101,14 @@ export function useResumeApiSession() {
         })();
     }, [loginStatus]);
 }
+
+
+export function useReloadRoute() {
+    const navigate = useNavigate();
+    return () => navigate('.', { replace: true });
+}
+
+
+export function useUserIsStaff() {
+    return useAppSelector(({ userdata }) => userdata.isStaff);
+}
