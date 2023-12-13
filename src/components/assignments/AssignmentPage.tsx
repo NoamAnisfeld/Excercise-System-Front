@@ -61,7 +61,7 @@ export default function AssignmentPage() {
                     <CardStack>
                         {submissions.map(submission => <SubmissionCard
                             {...submission}
-                            linkTo={`submissions/${submission.id}`}
+                            linkTo={`#submission-${submission.id}`}
                             key={submission.id}
                         />)}
                     </CardStack>

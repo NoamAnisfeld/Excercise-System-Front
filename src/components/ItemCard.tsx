@@ -20,7 +20,12 @@ export default function ItemCard({
                 p: 2
             }}
         >
-            <CardActionArea component={Link} to={linkTo}>
+            <CardActionArea
+                component={Link}
+                to={linkTo}
+                preventScrollReset={linkTo.startsWith('#')}
+                replace={linkTo.startsWith('#')}
+            >
                 <CardHeader
                     title={title}
                 />

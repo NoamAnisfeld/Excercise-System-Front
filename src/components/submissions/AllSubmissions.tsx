@@ -17,7 +17,7 @@ export default function AllSubmissions() {
             <CardStack>
                 {submissionsData.map(submission => <SubmissionCard
                     {...submission}
-                    linkTo={String(submission.id)}
+                    linkTo={`#submission-${submission.id}`}
                     key={submission.id}
                 />)}
             </CardStack>
