@@ -1,7 +1,7 @@
 import type { SubmissionInfo } from "../../requests/schemas"
 import { updateSubmissionComment } from '../../requests/actions'
 import { formatDateTime } from '../../utils'
-import { useReloadRoute, useUserIsStaff } from '../../hooks'
+import { useReloadRoute, useViewerIsStaff } from '../../hooks'
 import {
     Table,
     TableBody,
@@ -22,7 +22,7 @@ export default function SubmissionDetails({
     user,
 }: SubmissionInfo) {
 
-    const userIsStaff = useUserIsStaff();
+    const viewerIsStaff = useViewerIsStaff();
     const reload = useReloadRoute();
 
     return (
@@ -52,7 +52,7 @@ export default function SubmissionDetails({
                     <TableCell component="th">ציון</TableCell>
                     <TableCell>
                         <EditableNumber
-                            editable={userIsStaff}
+                            editable={viewerIsStaff}
                             currentValue={score}
                             placeholderValue='טרם ניתן ציון'
                             onSave={async (newScore) => {
@@ -72,7 +72,7 @@ export default function SubmissionDetails({
                     <TableCell component="th">משוב</TableCell>
                     <TableCell>
                         <EditableText
-                            editable={userIsStaff}
+                            editable={viewerIsStaff}
                             currentText={comment || ''}
                             placeholderText='לא ניתן משוב'
                             onSave={async (newComment) => {

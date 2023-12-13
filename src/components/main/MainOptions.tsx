@@ -1,11 +1,11 @@
 import { Grid } from "@mui/material"
 import FadeIn from "../FadeIn"
 import MainOptionsButton from "./MainOptionsButton";
-import { useUserIsStaff } from "../../hooks";
+import { useViewerIsStaff } from "../../hooks";
 
 export default function MainOptions() {
 
-    const userIsStaff = useUserIsStaff();
+    const viewerIsStaff = useViewerIsStaff();
 
     return (
         <FadeIn>
@@ -19,7 +19,7 @@ export default function MainOptions() {
                 <Grid item>
                     <MainOptionsButton title="כל ההגשות" linkTo="submissions" />
                 </Grid>
-                {userIsStaff ?
+                {viewerIsStaff ?
                     <Grid item>
                         <MainOptionsButton title="כל המשתמשים" linkTo="users" />
                     </Grid>

@@ -3,7 +3,7 @@ import { useLoaderData, useNavigate } from "react-router-dom"
 import { Typography } from "@mui/material"
 
 import { timeHasPassed, formatDateTime } from "../../utils"
-import { useAppSelector } from "../../hooks"
+import { useAppSelector, useViewerIsStaff } from "../../hooks"
 import type { AssignmentInfo, Submissions } from "../../requests/schemas"
 import { submitSubmission } from "../../requests/actions"
 
@@ -23,6 +23,7 @@ export type AssignmentPageData = {
 
 export default function AssignmentPage() {
 
+    const viewerIsStaff = useViewerIsStaff();
     const [errorAlert, setErrorAlert] = useState<ErrorAlertProps | null>(null);
     const { assignmentInfo, submissions } = useLoaderData() as AssignmentPageData;
     const { id: userId } = useAppSelector(state => state.userdata);
@@ -46,23 +47,17 @@ export default function AssignmentPage() {
     return (
         <FadeIn>
             <PageHeader title={assignmentInfo.title} subtitle={assignmentInfo.description} />
-            {submissions.length === 0 ?
+            {viewerIsStaff ?
                 <>
                     <Typography variant="body1">
                         <strong>זמן אחרון להגשה: </strong>
                         {formatDateTime(assignmentInfo.sub_end_date)}
                     </Typography>
-
                     {timeHasPassed(new Date(assignmentInfo.sub_end_date)) ?
                         <Typography color="warning.main">הזמן עבר</Typography>
                         :
-                        <SubmissionUploader onSubmit={handleSubmitSubmission} />
+                        undefined
                     }
-                </>
-                :
-                submissions.length === 1 ?
-                    <SubmissionDetails {...submissions[0]} />
-                    :
                     <CardStack>
                         {submissions.map(submission => <SubmissionCard
                             {...submission}
@@ -70,6 +65,23 @@ export default function AssignmentPage() {
                             key={submission.id}
                         />)}
                     </CardStack>
+                </>
+                :
+                submissions.length ?
+                    <SubmissionDetails {...submissions[0]} />
+                    :
+                    <>
+                        <Typography variant="body1">
+                            <strong>זמן אחרון להגשה: </strong>
+                            {formatDateTime(assignmentInfo.sub_end_date)}
+                        </Typography>
+
+                        {timeHasPassed(new Date(assignmentInfo.sub_end_date)) ?
+                            <Typography color="warning.main">הזמן עבר</Typography>
+                            :
+                            <SubmissionUploader onSubmit={handleSubmitSubmission} />
+                        }
+                    </>
             }
             {errorAlert ? <ErrorAlert {...errorAlert} /> : undefined}
         </FadeIn>
