@@ -9,12 +9,14 @@ import {
     TableCell,
 } from '@mui/material'
 import EditableText from '../EditableText'
+import EditableNumber from "../EditableNumber"
 
 
 export default function SubmissionDetails({
-    comment,
     created_at,
     updated_at,
+    score,
+    comment,
     id,
     assignment,
     user,
@@ -45,6 +47,26 @@ export default function SubmissionDetails({
                         <TableCell>{formatDateTime(updated_at)}</TableCell>
                     </TableRow>
                     : undefined}
+
+                <TableRow>
+                    <TableCell component="th">ציון</TableCell>
+                    <TableCell>
+                        <EditableNumber
+                            editable={userIsStaff}
+                            currentValue={score}
+                            placeholderValue='טרם ניתן ציון'
+                            onSave={async (newScore) => {
+                                await updateSubmissionComment(
+                                    { score: newScore },
+                                    id,
+                                    assignment,
+                                    user,
+                                );
+                                reload();
+                            }}
+                        />
+                    </TableCell>
+                </TableRow>
 
                 <TableRow>
                     <TableCell component="th">משוב</TableCell>

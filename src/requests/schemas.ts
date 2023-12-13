@@ -65,14 +65,14 @@ export type Assignments = z.infer<typeof assignmentsSchema>;
 export const submissionInfoSchema = z.object(
     {
         id: z.number(),
+        user: z.number(),
+        assignment: z.number(),
         sub_date: z.string(),
         file: z.string(),
+        score: z.number().nullable(),
         comment: z.string().nullable(),
         created_at: z.string(),
         updated_at: z.string(),
-        user: z.number(),
-        assignment: z.number(),
-        score: z.number(),
     }
 )
 export type SubmissionInfo = z.infer<typeof submissionInfoSchema>
