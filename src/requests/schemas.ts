@@ -7,12 +7,10 @@ export const apiTokensSchema = z.object({
 });
 export type ApiTokens = z.infer<typeof apiTokensSchema>
 
-
 export const refreshedApiTokensSchema = z.object({
     access: z.string(),
 });
 export type RefreshedApiTokens = z.infer<typeof refreshedApiTokensSchema>
-
 
 export const apiTokenClaimsSchema = z.object({
     token_type: z.string(),
@@ -32,6 +30,9 @@ export const userInfoSchema = z.object({
 });
 export type UserInfo = z.infer<typeof userInfoSchema>
 
+export const usersSchema = z.array(userInfoSchema);
+export type Users = z.infer<typeof usersSchema>;
+
 
 export const courseInfoSchema = z.object({
     id: z.number(),
@@ -40,7 +41,6 @@ export const courseInfoSchema = z.object({
     classrooms: z.array(z.number()),
 });
 export type CourseInfo = z.infer<typeof courseInfoSchema>
-
 
 export const coursesSchema = z.array(courseInfoSchema);
 export type Courses = z.infer<typeof coursesSchema>;
@@ -56,7 +56,6 @@ export const assignmentInfoSchema = z.object(
     }
 )
 export type AssignmentInfo = z.infer<typeof assignmentInfoSchema>
-
 
 export const assignmentsSchema = z.array(assignmentInfoSchema);
 export type Assignments = z.infer<typeof assignmentsSchema>;
@@ -77,15 +76,5 @@ export const submissionInfoSchema = z.object(
 )
 export type SubmissionInfo = z.infer<typeof submissionInfoSchema>
 
-
 export const submissionsSchema = z.array(submissionInfoSchema);
 export type Submissions = z.infer<typeof submissionsSchema>;
-
-
-export const authTokensSchema = z.object(
-    {
-        refreshToken: z.string(),
-        accessToken: z.string(),
-    }
-);
-export type AuthTokens = z.infer<typeof authTokensSchema>

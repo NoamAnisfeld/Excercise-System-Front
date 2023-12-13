@@ -1,4 +1,5 @@
 import { Card, CardActionArea, CardHeader, CardContent, Typography } from "@mui/material"
+import React from "react"
 import { Link } from "react-router-dom"
 
 export default function ItemCard({
@@ -7,7 +8,7 @@ export default function ItemCard({
     linkTo,
 }: {
     title: string,
-    description: string | null,
+    description: string | React.ReactNode | null,
     linkTo: string,
 }) {
     return (
@@ -24,9 +25,12 @@ export default function ItemCard({
                     title={title}
                 />
                 {description ?
-                    <CardContent>
-                        <Typography>{description}</Typography>
-                    </CardContent>
+                    typeof description === 'string' ?
+                        <CardContent>
+                            <Typography>{description}</Typography>
+                        </CardContent>
+                        :
+                        description
                     :
                     undefined
                 }

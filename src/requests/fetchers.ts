@@ -3,7 +3,7 @@ import {
     courseInfoSchema, coursesSchema,
     assignmentInfoSchema, assignmentsSchema,
     submissionInfoSchema, submissionsSchema,
-    userInfoSchema, UserInfo,
+    userInfoSchema, usersSchema, type UserInfo,
 } from './schemas'
 import { getApiSession, InvalidTokenError } from './auth'
 import { API_BASE_URL, HTTP, sleep } from '../utils'
@@ -98,6 +98,11 @@ export async function fetchAssignments() {
 
 export async function fetchSubmissions() {
     return await fetchApiData('/submissions/', submissionsSchema);
+}
+
+
+export async function fetchUsers() {
+    return await fetchApiData('/users/', usersSchema);
 }
 
 

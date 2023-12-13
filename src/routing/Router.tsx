@@ -15,15 +15,19 @@ import AllAssignments, { AssignmentsInfo } from "../components/assignments/AllAs
 import AssignmentPage, { AssignmentPageData } from "../components/assignments/AssignmentPage"
 import AllSubmissions, { SubmissionsInfo } from "../components/submissions/AllSubmissions"
 import SubmissionPage, { SubmissionPageData } from "../components/submissions/SubmissionPage"
+import AllUsers, { UsersInfo } from "../components/users/AllUsers"
+import UserPage, { UserPageData } from "../components/users/UserPage"
 import {
     fetchCourses,
     fetchAssignments,
     fetchSubmissions,
+    fetchUsers,
     fetchCourseAssignments,
     fetchAssignmentSubmissions,
     fetchCourseInfo,
     fetchAssignmentInfo,
     fetchSubmissionInfo,
+    fetchUserInfo,
 } from "../requests/fetchers"
 
 const submissionsRouteTree: RouteObject[] = [
@@ -139,6 +143,23 @@ const mainRouteTree: RouteObject[] = [
                             ...submissionsRouteTree,
                         ]
                     },
+                    {
+                        path: 'users',
+                        children: [
+                            {
+                                index: true,
+                                element: <AllUsers />,
+                                loader: async (): Promise<UsersInfo> =>
+                                    fetchUsers(),
+                            },
+                            {
+                                path: ':user_id',
+                                element: <UserPage />,
+                                loader: async ({ params }: LoaderFunctionArgs): Promise<UserPageData> =>
+                                    fetchUserInfo(Number(params.user_id)),
+                            }                                                   
+                        ]
+                    }
                 ]
             },
         ]
