@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import type { RootState, AppDispatch } from './global-state/store'
@@ -9,7 +9,6 @@ import {
     InvalidTokenError
 } from './requests/auth'
 import { fetchUserInfo } from './requests/fetchers'
-import { UserInfo } from './requests/schemas'
 import {
     API_SESSION_TOKEN_STORAGE_KEY,
     getStorageItem,
@@ -112,18 +111,4 @@ export function useReloadRoute() {
 
 export function useViewerIsStaff() {
     return useAppSelector(({ userdata }) => userdata.isStaff);
-}
-
-
-export function useGetUserInfo(userId: number) {
-
-    const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-
-    useEffect(() => {
-        (async () => {
-            setUserInfo(await fetchUserInfo(userId));
-        })();
-    }, [userId])
-
-    return userInfo;
 }

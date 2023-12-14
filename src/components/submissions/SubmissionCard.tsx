@@ -1,11 +1,14 @@
-import ItemCard from "../ItemCard"
 import SubmissionDetails from "./SubmissionDetails"
 import type { SubmissionInfo } from "../../requests/schemas"
+import { fetchUserInfo } from "../../requests/fetchers"
+import { useQuery } from "@tanstack/react-query"
+import { useViewerIsStaff } from "../../hooks"
 import { formatDateTime } from "../../utils"
-import { useGetUserInfo, useViewerIsStaff } from "../../hooks"
 import { useLocation } from "react-router-dom"
 import Box from "@mui/material/Box"
 import Collapse from "@mui/material/Collapse"
+import ItemCard from "../ItemCard"
+
 
 export default function SubmissionCard({
     linkTo,
@@ -21,7 +24,10 @@ export default function SubmissionCard({
         comment,
     } = submission;
     const viewerIsStaff = useViewerIsStaff();
-    const userInfo = useGetUserInfo(user);
+    const { data: userInfo } = useQuery({
+        queryKey: ['users', user],
+        queryFn: () => fetchUserInfo(user),
+    });
     const { hash } = useLocation();
 
     return (
