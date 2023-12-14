@@ -34,6 +34,16 @@ export const usersSchema = z.array(userInfoSchema);
 export type Users = z.infer<typeof usersSchema>;
 
 
+// for some reason the API doesn't include the id in the response when creating a new user
+export const userInfoWithNoIdSchema = z.object({
+    username: z.string().nullable(),
+    email: z.string(),
+    first_name: z.string(),
+    last_name: z.string(),
+});
+export type UserInfoWithNoId = z.infer<typeof userInfoWithNoIdSchema>
+
+
 export const courseInfoSchema = z.object({
     id: z.number(),
     name: z.string(),

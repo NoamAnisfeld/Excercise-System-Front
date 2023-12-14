@@ -1,7 +1,8 @@
 import { ZodError, z } from 'zod'
 import {
-    SubmissionInfo,
+    type SubmissionInfo,
     submissionInfoSchema,
+    userInfoWithNoIdSchema,
 } from './schemas'
 import { getApiSession, InvalidTokenError } from './auth'
 import { API_BASE_URL, HTTP } from '../utils'
@@ -71,6 +72,30 @@ async function performApiAction<T>(
 }
 
 
+export type NewUserInfo = {
+    first_name: string,
+    last_name: string,
+    username: string,
+    email: string,
+    password: string,
+}
+export async function createUser(userInfo: NewUserInfo) {
+
+    const formData = new FormData();
+    const newUserInfoFields = ['first_name', 'last_name', 'username', 'email', 'password'] satisfies
+        (keyof NewUserInfo)[];
+    newUserInfoFields.forEach(key => {
+        formData.append(key, userInfo[key]);
+    })
+    return await performApiAction(
+        '/users/',
+        // for some reason the API doesn't include the id in the response when creating a new user
+        userInfoWithNoIdSchema,
+        formData,
+    )
+}
+
+
 export async function submitSubmission(file: File, assignmentId: number, userId: number) {
 
     const formData = new FormData();
@@ -80,7 +105,7 @@ export async function submitSubmission(file: File, assignmentId: number, userId:
     formData.append('user', String(userId));
     // expected to be removed, it's a bug
     formData.append('comment', '');
-    
+
 
     return await performApiAction(
         '/submissions/',
@@ -95,16 +120,16 @@ type SubmissionNewInfo = Partial<{
     score: number,
     file: File,
 }>
-const updatableSubmissionFields = ['comment', 'score', 'file'] satisfies
-    (keyof SubmissionInfo & keyof SubmissionNewInfo)[];
 export async function updateSubmissionComment(
     newInfo: SubmissionNewInfo,
     submissionId: number,
     assignmentId: number,
     userId: number,
 ) {
-    
+
     const formData = new FormData();
+    const updatableSubmissionFields = ['comment', 'score', 'file'] satisfies
+        (keyof SubmissionInfo & keyof SubmissionNewInfo)[];
     updatableSubmissionFields.forEach(key => {
         const value = newInfo[key];
 
