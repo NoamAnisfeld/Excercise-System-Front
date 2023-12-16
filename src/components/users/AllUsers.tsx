@@ -1,24 +1,32 @@
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom"
+import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { fetchUsers } from "../../requests/fetchers"
+import { createUser } from "../../requests/actions"
 import { useReloadRoute } from "../../hooks"
 
+import Button from "@mui/material/Button"
 import PageHeader from "../PageHeader";
 import CardStack from "../CardStack"
 import UserCard from "./UserCard"
 import FadeIn from "../FadeIn"
-import Button from "@mui/material/Button"
-
 import UserDetailsDialog from "./UserDetailsDialog";
-import { createUser } from "../../requests/actions";
-import type { Users } from "../../requests/schemas"
-export type UsersInfo = Users;
 
 
 export default function AllUsers() {
 
-    const usersInfo = useLoaderData() as UsersInfo;
+    const { data: usersInfo, isError, isPending } = useQuery({
+        queryKey: ['users'],
+        queryFn: fetchUsers,
+    });
     const [showCreateUserDialog, setShowCreateUserDialog] = useState(false);
     const reload = useReloadRoute();
+
+    if (isError) {
+        throw new Error('Failed to fetch users');
+    }
+    if (isPending) {
+        return <>טוען נתונים...</>
+    }
 
     return (
         <FadeIn>

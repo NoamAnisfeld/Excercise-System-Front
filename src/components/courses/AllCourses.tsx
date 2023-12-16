@@ -1,15 +1,25 @@
+import { useQuery } from "@tanstack/react-query"
+import { fetchCourses } from "../../requests/fetchers"
+
 import PageHeader from "../PageHeader";
 import CardStack from "../CardStack"
 import CourseCard from "./CourseCard"
 import FadeIn from "../FadeIn"
 
-import { useLoaderData } from "react-router-dom"
-import type { Courses } from "../../requests/schemas"
-export type CoursesInfo = Courses;
 
 export default function AllCourses() {
 
-    const coursesInfo = useLoaderData() as CoursesInfo;
+    const { data: coursesInfo, isError, isPending } = useQuery({
+        queryKey: ['users'],
+        queryFn: fetchCourses,
+    });
+
+    if (isError) {
+        throw new Error('Failed to fetch courses');
+    }
+    if (isPending) {
+        return <>טוען נתונים...</>
+    }
 
     return (
         <FadeIn>

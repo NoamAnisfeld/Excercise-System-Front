@@ -1,12 +1,25 @@
+import { useQuery } from "@tanstack/react-query"
+import { fetchSubmissionInfo } from "../../requests/fetchers"
 import FadeIn from "../FadeIn"
-
-import { useLoaderData } from "react-router-dom"
-import type { SubmissionInfo } from "../../requests/schemas"
 import SubmissionDetails from "./SubmissionDetails";
-export type SubmissionPageData = SubmissionInfo;
 
-export default function SubmissionPage() {
-    const submission = useLoaderData() as SubmissionInfo;
+export default function SubmissionPage({
+    id,
+}: {
+    id: number,
+}) {
+    
+    const { data: submission, isError, isPending } = useQuery({
+        queryKey: ['submissions', id],
+        queryFn: () => fetchSubmissionInfo(id),
+    })
+
+    if (isError) {
+        throw new Error('Failed to fetch submission info');
+    }
+    if (isPending) {
+        return <>טוען נתונים...</>
+    }
 
     return (
         <FadeIn>

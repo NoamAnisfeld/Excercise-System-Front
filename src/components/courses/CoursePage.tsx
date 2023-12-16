@@ -2,16 +2,33 @@ import PageHeader from "../PageHeader";
 import CardStack from "../CardStack"
 import AssignmentCard from "../assignments/AssignmentCard"
 import FadeIn from "../FadeIn"
+import { useQuery } from "@tanstack/react-query";
+import { fetchCourseAssignments, fetchCourseInfo } from "../../requests/fetchers";
 
-import { useLoaderData } from "react-router-dom"
-import type { CourseInfo, Assignments } from "../../requests/schemas"
-export type CoursePageData = {
-    courseInfo: CourseInfo,
-    assignments: Assignments
-};
 
-export default function CoursePage() {
-    const { courseInfo, assignments } = useLoaderData() as CoursePageData;
+export default function CoursePage({
+    id,
+}: {
+    id: number,
+}) {
+
+    const courseQuery = useQuery({
+        queryKey: ['courses', id],
+        queryFn: () => fetchCourseInfo(id),
+    });
+    const assignmentsQuery = useQuery({
+        queryKey: ['courses', id, 'assignments'],
+        queryFn: () => fetchCourseAssignments(id),
+    })
+
+    if (courseQuery.isError || assignmentsQuery.isError) {
+        throw new Error('Error fetching course or course assignments info');
+    }
+    if (courseQuery.isPending || assignmentsQuery.isPending) {
+        return <>טוען נתונים...</>;
+    }
+    const courseInfo = courseQuery.data;
+    const assignments = assignmentsQuery.data;
 
     return (
         <FadeIn>

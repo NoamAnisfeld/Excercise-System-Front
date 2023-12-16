@@ -1,15 +1,25 @@
+import { useQuery } from "@tanstack/react-query"
+import { fetchAssignments } from "../../requests/fetchers"
+
 import PageHeader from "../PageHeader";
 import CardStack from "../CardStack"
 import AssignmentCard from "./AssignmentCard"
 import FadeIn from "../FadeIn"
 
-import { useLoaderData } from "react-router-dom"
-import type { Assignments } from "../../requests/schemas"
-export type AssignmentsInfo = Assignments;
 
 export default function AllAssignments() {
 
-    const assignmentsInfo = useLoaderData() as AssignmentsInfo;
+    const { data: assignmentsInfo, isError, isPending } = useQuery({
+        queryKey: ['users'],
+        queryFn: fetchAssignments,
+    });
+
+    if (isError) {
+        throw new Error('Failed to fetch assignments');
+    }
+    if (isPending) {
+        return <>טוען נתונים...</>
+    }
 
     return (
         <FadeIn>

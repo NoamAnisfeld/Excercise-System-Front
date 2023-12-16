@@ -1,12 +1,13 @@
 import { useState } from "react"
-import { useLoaderData, useNavigate } from "react-router-dom"
-import { Typography } from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import { useQuery } from "@tanstack/react-query"
+import { fetchAssignmentInfo, fetchAssignmentSubmissions } from "../../requests/fetchers"
+import { submitSubmission } from "../../requests/actions"
 
 import { timeHasPassed, formatDateTime } from "../../utils"
 import { useAppSelector, useViewerIsStaff } from "../../hooks"
-import type { AssignmentInfo, Submissions } from "../../requests/schemas"
-import { submitSubmission } from "../../requests/actions"
 
+import { Typography } from "@mui/material"
 import PageHeader from "../PageHeader"
 import CardStack from "../CardStack"
 import ErrorAlert, { ErrorAlertProps } from "../ErrorAlert"
@@ -15,20 +16,37 @@ import SubmissionDetails from "../submissions/SubmissionDetails"
 import SubmissionUploader from "../submissions/SubmissionUploader"
 import FadeIn from "../FadeIn"
 
-export type AssignmentPageData = {
-    assignmentInfo: AssignmentInfo,
-    submissions: Submissions,
-};
 
-
-export default function AssignmentPage() {
+export default function AssignmentPage({
+    id,
+}: {
+    id: number,
+}) {
 
     const viewerIsStaff = useViewerIsStaff();
-    const [errorAlert, setErrorAlert] = useState<ErrorAlertProps | null>(null);
-    const { assignmentInfo, submissions } = useLoaderData() as AssignmentPageData;
     const { id: userId } = useAppSelector(state => state.userdata);
+    const [errorAlert, setErrorAlert] = useState<ErrorAlertProps | null>(null);
     const navigate = useNavigate();
     const refresh = () => navigate(0);
+    
+    const assignmentQuery = useQuery({
+        queryKey: ['assignments', id],
+        queryFn: () => fetchAssignmentInfo(id),
+    });
+    const submissionsQuery = useQuery({
+        queryKey: ['assignments', id, 'submissions'],
+        queryFn: () => fetchAssignmentSubmissions(id),
+    });
+
+    if (assignmentQuery.isError || submissionsQuery.isError) {
+        throw new Error('Error fetching assignment or assignment submissions info');
+    }
+    if (assignmentQuery.isPending || submissionsQuery.isPending) {
+        return <>טוען נתונים...</>;
+    }
+    const assignmentInfo = assignmentQuery.data;
+    const submissions = submissionsQuery.data;
+
 
     async function handleSubmitSubmission(file: File) {
 

@@ -1,14 +1,27 @@
+import { useQuery } from "@tanstack/react-query"
+import { fetchUserInfo } from "../../requests/fetchers"
+
 import PageHeader from "../PageHeader";
 import FadeIn from "../FadeIn"
-
-import { useLoaderData } from "react-router-dom"
-import type { UserInfo } from "../../requests/schemas"
 import UserDetails from "./UserDetails";
-export type UserPageData = UserInfo
 
-export default function UserPage() {
+export default function UserPage({
+    id
+}: {
+    id: number,
+}) {
 
-    const user = useLoaderData() as UserInfo;
+    const { data: user, isError, isPending } = useQuery({
+        queryKey: ['users', id],
+        queryFn: () => fetchUserInfo(id),
+    });
+
+    if (isError) {
+        throw new Error('Failed to fetch user info');
+    }
+    if (isPending) {
+        return <>טוען נתונים...</>
+    }
 
     return (
         <FadeIn>

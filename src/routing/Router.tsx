@@ -1,41 +1,41 @@
 import {
     createBrowserRouter,
     RouteObject,
-    LoaderFunctionArgs,
     RouterProvider,
     ScrollRestoration,
+    useParams,
 } from "react-router-dom"
+
 import MainLayout from "../components/main/MainLayout"
 import Login from "../components/main/Login"
 import AppLayout from "../components/main/AppLayout"
 import MainOptions from "../components/main/MainOptions"
-import AllCourses, { CoursesInfo } from "../components/courses/AllCourses"
-import CoursePage, { CoursePageData } from "../components/courses/CoursePage"
-import AllAssignments, { AssignmentsInfo } from "../components/assignments/AllAssignments"
-import AssignmentPage, { AssignmentPageData } from "../components/assignments/AssignmentPage"
-import AllSubmissions, { SubmissionsInfo } from "../components/submissions/AllSubmissions"
-import SubmissionPage, { SubmissionPageData } from "../components/submissions/SubmissionPage"
-import AllUsers, { UsersInfo } from "../components/users/AllUsers"
-import UserPage, { UserPageData } from "../components/users/UserPage"
-import {
-    fetchCourses,
-    fetchAssignments,
-    fetchSubmissions,
-    fetchUsers,
-    fetchCourseAssignments,
-    fetchAssignmentSubmissions,
-    fetchCourseInfo,
-    fetchAssignmentInfo,
-    fetchSubmissionInfo,
-    fetchUserInfo,
-} from "../requests/fetchers"
+import AllCourses from "../components/courses/AllCourses"
+import CoursePage from "../components/courses/CoursePage"
+import AllAssignments from "../components/assignments/AllAssignments"
+import AssignmentPage from "../components/assignments/AssignmentPage"
+import AllSubmissions from "../components/submissions/AllSubmissions"
+import SubmissionPage from "../components/submissions/SubmissionPage"
+import AllUsers from "../components/users/AllUsers"
+import UserPage from "../components/users/UserPage"
+
+
+function IdProvider({
+    Component,
+    param,
+}: {
+    Component: React.FunctionComponent<{ id: number }>,
+    param: string,
+}) {
+    const paramValue = useParams()[param];
+    return <Component id={Number(paramValue)} />
+}
+
 
 const submissionsRouteTree: RouteObject[] = [
     {
         path: ':submission_id',
-        element: <SubmissionPage />,
-        loader: async ({ params }: LoaderFunctionArgs): Promise<SubmissionPageData> =>
-            fetchSubmissionInfo(Number(params.submission_id)),
+        element: <IdProvider Component={SubmissionPage} param="submission_id" />,
     }
 ]
 
@@ -45,11 +45,7 @@ const assignmentsRouteTree: RouteObject[] = [
         children: [
             {
                 index: true,
-                element: <AssignmentPage />,
-                loader: async ({ params }: LoaderFunctionArgs): Promise<AssignmentPageData> => ({
-                    assignmentInfo: await fetchAssignmentInfo(Number(params.assignment_id)),
-                    submissions: await fetchAssignmentSubmissions(Number(params.assignment_id)),
-                })
+                element: <IdProvider Component={AssignmentPage} param="assignment_id" />,
             },
             {
                 path: 'submissions',
@@ -65,11 +61,7 @@ const coursesRouteTree: RouteObject[] = [
         children: [
             {
                 index: true,
-                element: <CoursePage />,
-                loader: async ({ params }: LoaderFunctionArgs): Promise<CoursePageData> => ({
-                    courseInfo: await fetchCourseInfo(Number(params.course_id)),
-                    assignments: await fetchCourseAssignments(Number(params.course_id)),
-                }),
+                element: <IdProvider Component={CoursePage} param="course_id" />,
             },
             {
                 path: 'assignments',
@@ -110,8 +102,6 @@ const mainRouteTree: RouteObject[] = [
                             {
                                 index: true,
                                 element: <AllCourses />,
-                                loader: async (): Promise<CoursesInfo> =>
-                                    fetchCourses(),
                             },
 
                             ...coursesRouteTree,
@@ -123,8 +113,6 @@ const mainRouteTree: RouteObject[] = [
                             {
                                 index: true,
                                 element: <AllAssignments />,
-                                loader: async (): Promise<AssignmentsInfo> =>
-                                    fetchAssignments(),
                             },
 
                             ...assignmentsRouteTree,
@@ -136,8 +124,6 @@ const mainRouteTree: RouteObject[] = [
                             {
                                 index: true,
                                 element: <AllSubmissions />,
-                                loader: async (): Promise<SubmissionsInfo> =>
-                                    fetchSubmissions(),
                             },
 
                             ...submissionsRouteTree,
@@ -149,14 +135,10 @@ const mainRouteTree: RouteObject[] = [
                             {
                                 index: true,
                                 element: <AllUsers />,
-                                loader: async (): Promise<UsersInfo> =>
-                                    fetchUsers(),
                             },
                             {
                                 path: ':user_id',
-                                element: <UserPage />,
-                                loader: async ({ params }: LoaderFunctionArgs): Promise<UserPageData> =>
-                                    fetchUserInfo(Number(params.user_id)),
+                                element: <IdProvider Component={UserPage} param="user_id" />,
                             }                                                   
                         ]
                     }
