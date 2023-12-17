@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MainView 1`] = `
+exports[`MainLayout 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
