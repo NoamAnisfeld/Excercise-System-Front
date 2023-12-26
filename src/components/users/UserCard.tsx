@@ -10,8 +10,8 @@ export default function UserCard({
     linkTo: string,
 }) {
     return <ItemCard
-        title={username || 'ללא שם משתמש'}
-        description={`${first_name} ${last_name}`}
+        title={`${first_name} ${last_name}`}
+        description={username || '(אין שם משתמש)'}
         linkTo={linkTo}
     />
 }
